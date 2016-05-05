@@ -1,7 +1,8 @@
 'use strict'
 
 import {
-    REQUEST_TOPICS,RESPONSE_TOPICS
+    REQUEST_TOPICS,RESPONSE_TOPICS,
+    CHANGE_CATEGORY,FILTER_TOPICS
 } from "./constant"
 
 import api from "../lib/api"
@@ -21,7 +22,7 @@ function responseTopics(ret,category,pageIndex) {
     }
 }
 
-export function fetchTopics(category="",pageIndex=0,pageSize=10) {
+export function fetchTopics(category="",pageIndex=1,pageSize=10) {
     return (dispatch)=>{
         dispatch(requestTopics(category,pageIndex))
         fetch(`${api.topics}?tab=${category}&page=${pageIndex}&limit=${pageSize}`).then(ret=>ret.json())
@@ -29,4 +30,18 @@ export function fetchTopics(category="",pageIndex=0,pageSize=10) {
             dispatch(responseTopics(ret,category,pageIndex))
         })
     }
+}
+
+export function changeCategory(category){
+    return {
+        type:CHANGE_CATEGORY,
+        category
+    }
+}
+
+export function filterTopics(keyword){
+    return {
+        type:FILTER_TOPICS,
+        keyword
+    }   
 }

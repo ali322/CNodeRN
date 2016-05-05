@@ -6,6 +6,9 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "immutable": "^3.8.1",
+    "lodash": "^4.11.2",
+    "moment": "^2.13.0",
     "react": "^0.14.8",
     "react-native": "^0.24.1",
     "react-native-navbar": "^1.4.2",
@@ -13,6 +16,10 @@
     "react-native-vector-icons": "^1.3.4",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
+    "redux-persist": "^3.0.2",
     "redux-thunk": "^2.0.1"
+  },
+  "devDependencies": {
+    "redux-logger": "^2.6.1"
   }
 }

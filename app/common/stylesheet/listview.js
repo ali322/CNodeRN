@@ -25,7 +25,9 @@ export default {
         width:50  
     },
     cellTitle: {
-        flex: 2,
+        flex: 2
+    },
+    cellTitleText:{
         fontSize: 14,
         color: "#333"
     },

@@ -10,11 +10,14 @@ export default class SearchBar extends Component{
         }
     }
     render(){
+        const handleSearch = ()=>{
+            this.props.onSearch(this.state.keyword)
+        }
         return (
         <View style={styles.searchBar}>
         <TextInput style={styles.searchBarInput} ref="searchTextInput" placeholder="请输入搜索关键字" clearButtonMode="while-editing" 
         onChangeText={(keyword)=>this.setState({keyword})}/>
-        <TouchableOpacity style={styles.searchBarButton} onPress={this.state.keyword === ""?this.props.onClose:this.props.onSearch}>
+        <TouchableOpacity style={styles.searchBarButton} onPress={this.state.keyword === ""?this.props.onClose:handleSearch}>
             <Text style={styles.searchBarButtonText}>{this.state.keyword === ""?"取消":"搜索"}</Text>
         </TouchableOpacity>
         </View> 
