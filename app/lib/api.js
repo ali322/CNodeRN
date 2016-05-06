@@ -1,7 +1,8 @@
 'use strict'
 
-const apiHost = "https://cnodejs.org/api/v1"
+const apiHost = "http://cnodejs.org/api/v1"
 
 export default {
-    topics:`${apiHost}/topics`
+    topics:`${apiHost}/topics`,
+    topic:`${apiHost}/topic`
 }

@@ -2,6 +2,7 @@
 
 import {
     REQUEST_TOPICS,RESPONSE_TOPICS,
+    REQUEST_TOPIC,RESPONSE_TOPIC,
     CHANGE_CATEGORY,FILTER_TOPICS
 } from "./constant"
 
@@ -75,6 +76,26 @@ export function topicsReducer(state= initialState,action) {
                 topicsFetched:action.ret.success,
                 categories
             }
+        default:
+            return state
+    }
+}
+
+export function topicReducer(state={},action){
+    switch(action.type){
+        case REQUEST_TOPIC:
+            return {
+                ...state,
+                topicFetching:true
+            }
+        case RESPONSE_TOPIC:
+            return {
+                ...state,
+                // id:action.id,
+                topicFetching:false,
+                topicFetched:action.ret.success,
+                topic:action.ret.data
+            }        
         default:
             return state
     }

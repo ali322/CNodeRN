@@ -2,6 +2,7 @@
 
 import {
     REQUEST_TOPICS,RESPONSE_TOPICS,
+    REQUEST_TOPIC,RESPONSE_TOPIC,
     CHANGE_CATEGORY,FILTER_TOPICS
 } from "./constant"
 
@@ -44,4 +45,30 @@ export function filterTopics(keyword){
         type:FILTER_TOPICS,
         keyword
     }   
+}
+
+
+function requestTopic(id) {
+    return {
+        type:REQUEST_TOPIC,
+        id
+    }
+}
+
+function responseTopic(ret,id) {
+    return {
+        type:RESPONSE_TOPIC,
+        ret,
+        id
+    }
+}
+
+export function fetchTopic(id) {
+    return (dispatch)=>{
+        dispatch(requestTopic(id))
+        fetch(`${api.topic}/${id}`).then(ret=>ret.json())
+        .then((ret)=>{
+            dispatch(responseTopic(ret,id))
+        })
+    }
 }

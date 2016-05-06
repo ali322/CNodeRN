@@ -103,20 +103,22 @@ class Topics extends Component{
     }
     renderRow(topic){
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>Actions.topic({id:topic.id})}>
             <Animated.View style={[styles.listCell, {
                 // opacity: this.state.rowScale,
                 // transform: [{ scaleX: this.state.rowScale }]
             }]}>
-                    <Image source={{uri:topic.author.avatar_url}} style={styles.cellImage}/>
-                    <View style={styles.cellBreif}>
-                    <Text style={styles.cellTitle}>
-                    {topic.top?<Text><Icon name="thumbs-up" size={12} color="chartreuse"/> </Text>:null}
-                    <Text numberOfLines={2}>{topic.title}</Text>
-                    </Text>
-                    <Text style={styles.cellSubtitle}>{topic.create_at}</Text>
+                    <View style={styles.topicBreif}>
+                    <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
+                    <View style={styles.topicSubtitle}>
+                        <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
+                        <Text style={styles.topicMintitleText}>{topic.create_at}</Text>
                     </View>
-                    <Text style={styles.cellAccessory}>{topic.reply_count}/{topic.visit_count}</Text>
+                    <View style={styles.topicBadge}><Text style={styles.topicBadgeText}>{topic.tab}</Text></View>
+                    </View>
+                    <View style={styles.topicTitle}>
+                        <Text style={styles.topicTitleText} numberOfLines={2}>{topic.title}</Text>
+                    </View>
             </Animated.View>
             </TouchableOpacity>
         )

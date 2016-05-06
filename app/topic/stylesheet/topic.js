@@ -1,39 +1,25 @@
 'use strict'
 
 import {StyleSheet, Platform} from "react-native"
-import listview from "../../common/stylesheet/listview"
 import navigationbar from "../../common/stylesheet/navigationbar"
-import modal from "../../common/stylesheet/modal"
 
 const styles = {
-    ...listview,
     ...navigationbar,
-    ...modal,
-    navigationBarTitle:{
-        ...navigationbar.navigationBarTitle,
-        flexDirection:"row",
-        alignItems:"center"
-    },
-    navigationBarTitleText:{
-      ...navigationbar.navigationBarTitleText,
-      marginRight:8  
-    },
     container:{
         flex:1,
-        backgroundColor:"#FFF",
-        marginBottom:49
-    },
-    listCell:{
-      ...listview.listCell,
-      flexDirection:"column"  
+        backgroundColor:"#FFF"
     },
     topicImage:{
         width:35,
         height:35,
         borderRadius:5
     },
+    topicContent:{
+      paddingVertical:10  
+    },
     topicBreif:{
-        flex:1,
+        paddingHorizontal:8,
+        // flex:1,
         alignItems:"center",
         flexDirection:"row",
         justifyContent:"flex-start"
@@ -64,21 +50,21 @@ const styles = {
         // lineHeight:15
     },
     topicTitle:{
-        // paddingHorizontal:8,
-        paddingVertical:5
+        paddingHorizontal:8,
+        paddingVertical:12,
+        borderColor:"#DDD",
+        borderBottomWidth:0.5
     },
     topicTitleText:{
       fontSize:15  
     },
-    modalRow:{
-        // lineHeight:20,
-        paddingVertical:8
+    topicContent:{
+        paddingVertical:8,
+        paddingHorizontal:8
     },
-    modalRowText:{
-        fontSize:16
-    },
-    modalSelectedRowText:{
-        color:"blue"
+    topicContentWeb:{
+        flex:1,
+        height:300
     }
 }
 
