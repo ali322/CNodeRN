@@ -15,7 +15,7 @@ const styles = {
         borderRadius:5
     },
     topicContent:{
-      paddingVertical:10  
+      paddingVertical:10
     },
     topicBreif:{
         paddingHorizontal:8,
@@ -42,7 +42,7 @@ const styles = {
         paddingHorizontal:8,
         paddingVertical:4,
         backgroundColor:"#F8F8F8",
-        borderRadius:3
+        borderRadius:3,
     },
     topicBadgeText:{
         fontSize:12,
@@ -58,13 +58,51 @@ const styles = {
     topicTitleText:{
       fontSize:15  
     },
-    topicContent:{
+    topicDesc:{
         paddingVertical:8,
         paddingHorizontal:8
     },
     topicContentWeb:{
-        flex:1,
-        height:300
+        flex:1
+    },
+    topicComments:{
+        paddingVertical:8,
+        borderTopWidth:8,
+        borderColor:"#DDD"
+    },
+    topicCommentsStatus:{
+        paddingHorizontal:8,
+        color:"#666",
+        fontSize:13,
+        paddingBottom:8
+    },
+    topicCommentBreif:{
+        flexDirection:"row",
+        alignItems:"center"
+    },
+    topicCommentsList:{
+      borderTopWidth:0.5,
+      borderColor:"#DDD"  
+    },
+    topicComment:{
+        paddingVertical:5,
+        borderBottomWidth:0.5,
+        paddingHorizontal:8,
+        borderColor:"#DDD"
+    },
+    topicCommentBadge:{
+        paddingHorizontal:8,
+        paddingVertical:4,
+        marginRight:5
+    },
+    replyWrap:{
+       flex:1,
+    },
+    replyInput:{
+       paddingHorizontal:8,
+       paddingVertical:10,
+       fontSize:13,
+       flex:1
     }
 }
 

@@ -3,7 +3,6 @@
 export default {
     navigationBar:{
         height:44,
-        // paddingTop:20,
         paddingHorizontal:8,
         flexDirection:"row",
         alignItems:"center",
@@ -11,13 +10,21 @@ export default {
         borderBottomColor:"#DDD"
     },
     navigationBarButton:{
-        marginRight:8
+        marginRight:8,
+        flexDirection:"row",
+        alignItems:"center"
+    },
+    navigationBarButtonText:{
+        fontSize:16,
+        color:"#666",
+        paddingLeft:3 
     },
     navigationBarTitle:{
-        height:44,
-        paddingTop:20
+        height:32,
+        flexDirection:"row",
+        alignItems:"center"
     },
     navigationBarTitleText:{
-        fontSize:16   
+        fontSize:16
     }
 }

@@ -74,7 +74,7 @@ class Topics extends Component{
         )
         const rightButton = (
             <TouchableOpacity style={styles.navigationBarButton} onPress={this.toggleSearchActive.bind(this)}>
-            <Icon name="search" size={16} color="#999"/>
+            <Icon name="search" size={20} color="#999"/>
             </TouchableOpacity>
         )
         return <NavigationBar title={title} rightButton={rightButton} style={styles.navigationBar} tintColor="#F8F8F8"/>

@@ -3,7 +3,8 @@
 import {
     REQUEST_TOPICS,RESPONSE_TOPICS,
     REQUEST_TOPIC,RESPONSE_TOPIC,
-    CHANGE_CATEGORY,FILTER_TOPICS
+    CHANGE_CATEGORY,FILTER_TOPICS,
+    START_SAVEREPLY,FINISH_SAVEREPLY
 } from "./constant"
 
 import {fromNow} from "../lib/helper"
@@ -89,13 +90,39 @@ export function topicReducer(state={},action){
                 topicFetching:true
             }
         case RESPONSE_TOPIC:
+            let topic = {...action.ret.data}
+            topic.create_at = fromNow(topic.create_at)
+            topic.last_reply_at = fromNow(topic.last_reply_at)
+            topic.replies = topic.replies.map((reply)=>{
+                reply.create_at = fromNow(reply.create_at)
+                return reply
+            })
             return {
                 ...state,
                 // id:action.id,
                 topicFetching:false,
                 topicFetched:action.ret.success,
-                topic:action.ret.data
+                topic
             }        
+        default:
+            return state
+    }
+}
+
+export function replyReducer(state={},action){
+    switch(action.type){
+        case START_SAVEREPLY:
+            return {
+                ...state,
+                replySaving:true
+            }
+        case FINISH_SAVEREPLY:
+            return {
+                ...state,
+                replySaving:false,
+                replySaved:action.ret.success,
+                replyId:action.ret.reply_id
+            }
         default:
             return state
     }

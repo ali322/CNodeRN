@@ -3,7 +3,8 @@
 import {
     REQUEST_TOPICS,RESPONSE_TOPICS,
     REQUEST_TOPIC,RESPONSE_TOPIC,
-    CHANGE_CATEGORY,FILTER_TOPICS
+    CHANGE_CATEGORY,FILTER_TOPICS,
+    START_SAVEREPLY,FINISH_SAVEREPLY
 } from "./constant"
 
 import api from "../lib/api"
@@ -69,6 +70,32 @@ export function fetchTopic(id) {
         fetch(`${api.topic}/${id}`).then(ret=>ret.json())
         .then((ret)=>{
             dispatch(responseTopic(ret,id))
+        })
+    }
+}
+
+function startSaveReply(){
+    return {
+        type:START_SAVEREPLY
+    }
+}
+
+function finishSaveReply(ret){
+    return {
+        type:FINISH_SAVEREPLY,
+        ret
+    }
+}
+
+export function saveReply(id,reply){
+    return (dispatch)=>{
+        dispatch(startSaveReply())
+        let formdata = new FormData()
+        for(let k in reply){
+            formdata.append(k,reply[k])
+        }
+        fetch(`${api.reply2topic}/${id}/replies`,{method:"POST",body:formdata}).then((ret)=>ret.json()).then((ret)=>{
+            dispatch(finishSaveReply(ret))
         })
     }
 }

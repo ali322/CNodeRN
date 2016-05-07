@@ -9,11 +9,6 @@ const styles = {
     ...listview,
     ...navigationbar,
     ...modal,
-    navigationBarTitle:{
-        ...navigationbar.navigationBarTitle,
-        flexDirection:"row",
-        alignItems:"center"
-    },
     navigationBarTitleText:{
       ...navigationbar.navigationBarTitleText,
       marginRight:8  
