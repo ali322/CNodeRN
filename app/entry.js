@@ -5,6 +5,7 @@ import {Router,Scene,Reducer} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import topicScene from "./topic/scene"
+import mineScene from "./mine/scene"
 
 const reducerCreator = (params)=>{
     const defaultReducer = Reducer(params)
@@ -31,6 +32,7 @@ export default class App extends Component{
                 <Scene key="root">
                     <Scene tabs={true} key="tabbar" hideNavBar={true} tabBarStyle={styles.tabBar}>
                         <Scene key="tab1" icon={tabBarItemCreator("主题",{name:"coffee",size:18})}>{topicScene}</Scene>
+                        <Scene key="tab2" icon={tabBarItemCreator("我的",{name:"user",size:18})}>{mineScene}</Scene>
                     </Scene>
                 </Scene>
             </Router>

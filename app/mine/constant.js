@@ -1,0 +1,7 @@
+'use strict'
+
+export const START_AUTHORIZE = "START_AUTHORIZE"
+export const FINISH_AUTHORIZE = "FINISH_AUTHORIZE"
+
+export const REQUEST_USER = "REQUEST_USER"
+export const RESPONSE_USER = "RESPONSE_USER"
