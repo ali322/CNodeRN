@@ -32,6 +32,7 @@ class Mine extends Component {
         }
     }
     componentDidMount() {
+        this.props.authorizeByToken("01206bae-f6ed-42de-bd0e-3775776deaf9")
         // this.props.fetchUser("alsotang")
     }
     componentWillReceiveProps(nextProps) {
@@ -48,7 +49,7 @@ class Mine extends Component {
             return (
                 <View style={styles.mineBreif}>
                     <View style={styles.mineAuthorize}>
-                        <TouchableOpacity style={styles.mineAuthorizeQrcode} onPress={() => Actions.camera() }>
+                        <TouchableOpacity style={styles.mineAuthorizeQrcode} onPress={() => Actions.qrcode() }>
                             <Icon name="qrcode" size={30}/>
                             <Text style={{ paddingLeft: 8 }}>扫码登录</Text>
                         </TouchableOpacity>

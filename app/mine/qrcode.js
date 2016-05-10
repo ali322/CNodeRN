@@ -6,9 +6,13 @@ import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Camera from "react-native-camera"
 
-import navigationBarStyle from "./stylesheet/navigationbar"
+import navigationBarStyle from "../common/stylesheet/navigationbar"
 
-class CameraRoll extends Component {
+import {containerByComponent} from "../lib/redux-helper"
+import {authorizeByToken} from "./action"
+import {userReducer} from "./reducer"
+
+class QrCode extends Component {
     constructor(props) {
         super(props)
         this.successed = false
@@ -22,12 +26,14 @@ class CameraRoll extends Component {
         )
         return <NavigationBar leftButton={leftButton}/>
     }
-    handleBarCodeRead() {
+    handleBarCodeRead(ret) {
         if(this.successed){
             return
         }
         this.successed = true
-        Alert.alert("qrcode")
+        // authorizeByToken(ret.data)
+        // Alert.alert(ret.data)
+        this.props.authorizeByToken(ret.data)
     }
     render() {
         return (
@@ -123,7 +129,7 @@ const styles = StyleSheet.create({
 		borderBottomColor: 'rgba(255,255,255,0.6)',
 		right: 0,
 		bottom: 0
-	},
+	}
 })
 
-export default CameraRoll
+export default containerByComponent(QrCode,userReducer,{authorizeByToken})

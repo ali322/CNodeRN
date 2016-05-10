@@ -3,6 +3,7 @@
 import * as constants from "./constant"
 
 import api from "../lib/api"
+import {Alert} from "react-native"
 
 function startAuthorize(){
     return {
@@ -21,9 +22,13 @@ function finishAuthorize(ret){
 export function authorizeByToken(token){
     return (dispatch)=>{
         dispatch(startAuthorize())
-        let formdata = new FormData()
-        formdata.append("accesstoken",token)
-        fetch(`${api.authorize}`,{method:"POST",body:formdata}).then((ret)=>ret.json()).then((ret)=>{
+        let formdata = JSON.stringify({accesstoken:token})
+        fetch(`${api.authorize}`,{method:"POST",body:formdata,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then((ret)=>ret.json()).then((ret)=>{
             dispatch(finishAuthorize(ret))
         })
     }
