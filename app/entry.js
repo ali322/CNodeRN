@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 
 import topicScene from "./topic/scene"
 import mineScene from "./mine/scene"
+import messageScene from "./message/scene"
 
 const reducerCreator = (params)=>{
     const defaultReducer = Reducer(params)
@@ -17,9 +18,10 @@ const reducerCreator = (params)=>{
 const tabBarItemCreator = (tintText,iconConfig)=>{
     return class extends Component{
         render(){
+            const {selected} = this.props
             return <View style={styles.tabBarItem}>
-                <Icon {...iconConfig}/>
-                <Text style={styles.tabBarItemText}>{tintText}</Text>
+                <Icon {...iconConfig} color={selected?"blue":"#333"}/>
+                <Text style={[styles.tabBarItemText,selected?{color:"blue"}:null]}>{tintText}</Text>
             </View>
         }
     }
@@ -31,8 +33,9 @@ export default class App extends Component{
             <Router createReducer={reducerCreator}>
                 <Scene key="root">
                     <Scene tabs={true} key="tabbar" hideNavBar={true} tabBarStyle={styles.tabBar}>
-                        <Scene key="tab1" icon={tabBarItemCreator("主题",{name:"coffee",size:18})}>{topicScene}</Scene>
-                        <Scene key="tab2" icon={tabBarItemCreator("我的",{name:"user",size:18})}>{mineScene}</Scene>
+                        <Scene key="tab1" icon={tabBarItemCreator("主题",{name:"coffee",size:20})}>{topicScene}</Scene>
+                        <Scene key="tab2" icon={tabBarItemCreator("消息",{name:"envelope",size:20})}>{messageScene}</Scene>
+                        <Scene key="tab3" icon={tabBarItemCreator("我的",{name:"user",size:20})}>{mineScene}</Scene>
                     </Scene>
                 </Scene>
             </Router>

@@ -15,7 +15,7 @@ const styles = {
         borderRadius:5
     },
     topicContent:{
-      paddingVertical:10
+    //   paddingVertical:10
     },
     topicBreif:{
         paddingHorizontal:8,
@@ -96,7 +96,7 @@ const styles = {
         marginRight:5
     },
     replyWrap:{
-       flex:1,
+       flex:1
     },
     replyInput:{
        paddingHorizontal:8,

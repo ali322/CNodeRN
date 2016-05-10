@@ -14,7 +14,7 @@ class Spinner extends Component{
         this.state.rotateValue.setValue(0)
         Animated.timing(this.state.rotateValue,{
             toValue:1,
-            duration:500,
+            duration:300,
             easing:Easing.linear
         }).start(()=>this.startRotate())
     }

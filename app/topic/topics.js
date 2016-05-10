@@ -129,7 +129,7 @@ class Topics extends Component{
         return (
             <View style={styles.container}>
             {this.state.searchBarActive?this.renderSearchBar():this.renderNavigationBar()}
-            {categories[selectedCategory].list.length === 0 && this.props.topicsFetching ? <Loading />:(
+            {categories[selectedCategory].pageIndex === 1 && this.props.topicsFetching ? <Loading />:(
             <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
             refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}

@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ScrollView,TouchableOpacity} from "react-native"
+import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView} from "react-native"
 import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -14,8 +14,24 @@ import {topicReducer} from "./reducer"
 import styles from "./stylesheet/topic"
 
 class Topic extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            dataSource:new ListView.DataSource({
+                rowHasChanged:(r1,r2)=>r1 !== r2,
+                sectionHeaderHasChanged:(s1,s2)=>s1 !== s2
+            })
+        } 
+    }
     componentDidMount(){
         this.props.fetchTopic(this.props.id)
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.topicFetched && !nextProps.topicFetching){
+            this.setState({
+                dataSource:this.state.dataSource.cloneWithRows(nextProps.topic.replies)
+            })
+        }
     }
     renderNavigationBar(){
         const title = (
@@ -47,11 +63,12 @@ class Topic extends Component{
         if(!topic){
             return null
         }
-        const comments = topic.replies.map((reply,i)=>{
+        const renderComment = (reply)=>{
+            console.log(reply)
             return (
-                <View style={styles.topicComment} key={i}>
+                <View style={styles.topicComment}>
                 <View style={styles.topicCommentBreif}>
-                    <Image source={{uri:reply.author.avatar_url}} style={styles.topicCommentAvatar}/>
+                    <Image source={{uri:reply.author.avatar_url}} style={styles.topicImage}/>
                     <View style={styles.topicSubtitle}>
                         <Text style={styles.topicSubtitleText}>{reply.author.loginname}</Text>
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>
@@ -64,38 +81,42 @@ class Topic extends Component{
                     </View>
                 </View>
                 <View style={styles.topicDesc}>
-                    <HTMLView html={reply.content}/>
+                    <HTMLView html={reply.content.replace(/\s/g,"")}/>
                 </View>
                 </View>            
             )
-        })
+        }
+        
         return (
-            <View style={styles.topicContent}>
-            <View style={styles.topicBreif}>
-                <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
-                <View style={styles.topicSubtitle}>
-                    <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
-                    <Text style={styles.topicMintitleText}>{topic.create_at},{topic.visit_count} 次点击</Text>
-                </View>
-                <View style={styles.topicBadge}><Text style={styles.topicBadgeText}>{topic.tab}</Text></View>
-            </View>
-            <View style={styles.topicDesc}>
-                <HTMLView html={topic.content}/>
-            </View>
-            <View style={styles.topicComments}>
-                <Text style={styles.topicCommentsStatus}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
-                <View style={styles.topicCommentsList}>{comments}</View>
-            </View>
-            </View>
+            <ListView dataSource={this.state.dataSource}  style={styles.topicContent} 
+            initialListSize={10} removeClippedSubviews={true} enableEmptySections={true} 
+            renderRow={renderComment} renderHeader={()=>{
+                return (
+                    <View>
+                        <View style={styles.topicBreif}>
+                            <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
+                            <View style={styles.topicSubtitle}>
+                                <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
+                                <Text style={styles.topicMintitleText}>{topic.create_at},{topic.visit_count} 次点击</Text>
+                            </View>
+                            <View style={styles.topicBadge}><Text style={styles.topicBadgeText}>{topic.tab}</Text></View>
+                        </View>
+                        <View style={styles.topicDesc}>
+                            <HTMLView html={topic.content.replace(/\s/g,"")}/>
+                        </View>
+                        <View style={styles.topicComments}>
+                            <Text style={styles.topicCommentsStatus}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
+                        </View>
+                    </View>
+                )
+            }}/>
         )
     }
     render(){
         return (
-            <View style={styles.container} removeClippedSubviews={true}>
+            <View style={styles.container}>
             {this.renderNavigationBar()}
-            <ScrollView>
             {this.renderContent()}
-            </ScrollView>
             </View>
         )
     }

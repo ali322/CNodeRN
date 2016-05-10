@@ -8,5 +8,8 @@ export default {
     reply2topic:`${apiHost}/topic`,
     
     authorize:`${apiHost}/accesstoken`,
-    user:`${apiHost}/user`
+    user:`${apiHost}/user`,
+    messages:`${apiHost}/messages`,
+    messageCount:`${apiHost}/message/count`,
+    markAllMessage:`${apiHost}/message/mark_all`
 }
