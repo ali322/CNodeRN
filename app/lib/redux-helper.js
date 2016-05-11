@@ -10,7 +10,7 @@ import createLogger from "redux-logger"
 const logger = createLogger()
 
 const createStoreWithMiddleware = compose(
-    applyMiddleware(thunkMiddleware,logger)
+    applyMiddleware(thunkMiddleware)
     // typeof window === 'object' && 
     // typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
 )(createStore)
@@ -52,7 +52,7 @@ onComplete=()=>{}){
     
     const configureStore = autoRehydrate()(createStoreWithMiddleware)
     const store = initialState?configureStore(rootReducer,initialState):configureStore(rootReducer)
-    persistStore(store,{storage:AsyncStorage},onComplete).purgeAll()
+    persistStore(store,{storage:AsyncStorage},onComplete)
     return class extends Component{
         render(){
             return (

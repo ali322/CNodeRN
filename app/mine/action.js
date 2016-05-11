@@ -5,16 +5,18 @@ import * as constants from "./constant"
 import api from "../lib/api"
 import {Alert} from "react-native"
 
+
 function startAuthorize(){
     return {
         type:constants.START_AUTHORIZE
     }
 }
 
-function finishAuthorize(ret){
+function finishAuthorize(ret,accessToken){
     return {
         type:constants.FINISH_AUTHORIZE,
         ret,
+        accessToken,
         finishAt:Date.now()
    }
 }
@@ -29,7 +31,7 @@ export function authorizeByToken(token){
                 'Content-Type': 'application/json'
             }
         }).then((ret)=>ret.json()).then((ret)=>{
-            dispatch(finishAuthorize(ret))
+            dispatch(finishAuthorize(ret,token))
         })
     }
 }
@@ -54,5 +56,11 @@ export function fetchUser(username){
         fetch(`${api.user}/${username}`).then((ret)=>ret.json()).then((ret)=>{
             dispatch(responseUser(ret))
         })
+    }
+}
+
+export function clearUser(){
+    return {
+        type:constants.CLEAR_USER
     }
 }

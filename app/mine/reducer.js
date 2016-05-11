@@ -11,11 +11,18 @@ export function userReducer(state={},action){
                 isAuthorizing:true
             }
         case constants.FINISH_AUTHORIZE:
+            let user = null
+            if(action.ret.success){
+                user = {
+                    username:action.ret.loginname,
+                    accessToken:action.accessToken
+                }
+            }
             return {
                 ...state,
                 isAuthorizing:false,
                 isAuthorized:action.ret.success,
-                username:action.ret.loginname
+                user
             }
         case constants.REQUEST_USER:
             return {
@@ -28,6 +35,12 @@ export function userReducer(state={},action){
                 userFetching:false,
                 userFetched:action.ret.success,
                 user:action.ret.data
+            }
+        case constants.CLEAR_USER:
+            return {
+                ...state,
+                user:null,
+                userClean:true
             }
         default:
             return state

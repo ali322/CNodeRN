@@ -1,13 +1,15 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView} from "react-native"
+import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager} from "react-native"
 import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import HTMLView from "../common/htmlview"
+import timer from "react-timer-mixin"
+
+import Loading from "../common/loading"
 
 import {containerByComponent} from "../lib/redux-helper"
-
 import {fetchTopic} from "./action"
 import {topicReducer} from "./reducer"
 
@@ -17,6 +19,7 @@ class Topic extends Component{
     constructor(props){
         super(props)
         this.state = {
+            loading:true,
             dataSource:new ListView.DataSource({
                 rowHasChanged:(r1,r2)=>r1 !== r2,
                 sectionHeaderHasChanged:(s1,s2)=>s1 !== s2
@@ -24,11 +27,14 @@ class Topic extends Component{
         } 
     }
     componentDidMount(){
-        this.props.fetchTopic(this.props.id)
+        InteractionManager.runAfterInteractions(()=>{
+            this.props.fetchTopic(this.props.id)    
+        })
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.topicFetched && !nextProps.topicFetching){
             this.setState({
+                loading:false,
                 dataSource:this.state.dataSource.cloneWithRows(nextProps.topic.replies)
             })
         }
@@ -64,7 +70,6 @@ class Topic extends Component{
             return null
         }
         const renderComment = (reply)=>{
-            console.log(reply)
             return (
                 <View style={styles.topicComment}>
                 <View style={styles.topicCommentBreif}>
@@ -116,7 +121,7 @@ class Topic extends Component{
         return (
             <View style={styles.container}>
             {this.renderNavigationBar()}
-            {this.renderContent()}
+            {this.state.loading?<Loading />:this.renderContent()}
             </View>
         )
     }

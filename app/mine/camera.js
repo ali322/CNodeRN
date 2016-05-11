@@ -5,15 +5,10 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Camera from "react-native-camera"
-import store from "react-native-simple-store"
 
-import navigationBarStyle from "../common/stylesheet/navigationbar"
+import navigationBarStyle from "./stylesheet/navigationbar"
 
-import {containerByComponent} from "../lib/redux-helper"
-import {authorizeByToken} from "./action"
-import {userReducer} from "./reducer"
-
-class QrCode extends Component {
+class CameraRoll extends Component {
     constructor(props) {
         super(props)
         this.successed = false
@@ -27,27 +22,12 @@ class QrCode extends Component {
         )
         return <NavigationBar leftButton={leftButton}/>
     }
-    handleBarCodeRead(ret) {
+    handleBarCodeRead() {
         if(this.successed){
             return
         }
         this.successed = true
-        this.props.authorizeByToken(ret.data)
-    }
-    // componentDidMount(){
-    //     this.props.authorizeByToken("01206bae-f6ed-42de-bd0e-3775776deaf9")
-    // }
-    componentWillReceiveProps(nextProps){
-        if(!nextProps.isAuthorizing && this.props.isAuthorizing){
-            if(nextProps.isAuthorized){
-                Alert.alert("登录成功")
-                store.save("user",nextProps.user).then((err)=>{
-                    Actions.mine()
-                })
-            }else{
-                Alert.alert("登录失败")
-            }
-        }
+        Alert.alert("qrcode")
     }
     render() {
         return (
@@ -143,7 +123,7 @@ const styles = StyleSheet.create({
 		borderBottomColor: 'rgba(255,255,255,0.6)',
 		right: 0,
 		bottom: 0
-	}
+	},
 })
 
-export default containerByComponent(QrCode,userReducer,{authorizeByToken})
+export default CameraRoll

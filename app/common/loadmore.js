@@ -3,13 +3,13 @@
 import React,{Component,View,Text,StyleSheet} from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
 
-import Spinner from "./spinner"
+import Spin from "./spin"
 
 class LoadMore extends Component{
     render(){
         return (
             <View style={styles.loadMore}>
-               {this.props.active?<Spinner color="#AAA"/>:<Icon name="arrow-upward" size={20} color="#AAA"/>}
+               {this.props.active?<Spin />:<Icon name="arrow-upward" size={20} color="#AAA"/>}
                 <Text style={styles.loadMoreText}>{this.props.active?"加载中":"上拉加载更多"}</Text>
             </View>
         )

@@ -1,17 +1,18 @@
 'use strict'
 
-import React, {Component, View, Text, TouchableOpacity, Image, ListView,ScrollView, Animated} from "react-native"
+import React, {Component, View, Text, TouchableOpacity, Image, ListView,ScrollView, Animated,Alert} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
 import ScrollableTabView from "react-native-scrollable-tab-view"
+import store from "react-native-simple-store"
 
 import Tabs from "../common/tabs"
 import Loading from "../common/loading"
 
 import {formatTime} from "../lib/helper"
 import {containerByComponent} from "../lib/redux-helper"
-import {fetchUser, authorizeByToken} from "./action"
+import {fetchUser,clearUser} from "./action"
 import {userReducer} from "./reducer"
 
 import styles from "./stylesheet/mine"
@@ -32,11 +33,16 @@ class Mine extends Component {
         }
     }
     componentDidMount() {
-        this.props.authorizeByToken("01206bae-f6ed-42de-bd0e-3775776deaf9")
-        // this.props.fetchUser("alsotang")
+        store.get("user").then((user)=>{
+            if(user){
+                this.props.fetchUser(user.username)
+            }else{
+                this.props.clearUser()
+            }
+        })
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.userFetched && !nextProps.userFetching) {
+        if (nextProps.userFetching && !nextProps.userFetching) {
             this.setState({
                 topicDatasource: this.state.topicDatasource.cloneWithRows(nextProps.user.recent_topics),
                 replyDatasource: this.state.topicDatasource.cloneWithRows(nextProps.user.recent_replies)
@@ -74,7 +80,7 @@ class Mine extends Component {
             </View>
         )
         const rightButton = (
-            <TouchableOpacity style={[styles.navigationBarButton, { marginLeft: 5 }]} onPress={() => { } }>
+            <TouchableOpacity style={[styles.navigationBarButton, { marginLeft: 5 }]} onPress={()=>{Actions.setup()}}>
                 <Icon name="cog" size={20} color="#999"/>
             </TouchableOpacity>
         )
@@ -120,12 +126,12 @@ class Mine extends Component {
             <View style={styles.mineTrends}>
                 <ScrollableTabView renderTabBar={renderTabs}>
                     <View style={styles.mineTrendsContent}>
-                        <ListView dataSource={this.state.topicDatasource} renderRow={this.renderTopicRow.bind(this) } scrollEnabled={false} 
+                        <ListView dataSource={this.state.topicDatasource} renderRow={this.renderTopicRow.bind(this) } enableEmptySections={true} 
                             renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
                             />
                     </View>
                     <View style={styles.mineTrendsContent}>
-                        <ListView dataSource={this.state.replyDatasource} renderRow={this.renderTopicRow.bind(this) } scrollEnabled={false} 
+                        <ListView dataSource={this.state.replyDatasource} renderRow={this.renderTopicRow.bind(this) } enableEmptySections={true} 
                             renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
                             />
                     </View>
@@ -148,4 +154,4 @@ class Mine extends Component {
     }
 }
 
-export default containerByComponent(Mine, userReducer, { fetchUser, authorizeByToken })
+export default containerByComponent(Mine, userReducer, { fetchUser,clearUser})
