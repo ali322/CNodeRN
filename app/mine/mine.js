@@ -5,7 +5,6 @@ import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
 import ScrollableTabView from "react-native-scrollable-tab-view"
-import store from "react-native-simple-store"
 
 import Tabs from "../common/tabs"
 import Loading from "../common/loading"
@@ -33,7 +32,7 @@ class Mine extends Component {
         }
     }
     componentDidMount() {
-        store.get("user").then((user)=>{
+        global.storage.getItem("user").then((user)=>{
             if(user){
                 this.props.fetchUser(user.username)
             }else{
@@ -42,7 +41,7 @@ class Mine extends Component {
         })
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.userFetching && !nextProps.userFetching) {
+        if (nextProps.user && !nextProps.userFetching) {
             this.setState({
                 topicDatasource: this.state.topicDatasource.cloneWithRows(nextProps.user.recent_topics),
                 replyDatasource: this.state.topicDatasource.cloneWithRows(nextProps.user.recent_replies)

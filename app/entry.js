@@ -8,6 +8,9 @@ import topicScene from "./topic/scene"
 import mineScene from "./mine/scene"
 import messageScene from "./message/scene"
 
+import Storage from "./lib/storage"
+global.storage = new Storage()
+
 const reducerCreator = (params)=>{
     const defaultReducer = Reducer(params)
     return (state,action)=>{

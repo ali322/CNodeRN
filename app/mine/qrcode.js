@@ -5,7 +5,6 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Camera from "react-native-camera"
-import store from "react-native-simple-store"
 
 import navigationBarStyle from "../common/stylesheet/navigationbar"
 
@@ -41,7 +40,7 @@ class QrCode extends Component {
         if(!nextProps.isAuthorizing && this.props.isAuthorizing){
             if(nextProps.isAuthorized){
                 Alert.alert("登录成功")
-                store.save("user",nextProps.user).then((err)=>{
+                global.storage.setItem("user",nextProps.user).then((err)=>{
                     Actions.mine()
                 })
             }else{

@@ -4,7 +4,6 @@ import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Alert} fro
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
-import store from "react-native-simple-store"
 
 import styles from "./stylesheet/setup"
 
@@ -13,7 +12,7 @@ class Setup extends Component{
         Alert.alert("确定退出?","",[
             {text:"取消",style:"cancel"},
             {text:"确定",onPress:()=>{
-                store.delete("user").then((err)=>{
+                global.storage.removeItem("user").then((err)=>{
                     if(err){
                         Alert.alert(err)
                     }else{
