@@ -27,11 +27,11 @@ class Topic extends Component{
         } 
     }
     componentDidMount(){
-        // InteractionManager.runAfterInteractions(()=>{
-        setTimeout(()=>{
+        InteractionManager.runAfterInteractions(()=>{
+        // setTimeout(()=>{
             this.props.fetchTopic(this.props.id)    
-        },300)
-        // })
+        // },300)
+        })
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.topicFetched && !nextProps.topicFetching){
@@ -55,6 +55,7 @@ class Topic extends Component{
                 }
                 Actions.reply({id:topic.id})
             }}>
+                <Icon name="heart-o" size={20} color="#999" style={{marginRight:12}}/>
                 <Icon name="mail-reply" size={20} color="#999"/>
             </TouchableOpacity>
         )
@@ -81,7 +82,7 @@ class Topic extends Component{
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>
                     </View>
                     <View style={styles.topicCommentBadge}>
-                        <Icon name="comment" size={15} color="#AAA"/>
+                        <Icon name="mail-reply" size={15} color="#AAA"/>
                     </View>
                     <View style={styles.topicCommentBadge}>
                         <Icon name="thumbs-up" size={15} color="#AAA"/>

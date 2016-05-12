@@ -42,7 +42,7 @@ const styles = {
         paddingHorizontal:8,
         paddingVertical:4,
         backgroundColor:"#F8F8F8",
-        borderRadius:3,
+        borderRadius:3
     },
     topicBadgeText:{
         fontSize:12,

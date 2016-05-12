@@ -111,17 +111,22 @@ class Topics extends Component{
     renderRow(topic){
         return (
             <TouchableOpacity onPress={()=>Actions.topic({id:topic.id})}>
-            <Animated.View style={[styles.listCell, {
+            <Animated.View style={[styles.topicCell, {
                 // opacity: this.state.rowScale,
                 // transform: [{ scaleX: this.state.rowScale }]
             }]}>
                     <View style={styles.topicBreif}>
-                    <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
-                    <View style={styles.topicSubtitle}>
-                        <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
-                        <Text style={styles.topicMintitleText}>{topic.create_at}</Text>
-                    </View>
-                    <View style={styles.topicBadge}><Text style={styles.topicBadgeText}>{topic.tab}</Text></View>
+                        <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
+                        <View style={styles.topicSubtitle}>
+                            <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
+                            <View style={styles.topicMintitle}>
+                                <Text style={styles.topicMintitleText}>{topic.create_at}</Text>
+                                <View style={styles.topicTag}><Text style={styles.topicTagText}>{topic.tab}</Text></View>
+                            </View>
+                        </View>
+                        <View style={styles.topicAccessory}>
+                            <Text style={styles.topicStatic}><Text style={styles.topicReply}>{topic.reply_count}</Text> /{topic.visit_count}</Text>
+                        </View>
                     </View>
                     <View style={styles.topicTitle}>
                         <Text style={styles.topicTitleText} numberOfLines={2}>{topic.title}</Text>

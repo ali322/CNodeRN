@@ -18,9 +18,11 @@ const styles = {
         backgroundColor:"#FFF",
         marginBottom:49
     },
-    listCell:{
-      ...listview.listCell,
-      flexDirection:"column"  
+    topicCell:{
+        flex: 1,
+        padding: 10,
+        backgroundColor:"#FFF",
+        flexDirection:"column"
     },
     topicImage:{
         width:35,
@@ -41,22 +43,40 @@ const styles = {
         fontSize:13,
         lineHeight:20
     },
+    topicMintitle:{
+        flexDirection:"row",
+        alignItems:"center"
+    },
     topicMintitleText:{
         fontSize:12,
         color:"#999",
         lineHeight:15
     },
-    topicBadge:{
-        width:50,
+    topicTag:{
         paddingHorizontal:8,
-        paddingVertical:4,
-        backgroundColor:"#F8F8F8",
-        borderRadius:3
+        paddingVertical:2,
+        backgroundColor:"#EFEFEF",
+        borderRadius:3,
+        marginLeft:8
     },
-    topicBadgeText:{
+    topicTagText:{
         fontSize:12,
         color:"#666"
         // lineHeight:15
+    },
+    topicAccessory:{
+        // width:50
+        paddingHorizontal:5
+    },
+    topicStatic:{
+      fontSize:13,
+      color:"#666"  
+    },
+    topicReply:{
+    //   marginRight:8,
+      color:"blueviolet",
+      fontSize:14,
+      fontWeight:"700"  
     },
     topicTitle:{
         // paddingHorizontal:8,

@@ -1,6 +1,6 @@
 'use stirct'
 
-import React,{Component,View,TouchableOpacity,Text,TextInput} from "react-native"
+import React,{Component,View,TouchableOpacity,Text,TextInput,Alert} from "react-native"
 import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -19,23 +19,30 @@ class Reply extends Component{
             content:""
         }
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.replySaved && this.props.replySaving){
+            Alert.alert("保存成功","",[{text:"确定",onPress:()=>Actions.pop()}])
+        }
+    }
     renderNavigationBar(){
         const title = (
             <View style={styles.navigationBarTitle}>
                 <Text style={styles.navigationBarTitleText}>回复</Text>
             </View>
         )
-        const handleSave = ()=>{
+        const handleSave = async ()=>{
+            const user = await global.storage.getItem("user")
             const reply = {
-                accesstoken:"",
                 content:this.state.content,
-                reply_id:""
+                reply_id:"",
+                accesstoken:user.accessToken
             }
             this.props.saveReply(this.props.id,reply)
         }
+
         const rightButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={handleSave}>
-                <Icon name="save" size={20} color="#999"/>
+                <Text style={styles.navigationBarButtonText}>发布</Text>
             </TouchableOpacity>
         )
         const leftButton = (

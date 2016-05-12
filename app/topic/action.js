@@ -8,6 +8,7 @@ import {
 } from "./constant"
 
 import api from "../lib/api"
+import request from "../lib/request"
 
 function requestTopics(category,pageIndex) {
     return {
@@ -90,11 +91,8 @@ function finishSaveReply(ret){
 export function saveReply(id,reply){
     return (dispatch)=>{
         dispatch(startSaveReply())
-        let formdata = new FormData()
-        for(let k in reply){
-            formdata.append(k,reply[k])
-        }
-        fetch(`${api.reply2topic}/${id}/replies`,{method:"POST",body:formdata}).then((ret)=>ret.json()).then((ret)=>{
+        request.post(`${api.reply2topic}/${id}/replies`,reply).then((ret)=>{
+            console.log('ret',ret)
             dispatch(finishSaveReply(ret))
         })
     }
