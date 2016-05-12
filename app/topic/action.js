@@ -4,7 +4,10 @@ import {
     REQUEST_TOPICS,RESPONSE_TOPICS,
     REQUEST_TOPIC,RESPONSE_TOPIC,
     CHANGE_CATEGORY,FILTER_TOPICS,
-    START_SAVEREPLY,FINISH_SAVEREPLY
+    START_SAVEREPLY,FINISH_SAVEREPLY,
+    START_SAVETOPIC,FINISH_SAVETOPIC,
+    START_TOGGLEAGREE,FINISH_TOGGLEAGREE,
+    START_TOGGLECOLLECT,FINISH_TOGGLECOLLECT
 } from "./constant"
 
 import api from "../lib/api"
@@ -92,8 +95,81 @@ export function saveReply(id,reply){
     return (dispatch)=>{
         dispatch(startSaveReply())
         request.post(`${api.reply2topic}/${id}/replies`,reply).then((ret)=>{
-            console.log('ret',ret)
             dispatch(finishSaveReply(ret))
+        })
+    }
+}
+
+function startSaveTopic(){
+    return {
+        type:START_SAVETOPIC
+    }
+}
+
+function finishSaveTopic(ret){
+    return {
+        type:FINISH_SAVETOPIC,
+        ret,
+        respondAt:Date.now()
+    }
+}
+
+export function saveTopic(topic){
+    return dispatch=>{
+        dispatch(startSaveTopic())
+        request.post(`${api.saveTopic}`,topic).then((ret)=>{
+            dispatch(finishSaveTopic(ret))
+        })
+    }
+}
+
+function startToggleCollect(){
+    return {
+        type:START_TOGGLECOLLECT
+    }
+}
+
+function finishToggleCollect(ret){
+    return {
+        type:FINISH_TOGGLECOLLECT,
+        ret,
+        respondAt:Date.now()
+    }
+}
+
+export function toggleCollect(topicID,accessToken,isCollected=true){
+    return dispatch=>{
+        dispatch(startToggleCollect())
+        request.post(`${isCollected?api.addCollect:api.delCollect}`,{
+            accesstoken:accessToken,
+            topic_id:topicID
+        }).then((ret)=>{
+            dispatch(finishToggleCollect(ret))
+        })
+    }
+}
+
+function startToggleAgree(){
+    return {
+        type:START_TOGGLEAGREE
+    }
+}
+
+function finishToggleAgree(ret){
+    return {
+        type:FINISH_TOGGLEAGREE,
+        ret,
+        respondAt:Date.now()
+    }
+}
+
+export function toggleAgree(replyID,accessToken){
+    return dispatch=>{
+        dispatch(startToggleAgree())
+        request.post(`${api.agreeReply}/${replyID}/ups`,{
+            accesstoken:accessToken
+        }).then((ret)=>{
+            dispatch(finishToggleAgree(ret))
         })
     }
 }
