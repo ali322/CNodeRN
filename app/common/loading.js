@@ -1,12 +1,13 @@
 'use strict'
 
-import React,{Component,View,StyleSheet} from "react-native"
-import Spin from "./spin"
+import React,{Component,View,StyleSheet,ActivityIndicatorIOS,ProgressBarAndroid,Platform} from "react-native"
 
 export default class Loading extends Component{
     render(){
+        const spinner = Platform.OS === "ios"?<ActivityIndicatorIOS animating={true} {...this.props}/>:
+        <ProgressBarAndroid {...this.props}/>
         return (
-            <View style={styles.loading}><Spin size="large"/></View>
+            <View style={styles.loading}>{spinner}</View>
         )
     }
 }

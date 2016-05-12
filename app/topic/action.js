@@ -29,7 +29,6 @@ export function fetchTopics(category="",pageIndex=1,pageSize=10) {
         dispatch(requestTopics(category,pageIndex))
         fetch(`${api.topics}?tab=${category}&page=${pageIndex}&limit=${pageSize}`).then(ret=>ret.json())
         .then((ret)=>{
-            console.log("ret",ret)
             dispatch(responseTopics(ret,category,pageIndex))
         })
     }

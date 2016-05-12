@@ -9,6 +9,7 @@ import {containerByComponent} from "../lib/redux-helper"
 import {messageReducer} from "./reducer"
 import {fetchMessages,fetchMessageCount,markAllMessage} from "./action"
 import Tabs from "../common/tabs"
+import Loading from "../common/loading"
 
 import styles from "./stylesheet/message"
 
@@ -87,7 +88,7 @@ class Message extends Component{
         return (
             <View style={styles.container}>
             {this._renderNavigationBar()}
-            {this._renderTimeline()}
+            {this.props.messagesFetching?<Loading />:this._renderTimeline()}
             </View>
         )
     }
