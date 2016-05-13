@@ -1,5 +1,5 @@
 'use strict'
-import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl} from "react-native"
+import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image} from "react-native"
 import {Actions} from "react-native-router-flux"
 import NavigationBar from "react-native-navbar"
 
@@ -29,7 +29,7 @@ class UserCollect extends Component{
     componentWillReceiveProps(nextProps){
         if(!nextProps.collectFetching && nextProps.collectFetched){
             this.setState({
-                dataSource:this.state.dataSource.cloneWithRows(this.props.collects)
+                dataSource:this.state.dataSource.cloneWithRows(nextProps.collects)
             })
         }
     }
