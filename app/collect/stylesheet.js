@@ -1,22 +1,14 @@
 'use strict'
-
-import {StyleSheet, Platform} from "react-native"
-import listview from "../../common/stylesheet/listview"
-import navigationbar from "../../common/stylesheet/navigationbar"
-import modal from "../../common/stylesheet/modal"
+import {StyleSheet,Platform} from "react-native"
+import navigationBar from "../common/stylesheet/navigationbar"
+import listview from "../common/stylesheet/listview"
 
 const styles = {
     ...listview,
-    ...navigationbar,
-    ...modal,
-    navigationBarTitleText:{
-      ...navigationbar.navigationBarTitleText,
-      marginRight:8  
-    },
+    ...navigationBar,
     container:{
         flex:1,
-        backgroundColor:"#FFF",
-        marginBottom:49
+        backgroundColor:"#FFF"
     },
     topicCell:{
         flex: 1,
@@ -84,24 +76,14 @@ const styles = {
     },
     topicTitleText:{
       fontSize:15  
-    },
-    modalRow:{
-        // lineHeight:20,
-        paddingVertical:8
-    },
-    modalRowText:{
-        fontSize:16
-    },
-    modalSelectedRowText:{
-        color:"blue"
     }
 }
 
-const styleForAndroid = {}
+const stylesForIOS = {}
 
-const styleForIOS = {}
+const stylesForAndroid = {}
 
-export default StyleSheet.create(Object.assign({}, styles,
-    Platform.OS === "android" ? styleForAndroid : {},
-    Platform.OS === "ios" ? styleForIOS : {}
+export default StyleSheet.create(Object.assign({},styles,
+    Platform.OS === "ios"?stylesForIOS:null,
+    Platform.OS === "android"?stylesForAndroid:null
 ))

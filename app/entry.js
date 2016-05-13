@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import topicScene from "./topic/scene"
 import mineScene from "./mine/scene"
 import messageScene from "./message/scene"
+import collectScene from "./collect/scene"
 
 import Storage from "./lib/storage"
 global.storage = new Storage()
@@ -37,7 +38,7 @@ export default class App extends Component{
                 <Scene key="root">
                     <Scene tabs={true} key="tabbar" hideNavBar={true} tabBarStyle={styles.tabBar}>
                         <Scene key="tab1" icon={tabBarItemCreator("主题",{name:"coffee",size:20})}>{topicScene}</Scene>
-                        <Scene key="tab2" icon={tabBarItemCreator("发布",{name:"edit",size:20})}>{topicScene}</Scene>
+                        <Scene key="tab2" icon={tabBarItemCreator("收藏",{name:"bookmark",size:20})}>{collectScene}</Scene>
                         <Scene key="tab3" icon={tabBarItemCreator("消息",{name:"envelope",size:20})}>{messageScene}</Scene>
                         <Scene key="tab4" icon={tabBarItemCreator("我的",{name:"user",size:20})}>{mineScene}</Scene>
                     </Scene>

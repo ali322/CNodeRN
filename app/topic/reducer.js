@@ -4,7 +4,10 @@ import {
     REQUEST_TOPICS,RESPONSE_TOPICS,
     REQUEST_TOPIC,RESPONSE_TOPIC,
     CHANGE_CATEGORY,FILTER_TOPICS,
-    START_SAVEREPLY,FINISH_SAVEREPLY
+    START_SAVEREPLY,FINISH_SAVEREPLY,
+    START_SAVETOPIC,FINISH_SAVETOPIC,CHANGE_FIELD,
+    START_TOGGLEAGREE,FINISH_TOGGLEAGREE,
+    START_TOGGLECOLLECT,FINISH_TOGGLECOLLECT
 } from "./constant"
 
 import {fromNow} from "../lib/helper"
@@ -82,7 +85,9 @@ export function topicsReducer(state= initialState,action) {
     }
 }
 
-export function topicReducer(state={},action){
+export function topicReducer(state={
+    topic:{tab:"ask",title:"",content:""}
+},action){
     switch(action.type){
         case REQUEST_TOPIC:
             return {
@@ -103,14 +108,51 @@ export function topicReducer(state={},action){
                 topicFetching:false,
                 topicFetched:action.ret.success,
                 topic
-            }        
-        default:
-            return state
-    }
-}
-
-export function replyReducer(state={},action){
-    switch(action.type){
+            }    
+        case START_SAVETOPIC:
+            return {
+                ...state,
+                topicSaving:true
+            }
+        case FINISH_SAVETOPIC:
+            return {
+                ...state,
+                topicSaving:false,
+                topicSaved:action.ret.success,
+                errMsg:action.ret.error_msg,
+                topicID:action.ret.topic_id
+            }
+        case CHANGE_FIELD:
+            return {
+                ...state,
+                topic:{
+                    ...state.topic,
+                    [action.key]:action.value
+                }
+            }
+        case START_TOGGLECOLLECT:
+            return {
+                ...state,
+                collectToggling:true
+            }   
+        case FINISH_TOGGLECOLLECT:
+            return {
+                ...state,
+                collectToggling:false,
+                collectToggled:action.ret.success
+            }
+        case START_TOGGLEAGREE:
+            return {
+                ...state,
+                agreeToggling:true
+            }
+        case FINISH_TOGGLEAGREE:
+            return {
+                ...state,
+                agreeToggling:false,
+                agreeToggled:action.ret.success,
+                agreeStatus:action.ret.action
+            }
         case START_SAVEREPLY:
             return {
                 ...state,
@@ -121,6 +163,7 @@ export function replyReducer(state={},action){
                 ...state,
                 replySaving:false,
                 replySaved:action.ret.success,
+                errMsg:action.ret.error_msg,
                 replyId:action.ret.reply_id
             }
         default:

@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 
 import {containerByComponent} from "../lib/redux-helper"
 
-import {replyReducer} from "./reducer"
+import {topicReducer} from "./reducer"
 import {saveReply} from "./action"
 
 import styles from "./stylesheet/topic"
@@ -20,8 +20,12 @@ class Reply extends Component{
         }
     }
     componentWillReceiveProps(nextProps){
-        if(nextProps.replySaved && this.props.replySaving){
-            Alert.alert("保存成功","",[{text:"确定",onPress:()=>Actions.pop()}])
+        if(!nextProps.replySaving && this.props.replySaving){
+            if(nextProps.replySaved){
+                Alert.alert("保存成功","",[{text:"确定",onPress:()=>Actions.pop()}])
+            }else{
+                Alert.alert(nextProps.errMsg,"",[{text:"确定",style:"cancel"}])
+            }
         }
     }
     renderNavigationBar(){
@@ -67,4 +71,4 @@ class Reply extends Component{
     }
 }
 
-export default containerByComponent(Reply,replyReducer,{saveReply})
+export default containerByComponent(Reply,topicReducer,{saveReply})

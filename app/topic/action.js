@@ -5,7 +5,7 @@ import {
     REQUEST_TOPIC,RESPONSE_TOPIC,
     CHANGE_CATEGORY,FILTER_TOPICS,
     START_SAVEREPLY,FINISH_SAVEREPLY,
-    START_SAVETOPIC,FINISH_SAVETOPIC,
+    START_SAVETOPIC,FINISH_SAVETOPIC,CHANGE_FIELD,
     START_TOGGLEAGREE,FINISH_TOGGLEAGREE,
     START_TOGGLECOLLECT,FINISH_TOGGLECOLLECT
 } from "./constant"
@@ -117,9 +117,16 @@ function finishSaveTopic(ret){
 export function saveTopic(topic){
     return dispatch=>{
         dispatch(startSaveTopic())
-        request.post(`${api.saveTopic}`,topic).then((ret)=>{
+        request.post(`${api.topics}`,topic).then((ret)=>{
             dispatch(finishSaveTopic(ret))
         })
+    }
+}
+
+export function changeField(key,value){
+    return {
+        type:CHANGE_FIELD,
+        key,value
     }
 }
 

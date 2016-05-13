@@ -1,10 +1,10 @@
 'use strict'
+import {Alert} from "react-native"
 
 import * as constants from "./constant"
 
 import api from "../lib/api"
-import {Alert} from "react-native"
-
+import request from "../lib/request"
 
 function startAuthorize(){
     return {

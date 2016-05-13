@@ -1,14 +1,14 @@
 'use strict'
 
 export default {
-    get(url,data){
+    get(url,data={}){
         var params = new URLSearchParams()
-        data.keys.forEach((param)=>{
+        Object.keys(data).forEach((param)=>{
             params.append(param,data[param])
         })
-        return fetch(`${url}?${params}`).then(ret=>ret.json)
+        return fetch(`${url}?${params}`).then(ret=>ret.json())
     },
-    post(url,data){
+    post(url,data={}){
         return fetch(url,{
             method:"POST",
             headers: {

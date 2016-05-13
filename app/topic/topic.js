@@ -10,7 +10,7 @@ import timer from "react-timer-mixin"
 import Loading from "../common/loading"
 
 import {containerByComponent} from "../lib/redux-helper"
-import {fetchTopic} from "./action"
+import {fetchTopic,toggleCollect,toggleAgree} from "./action"
 import {topicReducer} from "./reducer"
 
 import styles from "./stylesheet/topic"
@@ -41,6 +41,11 @@ class Topic extends Component{
             })
         }
     }
+    async _toggleCollect(){
+        const {id,toggleCollect} = this.props
+        const user = await global.storage.getItem("user")
+        toggleCollect(id,user.accessToken,false)
+    }
     renderNavigationBar(){
         const title = (
             <View style={styles.navigationBarTitle}>
@@ -48,16 +53,18 @@ class Topic extends Component{
             </View>
         )
         const rightButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>{
-                const {topic} = this.props
-                if(!topic){
-                    return
-                }
-                Actions.reply({id:topic.id})
-            }}>
-                <Icon name="heart-o" size={20} color="#999" style={{marginRight:12}}/>
-                <Icon name="mail-reply" size={20} color="#999"/>
-            </TouchableOpacity>
+            <View style={[styles.navigationBarButton,{marginLeft:5}]}>
+                <Icon.Button name="heart-o" size={20} color="#999" backgroundColor="transparent" onPress={this._toggleCollect.bind(this)}/>
+                <TouchableOpacity onPress={()=>{
+                    const {topic} = this.props
+                    if(!topic){
+                        return
+                    }
+                    Actions.reply({id:topic.id})
+                }}>
+                    <Icon name="mail-reply" size={20} color="#999"/>
+                </TouchableOpacity>
+            </View>
         )
         const leftButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.pop()}>
@@ -130,7 +137,7 @@ class Topic extends Component{
     }
 }
 
-export default containerByComponent(Topic,topicReducer,{fetchTopic},{...this.props})
+export default containerByComponent(Topic,topicReducer,{fetchTopic,toggleAgree,toggleCollect},{...this.props})
 
 
 
