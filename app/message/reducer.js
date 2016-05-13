@@ -6,18 +6,6 @@ import {fromNow} from "../lib/helper"
 
 export function messageReducer(state = {}, action) {
     switch (action.type) {
-        case constants.REQUEST_MESSAGECOUNT:
-            return {
-                ...state,
-                messageCountFetching: true
-            }
-        case constants.RESPONSE_MESSAGECOUNT:
-            return {
-                ...state,
-                messageCountFetching: false,
-                count: action.ret.data,
-                messageCountFetched: action.ret.success
-            }
         case constants.REQUEST_MESSAGES:
             return {
                 ...state,

@@ -26,29 +26,6 @@ export function fetchMessages(accesstoken){
     }
 }
 
-function requestMessageCount(){
-    return {
-        type:constants.REQUEST_MESSAGECOUNT
-    }
-}
-
-function responseMessageCount(ret){
-    return {
-        type:constants.RESPONSE_MESSAGECOUNT,
-        ret,
-        respondAt:Date.now()
-    }
-}
-
-export function fetchMessageCount(){
-    return (dispatch)=>{
-        dispatch(requestMessageCount())
-        fetch(`${api.messageCount}`).then((ret)=>ret.json()).then((ret)=>{
-            dispatch(responseMessageCount(ret))
-        })
-    }
-}
-
 function startMarkAllMessage(){
     return {
         type:constants.START_MARKALLMESSAGE
