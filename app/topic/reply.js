@@ -63,6 +63,7 @@ class Reply extends Component{
             {this.renderNavigationBar()}
             <View style={styles.replyWrap}>
             <TextInput placeholder="回复内容不超过50字" onChangeText={(content)=>this.setState({content})} 
+            defaultValue={this.props.replyTo?`@${this.props.replyTo.author.loginname} `:""}
             multiline={true} maxLength={50} 
             style={styles.replyInput}/>
             </View>

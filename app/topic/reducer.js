@@ -139,6 +139,10 @@ export function topicReducer(state={
             return {
                 ...state,
                 collectToggling:false,
+                topic:{
+                    ...state.topic,
+                    is_collect:action.ret.success?!state.topic.is_collect:state.topic.is_collect
+                },
                 collectToggled:action.ret.success
             }
         case START_TOGGLEAGREE:
@@ -147,11 +151,27 @@ export function topicReducer(state={
                 agreeToggling:true
             }
         case FINISH_TOGGLEAGREE:
+            let _topic = Object.assign({},state.topic)
+            let _replies = []
+            _topic.replies.forEach((reply)=>{
+                let _reply = Object.assign({},reply)
+                if(_reply.id === action.replyID){
+                    if(action.ret.action === "up"){
+                        _reply.ups.push(action.accessToken)
+                    }else{
+                        _reply.ups.pop()
+                    }
+                }
+                _reply.flag = "123"
+                _replies.push(_reply)
+            })
+            _topic.replies = _replies
             return {
                 ...state,
                 agreeToggling:false,
                 agreeToggled:action.ret.success,
-                agreeStatus:action.ret.action
+                agreeStatus:action.ret.action,
+                topic:_topic
             }
         case START_SAVEREPLY:
             return {

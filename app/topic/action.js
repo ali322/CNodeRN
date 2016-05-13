@@ -136,10 +136,11 @@ function startToggleCollect(){
     }
 }
 
-function finishToggleCollect(ret){
+function finishToggleCollect(isCollected,ret){
     return {
         type:FINISH_TOGGLECOLLECT,
         ret,
+        isCollected,
         respondAt:Date.now()
     }
 }
@@ -147,11 +148,14 @@ function finishToggleCollect(ret){
 export function toggleCollect(topicID,accessToken,isCollected=true){
     return dispatch=>{
         dispatch(startToggleCollect())
-        request.post(`${isCollected?api.addCollect:api.delCollect}`,{
+        const apiURL = !isCollected?api.addCollect:api.delCollect
+        // console.log("apiURL",apiURL,isCollected)
+        request.post(`${apiURL}`,{
             accesstoken:accessToken,
             topic_id:topicID
         }).then((ret)=>{
-            dispatch(finishToggleCollect(ret))
+            // console.log("ret",ret)
+            dispatch(finishToggleCollect(isCollected,ret))
         })
     }
 }
@@ -162,10 +166,12 @@ function startToggleAgree(){
     }
 }
 
-function finishToggleAgree(ret){
+function finishToggleAgree(replyID,accessToken,ret){
     return {
         type:FINISH_TOGGLEAGREE,
         ret,
+        replyID,
+        accessToken,
         respondAt:Date.now()
     }
 }
@@ -176,7 +182,7 @@ export function toggleAgree(replyID,accessToken){
         request.post(`${api.agreeReply}/${replyID}/ups`,{
             accesstoken:accessToken
         }).then((ret)=>{
-            dispatch(finishToggleAgree(ret))
+            dispatch(finishToggleAgree(replyID,accessToken,ret))
         })
     }
 }

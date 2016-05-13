@@ -95,6 +95,15 @@ const styles = {
         paddingVertical:4,
         marginRight:5
     },
+    topicAgreeBadge:{
+      flexDirection:"row",
+      alignItems:"center"  
+    },
+    topicAgreeBadgeText:{
+      fontSize:12,
+      fontWeight:"700",
+      color:"#666"  
+    },
     replyWrap:{
        flex:1
     },

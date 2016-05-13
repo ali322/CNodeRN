@@ -52,7 +52,7 @@ onComplete=()=>{}){
     
     const configureStore = autoRehydrate()(createStoreWithMiddleware)
     const store = initialState?configureStore(rootReducer,initialState):configureStore(rootReducer)
-    persistStore(store,{storage:AsyncStorage},onComplete)
+    persistStore(store,{storage:AsyncStorage},onComplete).purgeAll()
     return class extends Component{
         render(){
             return (

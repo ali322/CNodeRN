@@ -21,17 +21,19 @@ class Topic extends Component{
         this.state = {
             loading:true,
             dataSource:new ListView.DataSource({
-                rowHasChanged:(r1,r2)=>r1 !== r2,
+                rowHasChanged:(r1,r2)=>{
+                    return r1 !== r2
+                },
                 sectionHeaderHasChanged:(s1,s2)=>s1 !== s2
             })
         } 
     }
     componentDidMount(){
-        InteractionManager.runAfterInteractions(()=>{
+        // InteractionManager.runAfterInteractions(()=>{
         // setTimeout(()=>{
             this.props.fetchTopic(this.props.id)    
         // },300)
-        })
+        // })
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.topicFetched && !nextProps.topicFetching){
@@ -40,11 +42,23 @@ class Topic extends Component{
                 dataSource:this.state.dataSource.cloneWithRows(nextProps.topic.replies)
             })
         }
+        if(!nextProps.agreeToggling && nextProps.agreeToggled){
+            this.setState({
+                dataSource:this.state.dataSource.cloneWithRows(nextProps.topic.replies)
+            })
+        }
     }
     async _toggleCollect(){
-        const {id,toggleCollect} = this.props
+        const {id,topic} = this.props
+        if(!topic){
+            return
+        }
         const user = await global.storage.getItem("user")
-        toggleCollect(id,user.accessToken,false)
+        this.props.toggleCollect(id,user.accessToken,topic.is_collect)
+    }
+    async _toggleAgree(replyID){
+        const user = await global.storage.getItem("user")
+        this.props.toggleAgree(replyID,user.accessToken)
     }
     renderNavigationBar(){
         const title = (
@@ -52,11 +66,11 @@ class Topic extends Component{
                 <Text style={styles.navigationBarTitleText}>主题详情</Text>
             </View>
         )
+        const {topic} = this.props
         const rightButton = (
             <View style={[styles.navigationBarButton,{marginLeft:5}]}>
-                <Icon.Button name="heart-o" size={20} color="#999" backgroundColor="transparent" onPress={this._toggleCollect.bind(this)}/>
+                <Icon.Button name={topic && topic.is_collect?"heart":"heart-o"} size={20} color="#999" backgroundColor="transparent" onPress={this._toggleCollect.bind(this)}/>
                 <TouchableOpacity onPress={()=>{
-                    const {topic} = this.props
                     if(!topic){
                         return
                     }
@@ -88,12 +102,14 @@ class Topic extends Component{
                         <Text style={styles.topicSubtitleText}>{reply.author.loginname}</Text>
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>
                     </View>
-                    <View style={styles.topicCommentBadge}>
+                    <TouchableOpacity style={styles.topicCommentBadge} onPress={()=>{
+                        Actions.reply({id:this.props.topic.id,replyTo:reply})
+                    }}>
                         <Icon name="mail-reply" size={15} color="#AAA"/>
-                    </View>
-                    <View style={styles.topicCommentBadge}>
-                        <Icon name="thumbs-up" size={15} color="#AAA"/>
-                    </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.topicCommentBadge,styles.topicAgreeBadge]} onPress={this._toggleAgree.bind(this,reply.id)}>
+                        <Icon name="thumbs-up" size={15} color="#AAA"/><Text style={styles.topicAgreeBadgeText}> +{reply.ups.length}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.topicDesc}>
                     <HTMLView html={reply.content.replace(/\s/g,"")}/>

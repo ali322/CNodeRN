@@ -20,7 +20,7 @@ export default {
         paddingLeft:3 
     },
     navigationBarTitle:{
-        height:30,
+        height:32,
         flexDirection:"row",
         alignItems:"center"
     },
