@@ -102,7 +102,7 @@ const styles = {
     topicAgreeBadgeText:{
       fontSize:12,
       fontWeight:"700",
-      color:"#666"  
+      color:"#AAA"  
     },
     replyWrap:{
        flex:1

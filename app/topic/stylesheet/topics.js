@@ -74,7 +74,7 @@ const styles = {
     },
     topicReply:{
     //   marginRight:8,
-      color:"deeppink",
+      color:"#333",
       fontSize:14,
       fontWeight:"700"  
     },

@@ -29,11 +29,11 @@ class Topic extends Component{
         } 
     }
     componentDidMount(){
-        // InteractionManager.runAfterInteractions(()=>{
+        InteractionManager.runAfterInteractions(()=>{
         // setTimeout(()=>{
             this.props.fetchTopic(this.props.id)    
         // },300)
-        // })
+        })
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.topicFetched && !nextProps.topicFetching){
@@ -67,9 +67,10 @@ class Topic extends Component{
             </View>
         )
         const {topic} = this.props
+        const isCollect = topic && topic.is_collect
         const rightButton = (
             <View style={[styles.navigationBarButton,{marginLeft:5}]}>
-                <Icon.Button name={topic && topic.is_collect?"heart":"heart-o"} size={20} color="#999" backgroundColor="transparent" onPress={this._toggleCollect.bind(this)}/>
+                <Icon.Button name={isCollect?"heart":"heart-o"} size={20} color={isCollect?"#333":"#999"} backgroundColor="transparent" onPress={this._toggleCollect.bind(this)}/>
                 <TouchableOpacity onPress={()=>{
                     if(!topic){
                         return
@@ -94,6 +95,7 @@ class Topic extends Component{
             return null
         }
         const renderComment = (reply)=>{
+            console.log(reply.agreeStatus)
             return (
                 <View style={styles.topicComment}>
                 <View style={styles.topicCommentBreif}>
@@ -108,7 +110,8 @@ class Topic extends Component{
                         <Icon name="mail-reply" size={15} color="#AAA"/>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.topicCommentBadge,styles.topicAgreeBadge]} onPress={this._toggleAgree.bind(this,reply.id)}>
-                        <Icon name="thumbs-up" size={15} color="#AAA"/><Text style={styles.topicAgreeBadgeText}> +{reply.ups.length}</Text>
+                        <Icon name="thumbs-up" size={15} color={reply.agreeStatus === "up"?"#333":"#AAA"}/>
+                        <Text style={[styles.topicAgreeBadgeText,{color:reply.agreeStatus === "up"?"#333":"#AAA"}]}> +{reply.ups.length}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.topicDesc}>

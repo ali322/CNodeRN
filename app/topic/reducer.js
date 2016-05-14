@@ -158,11 +158,11 @@ export function topicReducer(state={
                 if(_reply.id === action.replyID){
                     if(action.ret.action === "up"){
                         _reply.ups.push(action.accessToken)
+                        _reply.agreeStatus = action.ret.action
                     }else{
                         _reply.ups.pop()
                     }
                 }
-                _reply.flag = "123"
                 _replies.push(_reply)
             })
             _topic.replies = _replies
