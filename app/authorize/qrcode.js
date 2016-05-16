@@ -10,7 +10,7 @@ import navigationBarStyle from "../common/stylesheet/navigationbar"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {authorizeByToken} from "./action"
-import {userReducer} from "./reducer"
+import {authorizeReducer} from "./reducer"
 
 class QrCode extends Component {
     constructor(props) {
@@ -145,4 +145,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default containerByComponent(QrCode,userReducer,{authorizeByToken})
+export default containerByComponent(QrCode,authorizeReducer,{authorizeByToken})

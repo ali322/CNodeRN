@@ -1,10 +1,11 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager} from "react-native"
+import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,WebView} from "react-native"
 import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import HTMLView from "../common/htmlview"
+import WebContainer from "../common/webcontainer"
 import timer from "react-timer-mixin"
 
 import Loading from "../common/loading"
@@ -95,7 +96,6 @@ class Topic extends Component{
             return null
         }
         const renderComment = (reply)=>{
-            console.log(reply.agreeStatus)
             return (
                 <View style={styles.topicComment}>
                 <View style={styles.topicCommentBreif}>
@@ -115,7 +115,7 @@ class Topic extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style={styles.topicDesc}>
-                    <HTMLView html={reply.content.replace(/\s/g,"")}/>
+                    <WebContainer source={{html:reply.content}}/>
                 </View>
                 </View>            
             )
@@ -123,7 +123,8 @@ class Topic extends Component{
         
         return (
             <ListView dataSource={this.state.dataSource}  style={styles.topicContent} 
-            initialListSize={10} removeClippedSubviews={true} enableEmptySections={true} 
+            scrollRenderAheadDistance={20} 
+            initialListSize={1} removeClippedSubviews={true} enableEmptySections={true} 
             renderRow={renderComment} renderHeader={()=>{
                 return (
                     <View>
@@ -136,7 +137,7 @@ class Topic extends Component{
                             <View style={styles.topicBadge}><Text style={styles.topicBadgeText}>{topic.tab}</Text></View>
                         </View>
                         <View style={styles.topicDesc}>
-                            <HTMLView html={topic.content.replace(/\s/g,"")}/>
+                            <WebContainer source={{html:topic.content}}/>
                         </View>
                         <View style={styles.topicComments}>
                             <Text style={styles.topicCommentsStatus}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>

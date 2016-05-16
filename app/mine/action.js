@@ -1,40 +1,8 @@
 'use strict'
-import {Alert} from "react-native"
-
 import * as constants from "./constant"
 
 import api from "../lib/api"
 import request from "../lib/request"
-
-function startAuthorize(){
-    return {
-        type:constants.START_AUTHORIZE
-    }
-}
-
-function finishAuthorize(ret,accessToken){
-    return {
-        type:constants.FINISH_AUTHORIZE,
-        ret,
-        accessToken,
-        finishAt:Date.now()
-   }
-}
-
-export function authorizeByToken(token){
-    return (dispatch)=>{
-        dispatch(startAuthorize())
-        let formdata = JSON.stringify({accesstoken:token})
-        fetch(`${api.authorize}`,{method:"POST",body:formdata,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then((ret)=>ret.json()).then((ret)=>{
-            dispatch(finishAuthorize(ret,token))
-        })
-    }
-}
 
 function requestUser(){
     return {

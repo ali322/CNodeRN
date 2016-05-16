@@ -28,7 +28,14 @@ class Message extends Component{
         }
     }
     componentDidMount(){
-        this.props.fetchMessages("01206bae-f6ed-42de-bd0e-3775776deaf9")
+        global.storage.getItem("user").then((user)=>{
+            if(user){
+                this.props.fetchMessages(user.accessToken)
+            }else{
+                Actions.login()
+            }
+        })
+        // this.props.fetchMessages("01206bae-f6ed-42de-bd0e-3775776deaf9")
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.messagesFetched && !nextProps.messagesFetching){

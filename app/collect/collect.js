@@ -23,7 +23,11 @@ class UserCollect extends Component{
     }
     componentDidMount(){
         global.storage.getItem("user").then((user)=>{
-            this.props.fetchUserCollect(user.username)
+            if(user){
+                this.props.fetchUserCollect(user.username)
+            }else{
+                Actions.login()
+            }
         })
     }
     componentWillReceiveProps(nextProps){

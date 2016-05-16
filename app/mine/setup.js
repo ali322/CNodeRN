@@ -5,6 +5,10 @@ import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
 
+import {containerByComponent} from "../lib/redux-helper"
+import {clearUser} from "./action"
+import {userReducer} from "./reducer"
+
 import styles from "./stylesheet/setup"
 
 class Setup extends Component{
@@ -16,7 +20,7 @@ class Setup extends Component{
                     if(err){
                         Alert.alert(err)
                     }else{
-                        Actions.mine()
+                        this.props.clearUser()
                     }
                 })
                 
@@ -54,4 +58,4 @@ class Setup extends Component{
     }
 }
 
-export default Setup
+export default containerByComponent(Setup,userReducer,{clearUser})

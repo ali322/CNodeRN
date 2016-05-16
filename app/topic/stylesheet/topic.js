@@ -88,7 +88,8 @@ const styles = {
         paddingVertical:5,
         borderBottomWidth:0.5,
         paddingHorizontal:8,
-        borderColor:"#DDD"
+        borderColor:"#DDD",
+        overflow:"hidden"
     },
     topicCommentBadge:{
         paddingHorizontal:8,

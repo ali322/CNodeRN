@@ -36,7 +36,7 @@ class Mine extends Component {
             if(user){
                 this.props.fetchUser(user.username)
             }else{
-                this.props.clearUser()
+                Actions.login()
             }
         })
     }
@@ -51,16 +51,7 @@ class Mine extends Component {
     renderBreif() {
         const {user} = this.props
         if (!user) {
-            return (
-                <View style={styles.mineBreif}>
-                    <View style={styles.mineAuthorize}>
-                        <TouchableOpacity style={styles.mineAuthorizeQrcode} onPress={() => Actions.qrcode() }>
-                            <Icon name="qrcode" size={30}/>
-                            <Text style={{ paddingLeft: 8 }}>扫码登录</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            )
+            return null
         }
         return (
             <View style={styles.mineBreif}>
