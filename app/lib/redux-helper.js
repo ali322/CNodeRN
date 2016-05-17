@@ -10,7 +10,7 @@ import createLogger from "redux-logger"
 const logger = createLogger()
 
 const createStoreWithMiddleware = compose(
-    applyMiddleware(thunkMiddleware,logger)
+    applyMiddleware(thunkMiddleware)
     // typeof window === 'object' && 
     // typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
 )(createStore)

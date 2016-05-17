@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,WebView} from "react-native"
+import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
 import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -115,7 +115,7 @@ class Topic extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style={styles.topicDesc}>
-                    <WebContainer source={{html:reply.content}}/>
+                    <HTMLView value={reply.content.replace(/(\n|\r)+/g,"")}/>
                 </View>
                 </View>            
             )
@@ -137,7 +137,7 @@ class Topic extends Component{
                             <View style={styles.topicBadge}><Text style={styles.topicBadgeText}>{topic.tab}</Text></View>
                         </View>
                         <View style={styles.topicDesc}>
-                            <WebContainer source={{html:topic.content}}/>
+                            <HTMLView value={topic.content.replace(/(\n|\r)+/g,"")} maxImageWidth={Dimensions.get("window").width - 16}/>
                         </View>
                         <View style={styles.topicComments}>
                             <Text style={styles.topicCommentsStatus}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
