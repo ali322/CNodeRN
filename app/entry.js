@@ -1,10 +1,11 @@
 'use strict'
 
-import React,{Component,View,Text,StyleSheet} from "react-native"
-import {Router,Scene,Reducer} from "react-native-router-flux"
+import React,{Component,View,Text,StyleSheet,NavigationExperimental} from "react-native"
+import {Router,Scene,Reducer,Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
-import MessageCounter from "./common/messagecounter"
+import Tabs from "react-native-tabs"
 
+import MessageCounter from "./common/messagecounter"
 import topicScene from "./topic/scene"
 import mineScene from "./mine/scene"
 import messageScene from "./message/scene"
@@ -13,6 +14,7 @@ import collectScene from "./collect/scene"
 import Login from "./authorize/login"
 import Qrcode from "./authorize/qrcode"
 
+import {containerByComponent} from "./lib/redux-helper"
 import Storage from "./lib/storage"
 global.storage = new Storage()
 
@@ -34,12 +36,26 @@ const tabBarItemCreator = (tintText,iconConfig,renderCounter=()=>{})=>{
             </View>
         }
     }
-} 
+}
 
-export default class App extends Component{
+const routerReducer = (state={},action)=>{
+    switch(action.type){
+        case "focus":
+            return {
+                ...state,
+                scene:action.scene
+            }
+        default:
+            return state
+    }
+}
+
+const RouterContainer = containerByComponent(Router,routerReducer,null)
+
+export default class extends Component{
     render(){
         return (
-            <Router createReducer={reducerCreator}>
+            <RouterContainer>
                 <Scene key="root">
                     <Scene tabs={true} key="tabbar" hideNavBar={true} tabBarStyle={styles.tabBar}>
                         <Scene key="tab1" icon={tabBarItemCreator("主题",{name:"coffee",size:20})}>{topicScene}</Scene>
@@ -50,7 +66,7 @@ export default class App extends Component{
                     <Scene key="login" component={Login} hideNavBar={true}/>
                     <Scene key="qrcode" component={Qrcode} hideNavBar={true}/>
                 </Scene>
-            </Router>
+            </RouterContainer>
         )
     }
 }

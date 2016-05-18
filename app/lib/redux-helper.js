@@ -47,7 +47,7 @@ function bindActionsToComponent(UnbindComponent,actions){
  */
 export function containerByComponent(OriginalComponent,rootReducer,actions,initialState=null,selector=(state)=>state,
 onComplete=()=>{}){
-    let bindedComponent = bindActionsToComponent(OriginalComponent,actions)
+    let bindedComponent = actions === null?OriginalComponent:bindActionsToComponent(OriginalComponent,actions)
     let ConnectedComponent = connect(selector)(bindedComponent)
     
     const configureStore = autoRehydrate()(createStoreWithMiddleware)

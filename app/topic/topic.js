@@ -30,11 +30,11 @@ class Topic extends Component{
         } 
     }
     componentDidMount(){
-        InteractionManager.runAfterInteractions(()=>{
-        // setTimeout(()=>{
+        // InteractionManager.runAfterInteractions(()=>{
+        requestAnimationFrame(()=>{
             this.props.fetchTopic(this.props.id)    
-        // },300)
         })
+        // })
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.topicFetched && !nextProps.topicFetching){

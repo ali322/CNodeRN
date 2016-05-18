@@ -16,6 +16,12 @@ export default {
                 'Content-Type': 'application/json'
             },
             body:JSON.stringify(data)
-        }).then((ret)=>ret.json())
+        }).then((ret)=>{
+            if(ret.ok){
+                return ret.json()
+            }else{
+                throw new Error(`post failed,err stack:${ret.error()}`)
+            }
+        })
     }
 }

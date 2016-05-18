@@ -25,8 +25,6 @@ class UserCollect extends Component{
         global.storage.getItem("user").then((user)=>{
             if(user){
                 this.props.fetchUserCollect(user.username)
-            }else{
-                Actions.login()
             }
         })
     }
