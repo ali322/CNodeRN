@@ -11,19 +11,10 @@ import mineScene from "./mine/scene"
 import messageScene from "./message/scene"
 import collectScene from "./collect/scene"
 
-import Login from "./authorize/login"
 import Qrcode from "./authorize/qrcode"
 
-import {containerByComponent} from "./lib/redux-helper"
 import Storage from "./lib/storage"
 global.storage = new Storage()
-
-const reducerCreator = (params)=>{
-    const defaultReducer = Reducer(params)
-    return (state,action)=>{
-        return defaultReducer(state,action)
-    }
-}
 
 const tabBarItemCreator = (tintText,iconConfig,renderCounter=()=>{})=>{
     return class extends Component{
@@ -38,24 +29,10 @@ const tabBarItemCreator = (tintText,iconConfig,renderCounter=()=>{})=>{
     }
 }
 
-const routerReducer = (state={},action)=>{
-    switch(action.type){
-        case "focus":
-            return {
-                ...state,
-                scene:action.scene
-            }
-        default:
-            return state
-    }
-}
-
-const RouterContainer = containerByComponent(Router,routerReducer,null)
-
 export default class extends Component{
     render(){
         return (
-            <RouterContainer>
+            <Router>
                 <Scene key="root">
                     <Scene tabs={true} key="tabbar" hideNavBar={true} tabBarStyle={styles.tabBar}>
                         <Scene key="tab1" icon={tabBarItemCreator("主题",{name:"coffee",size:20})}>{topicScene}</Scene>
@@ -63,10 +40,9 @@ export default class extends Component{
                         <Scene key="tab3" icon={tabBarItemCreator("消息",{name:"envelope",size:20},()=><MessageCounter />)}>{messageScene}</Scene>
                         <Scene key="tab4" icon={tabBarItemCreator("我的",{name:"user",size:20})}>{mineScene}</Scene>
                     </Scene>
-                    <Scene key="login" component={Login} hideNavBar={true}/>
                     <Scene key="qrcode" component={Qrcode} hideNavBar={true}/>
                 </Scene>
-            </RouterContainer>
+            </Router>
         )
     }
 }

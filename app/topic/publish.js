@@ -1,9 +1,10 @@
 'use strict'
 
 import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,TextInput,Picker,Alert} from "react-native"
-import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
+
+import NavBar from "../common/navbar"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {topicReducer} from "./reducer"
@@ -44,23 +45,13 @@ class Publish extends Component{
         }
     }
     renderNavigationBar(){
-        const title = (
-            <View style={styles.navigationBarTitle}>
-                <Text style={styles.navigationBarTitleText}>发布主题</Text>
-            </View>
-        )
         const rightButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={this._handleSave.bind(this)}>
                 <Text style={styles.navigationBarButtonText}>确定</Text>
             </TouchableOpacity>
         )
-        const leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.pop()}>
-                <Icon name="angle-left" size={25} color="#666"/>
-                <Text style={styles.navigationBarButtonText}>取消</Text>
-            </TouchableOpacity>
-        )
-        return <NavigationBar title={title} leftButton={leftButton} rightButton={rightButton} style={styles.navigationBar} tintColor="#F8F8F8"/>
+
+        return <NavBar title="发布主题" rightButton={()=>rightButton}/>
     }
     renderModal(){
         return (

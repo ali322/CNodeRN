@@ -1,9 +1,10 @@
 'use stirct'
 
 import React,{Component,View,TouchableOpacity,Text,TextInput,Alert} from "react-native"
-import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
+
+import NavBar from "../common/navbar"
 
 import {containerByComponent} from "../lib/redux-helper"
 
@@ -29,11 +30,6 @@ class Reply extends Component{
         }
     }
     renderNavigationBar(){
-        const title = (
-            <View style={styles.navigationBarTitle}>
-                <Text style={styles.navigationBarTitleText}>回复</Text>
-            </View>
-        )
         const handleSave = async ()=>{
             const user = await global.storage.getItem("user")
             const reply = {
@@ -49,13 +45,8 @@ class Reply extends Component{
                 <Text style={styles.navigationBarButtonText}>发布</Text>
             </TouchableOpacity>
         )
-        const leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.pop()}>
-            <Icon name="angle-left" size={25} color="#666"/>
-            <Text style={styles.navigationBarButtonText}>取消</Text>
-            </TouchableOpacity>
-        )
-        return <NavigationBar title={title} leftButton={leftButton} rightButton={rightButton} style={styles.navigationBar} tintColor="#F8F8F8"/>
+
+        return <NavBar title="回复" rightButton={()=>rightButton}/>
     }
     render(){
         return (

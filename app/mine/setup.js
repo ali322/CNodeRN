@@ -3,7 +3,7 @@
 import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Alert} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
-import NavigationBar from "react-native-navbar"
+import NavBar from "../common/navbar"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {clearUser} from "./action"
@@ -27,24 +27,10 @@ class Setup extends Component{
             }}
         ])
     }
-    renderNavigationBar() {
-        const title = (
-            <View style={styles.navigationBarTitle}>
-                <Text style={styles.navigationBarTitleText}>设置</Text>
-            </View>
-        )
-        const leftButton= (
-            <TouchableOpacity style={[styles.navigationBarButton, {marginLeft: 5 }]} onPress={()=>{Actions.pop()}}>
-                <Icon name="angle-left" size={20} color="#999"/>
-                <Text style={styles.navigationBarButtonText}>返回</Text>
-            </TouchableOpacity>
-        )
-        return <NavigationBar title={title} leftButton={leftButton} style={styles.navigationBar} tintColor="#F8F8F8"/>
-    }
     render(){
         return (
             <View style={styles.container}>
-            {this.renderNavigationBar()}
+            <NavBar title="设置" />
             <View style={styles.setupPanel}>
                 <TouchableHighlight style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <Text style={styles.setupRowLabelText}>清除缓存</Text>

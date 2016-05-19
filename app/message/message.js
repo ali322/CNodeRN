@@ -1,7 +1,6 @@
 'use strict'
 
-import React,{Component,View,StyleSheet,Text,ListView,Image} from "react-native"
-import NavigationBar from "react-native-navbar"
+import React,{Component,View,StyleSheet,Text,ListView,Image,Alert} from "react-native"
 import {Actions} from "react-native-router-flux"
 import ScrollableTabView from "react-native-scrollable-tab-view"
 
@@ -10,10 +9,10 @@ import {messageReducer} from "./reducer"
 import {fetchMessages,fetchMessageCount,markAllMessage} from "./action"
 import Tabs from "../common/tabs"
 import Loading from "../common/loading"
+import Anonymous from "../common/anonymous"
+import NavBar from "../common/navbar"
 
 import styles from "./stylesheet/message"
-
-import fakeMessages from "./fake"
 
 class Message extends Component{
     constructor(props){
@@ -24,18 +23,17 @@ class Message extends Component{
             }),
             readDataSource:new ListView.DataSource({
                 rowHasChanged:(r1,r2)=> r1 !== r2
-            })
+            }),
+            isLogined:false
         }
     }
     componentDidMount(){
         global.storage.getItem("user").then((user)=>{
             if(user){
+                this.setState({isLogined:true})
                 this.props.fetchMessages(user.accessToken)
-            }else{
-                Actions.login()
             }
         })
-        // this.props.fetchMessages("01206bae-f6ed-42de-bd0e-3775776deaf9")
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.messagesFetched && !nextProps.messagesFetching){
@@ -44,14 +42,6 @@ class Message extends Component{
                 readDataSource:this.state.readDataSource.cloneWithRows(fakeMessages.has_read_messages)
             })
         }
-    }
-    _renderNavigationBar(){
-        const title = (
-            <View style={styles.navigationBarTitle}>
-                <Text style={styles.navigationBarTitleText}>消息</Text>
-            </View>
-        )
-        return <NavigationBar title={title} style={styles.navigationBar} tintColor="#F8F8F8"/>
     }
     _renderMessage(message){
         return (
@@ -94,8 +84,8 @@ class Message extends Component{
     render(){
         return (
             <View style={styles.container}>
-            {this._renderNavigationBar()}
-            {this.props.messagesFetching?<Loading />:this._renderTimeline()}
+            <NavBar title="消息" leftButton={false}/>
+            {!this.state.isLogined?<Anonymous />:this.props.messagesFetching?<Loading />:this._renderTimeline()}
             </View>
         )
     }

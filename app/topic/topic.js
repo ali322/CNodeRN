@@ -1,14 +1,12 @@
 'use strict'
 
 import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
-import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
-import HTMLView from "../common/htmlview"
-import WebContainer from "../common/webcontainer"
-import timer from "react-timer-mixin"
 
+import HTMLView from "../common/htmlview"
 import Loading from "../common/loading"
+import NavBar from "../common/navbar"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {fetchTopic,toggleCollect,toggleAgree} from "./action"
@@ -62,11 +60,6 @@ class Topic extends Component{
         this.props.toggleAgree(replyID,user.accessToken)
     }
     renderNavigationBar(){
-        const title = (
-            <View style={styles.navigationBarTitle}>
-                <Text style={styles.navigationBarTitleText}>主题详情</Text>
-            </View>
-        )
         const {topic} = this.props
         const isCollect = topic && topic.is_collect
         const rightButton = (
@@ -82,13 +75,8 @@ class Topic extends Component{
                 </TouchableOpacity>
             </View>
         )
-        const leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.pop()}>
-            <Icon name="angle-left" size={25} color="#666"/>
-            <Text style={styles.navigationBarButtonText}>返回</Text>
-            </TouchableOpacity>
-        )
-        return <NavigationBar title={title} leftButton={leftButton} rightButton={rightButton} style={styles.navigationBar} tintColor="#F8F8F8"/>
+
+        return <NavBar title="主题详情" rightButton={()=>rightButton}/>
     }
     renderContent(){
         const {topic} = this.props

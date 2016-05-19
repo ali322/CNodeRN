@@ -2,7 +2,6 @@
 
 import React,{Component,View,Text,Image,ListView,Platform,Modal,TouchableOpacity,Animated,RefreshControl,TextInput,LayoutAnimation} from "react-native"
 import {Actions} from "react-native-router-flux"
-import NavigationBar from "react-native-navbar"
 import Icon from "react-native-vector-icons/FontAwesome"
 import {containerByComponent} from "../lib/redux-helper"
 
@@ -12,6 +11,7 @@ import {fetchTopics,changeCategory,filterTopics} from "./action"
 import LoadMore from "../common/loadmore"
 import Loading from "../common/loading"
 import SearchBar from "../common/searchbar"
+import NavBar from "../common/navbar"
 
 import styles from "./stylesheet/topics"
 
@@ -73,12 +73,6 @@ class Topics extends Component{
     }
     renderNavigationBar(){
         const {categories,selectedCategory} = this.props
-        const title = (
-            <TouchableOpacity style={styles.navigationBarTitle} onPress={this.toggleModalActive.bind(this)}>
-                <Text style={styles.navigationBarTitleText}>{categories[selectedCategory].name}</Text>
-                <Icon name="angle-down" size={16} color="#999"/>
-            </TouchableOpacity>
-        )
         const leftButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.publish()}>
             <Icon name="edit" size={22} color="#999"/>
@@ -89,7 +83,7 @@ class Topics extends Component{
             <Icon name="search" size={20} color="#999"/>
             </TouchableOpacity>
         )
-        return <NavigationBar title={title} leftButton={leftButton} rightButton={rightButton} style={styles.navigationBar} tintColor="#F8F8F8"/>
+        return <NavBar leftButton={()=>leftButton} rightButton={()=>rightButton} title="全部"/>
     }
     renderModal(){
         const {categories,selectedCategory} = this.props

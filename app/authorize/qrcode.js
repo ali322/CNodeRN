@@ -2,11 +2,10 @@
 
 import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,Alert} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-import NavigationBar from "react-native-navbar"
 import {Actions} from "react-native-router-flux"
 import Camera from "react-native-camera"
 
-import navigationBarStyle from "../common/stylesheet/navigationbar"
+import NavBar from "../common/navbar"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {authorizeByToken} from "./action"
@@ -16,15 +15,6 @@ class QrCode extends Component {
     constructor(props) {
         super(props)
         this.successed = false
-    }
-    renderNavigationBar() {
-        const leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton, { marginLeft: 5 }]} onPress={() => Actions.pop() }>
-                <Icon name="angle-left" size={25} color="#666"/>
-                <Text style={styles.navigationBarButtonText}>取消</Text>
-            </TouchableOpacity>
-        )
-        return <NavigationBar leftButton={leftButton}/>
     }
     handleBarCodeRead(ret) {
         if(this.successed){
@@ -51,7 +41,7 @@ class QrCode extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {this.renderNavigationBar() }
+                <NavBar leftButton="取消"/>
                 <Camera style={styles.preview} aspect={Camera.constants.Aspect.fill}
                     onBarCodeRead={this.handleBarCodeRead.bind(this)}>
                         <View style={styles.scanner}>
@@ -71,7 +61,6 @@ class QrCode extends Component {
 }
 
 const styles = StyleSheet.create({
-    ...navigationBarStyle,
     container:{
         flex: 1
     },

@@ -1,11 +1,9 @@
 'use strict'
 import {StyleSheet,Platform} from "react-native"
-import navigationBar from "../common/stylesheet/navigationbar"
 import listview from "../common/stylesheet/listview"
 
 const styles = {
     ...listview,
-    ...navigationBar,
     container:{
         flex:1,
         backgroundColor:"#FFF"

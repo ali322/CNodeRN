@@ -1,15 +1,25 @@
 'use strict'
 
 import {StyleSheet,Platform} from "react-native"
-import navigationbar from "../../common/stylesheet/navigationbar"
 import modal from "../../common/stylesheet/modal"
 
 const styles = {
-    ...navigationbar,
     ...modal,
     container:{
         flex:1,
         backgroundColor:"#FFF"
+    },
+    navigationBarButton:{
+        marginRight:8,
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        width:50
+    },
+    navigationBarButtonText:{
+        fontSize:16,
+        color:"#666"
+        // paddingLeft:3 
     },
     publishForm:{
         flex:1

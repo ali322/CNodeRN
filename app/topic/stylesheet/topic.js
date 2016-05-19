@@ -1,13 +1,23 @@
 'use strict'
 
 import {StyleSheet, Platform} from "react-native"
-import navigationbar from "../../common/stylesheet/navigationbar"
 
 const styles = {
-    ...navigationbar,
     container:{
         flex:1,
         backgroundColor:"#FFF"
+    },
+    navigationBarButton:{
+        marginRight:8,
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        width:50
+    },
+    navigationBarButtonText:{
+        fontSize:16,
+        color:"#666"
+        // paddingLeft:3 
     },
     topicImage:{
         width:35,

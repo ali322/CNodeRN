@@ -1,9 +1,10 @@
 'use strict'
-import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image} from "react-native"
+import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image,Alert} from "react-native"
 import {Actions} from "react-native-router-flux"
-import NavigationBar from "react-native-navbar"
 
+import NavBar from "../common/navbar"
 import Loading from "../common/loading"
+import Anonymous from "../common/anonymous"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {collectReducer} from "./reducer"
@@ -18,12 +19,14 @@ class UserCollect extends Component{
                 rowHasChanged: (row1, row2) => row1 !== row2,
                 sectionHeaderHasChanged: (s1, s2) => s1 !== s2
             }),
-            refreshing:false
+            refreshing:false,
+            isLogined:false
         }
     }
     componentDidMount(){
         global.storage.getItem("user").then((user)=>{
             if(user){
+                this.setState({isLogined:true})
                 this.props.fetchUserCollect(user.username)
             }
         })
@@ -65,19 +68,11 @@ class UserCollect extends Component{
             </TouchableOpacity>
         )
     }
-    renderNavigationBar(){
-        const title = (
-            <View style={styles.navigationBarTitle}>
-                <Text style={styles.navigationBarTitleText}>收藏的主题</Text>
-            </View>
-        )
-        return <NavigationBar title={title} style={styles.navigationBar} tintColor="#F8F8F8"/>
-    }
     render(){
         return (
             <View style={styles.container}>
-            {this.renderNavigationBar()}
-            {this.props.collectFetching?<Loading />:(
+            <NavBar title="收藏的主题" leftButton={false}/>
+            {!this.state.isLogined?<Anonymous />:this.props.collectFetching?<Loading />:(
                 <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
                 refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
                 renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}/>

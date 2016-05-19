@@ -1,14 +1,24 @@
 'use strict'
 
 import {StyleSheet,Platform} from "react-native"
-import navigationBar from "../../common/stylesheet/navigationbar"
 import listview from "../../common/stylesheet/listview"
 
 const styles = {
-    ...navigationBar,
     container:{
         flex:1,
         backgroundColor:"#FFF"
+    },
+    navigationBarButton:{
+        marginRight:8,
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        width:50
+    },
+    navigationBarButtonText:{
+        fontSize:16,
+        color:"#666"
+        // paddingLeft:3 
     },
     mineBreif:{
         height:150,

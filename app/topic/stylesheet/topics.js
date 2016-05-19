@@ -2,16 +2,22 @@
 
 import {StyleSheet, Platform} from "react-native"
 import listview from "../../common/stylesheet/listview"
-import navigationbar from "../../common/stylesheet/navigationbar"
 import modal from "../../common/stylesheet/modal"
 
 const styles = {
     ...listview,
-    ...navigationbar,
     ...modal,
-    navigationBarTitleText:{
-      ...navigationbar.navigationBarTitleText,
-      marginRight:8  
+    navigationBarButton:{
+        marginRight:8,
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        width:50
+    },
+    navigationBarButtonText:{
+        fontSize:16,
+        color:"#666"
+        // paddingLeft:3 
     },
     container:{
         flex:1,
