@@ -38,8 +38,8 @@ class Message extends Component{
     componentWillReceiveProps(nextProps){
         if(nextProps.messagesFetched && !nextProps.messagesFetching){
             this.setState({
-                unreadDataSource:this.state.unreadDataSource.cloneWithRows(fakeMessages.hasnot_read_messages),
-                readDataSource:this.state.readDataSource.cloneWithRows(fakeMessages.has_read_messages)
+                unreadDataSource:this.state.unreadDataSource.cloneWithRows(nextProps.messages.hasnot_read_messages),
+                readDataSource:this.state.readDataSource.cloneWithRows(nextProps.messages.has_read_messages)
             })
         }
     }

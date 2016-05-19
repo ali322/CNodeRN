@@ -43,8 +43,8 @@ const styles = {
         flex:1
     },
     publishTextInput:{
-        height:25,
-        fontSize:15
+        fontSize:15,
+        backgroundColor:"transparent"
     },
     publishPickerInput:{
       flexDirection:"row",
@@ -69,14 +69,26 @@ const styles = {
     },
     publishTextArea:{
         fontSize:15,
-        flex:1
+        flex:1,
+        textAlignVertical:"top",
+        backgroundColor:"transparent"
         // paddingHorizontal:8,
         // paddingVertical:8
     }
 }
 
-const stylesForAndroid = {}
-const stylesForIOS = {}
+const stylesForAndroid = {
+    publishTextInput:{
+        ...styles.publishTextInput,
+        paddingVertical:1
+    }
+}
+const stylesForIOS = {
+    publishTextInput:{
+        ...styles.publishTextInput,
+        height:25
+    }
+}
 
 export default StyleSheet.create(Object.assign({},styles,
     Platform.OS === "ios"?stylesForIOS:null,

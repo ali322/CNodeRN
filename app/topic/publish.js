@@ -56,7 +56,8 @@ class Publish extends Component{
     renderModal(){
         return (
             <View style={styles.pickerWrap}>
-            <Picker selectedValue={this.props.topic.tab} onValueChange={(value)=>{
+            <Picker selectedValue={this.props.topic.tab} enabled={true} mode="dropdown"
+            onValueChange={(value)=>{
                 this.props.changeField("tab",value)
             }}>
             {Object.keys(topicTabs).map((tab,i)=>{

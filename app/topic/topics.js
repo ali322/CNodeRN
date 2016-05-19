@@ -83,7 +83,13 @@ class Topics extends Component{
             <Icon name="search" size={20} color="#999"/>
             </TouchableOpacity>
         )
-        return <NavBar leftButton={()=>leftButton} rightButton={()=>rightButton} title="全部"/>
+        const title = (            
+            <TouchableOpacity style={styles.navigationBarTitle} onPress={this.toggleModalActive.bind(this)}>
+                <Text style={styles.navigationBarTitleText}>{categories[selectedCategory].name}</Text>
+                <Icon name="angle-down" size={16} color="#999"/>
+            </TouchableOpacity>
+        )
+        return <NavBar leftButton={()=>leftButton} rightButton={()=>rightButton} title={()=>title}/>
     }
     renderModal(){
         const {categories,selectedCategory} = this.props
@@ -98,6 +104,9 @@ class Topics extends Component{
                 <Text style={[styles.modalRowText,v === selectedCategory?styles.modalSelectedRowText:null]}>{category.name}</Text>
                 </TouchableOpacity>
             })}
+                <TouchableOpacity style={styles.modalCancelRow} onPress={this.toggleModalActive.bind(this)}>
+                    <Text style={[styles.modalRowText,{color:"red"}]}>取消</Text>
+                </TouchableOpacity>
             </View>
             </View>
             </Modal>

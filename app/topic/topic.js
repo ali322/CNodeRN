@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
+import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions,Alert} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 
@@ -53,24 +53,51 @@ class Topic extends Component{
             return
         }
         const user = await global.storage.getItem("user")
-        this.props.toggleCollect(id,user.accessToken,topic.is_collect)
+        if(!user){
+            Alert.alert("请先登录","",[
+                {text:"取消",style:"cancel"},
+                {text:"确定",onPress:()=>Actions.login()}
+            ])
+        }else{
+            this.props.toggleCollect(id,user.accessToken,topic.is_collect)
+        }
     }
     async _toggleAgree(replyID){
         const user = await global.storage.getItem("user")
-        this.props.toggleAgree(replyID,user.accessToken)
+        if(!user){
+            Alert.alert("请先登录","",[
+                {text:"取消",style:"cancel"},
+                {text:"确定",onPress:()=>Actions.login()}
+            ])
+        }else{
+            this.props.toggleAgree(replyID,user.accessToken)
+        }
+    }
+    async _toReply(param){
+        const user = await global.storage.getItem("user")
+        if(!user){
+            Alert.alert("请先登录","",[
+                {text:"取消",style:"cancel"},
+                {text:"确定",onPress:()=>Actions.login()}
+            ])
+        }else{
+            Actions.reply(param)
+        }
     }
     renderNavigationBar(){
         const {topic} = this.props
         const isCollect = topic && topic.is_collect
         const rightButton = (
-            <View style={[styles.navigationBarButton,{marginLeft:5}]}>
-                <Icon.Button name={isCollect?"heart":"heart-o"} size={20} color={isCollect?"#333":"#999"} backgroundColor="transparent" onPress={this._toggleCollect.bind(this)}/>
+            <View style={[styles.navigationBarButton,{marginRight:5}]}>
+                <TouchableOpacity onPress={this._toggleCollect.bind(this)}>
+                    <Icon name={isCollect?"heart":"heart-o"} size={20} color={isCollect?"#333":"#999"}/>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                     if(!topic){
                         return
                     }
-                    Actions.reply({id:topic.id})
-                }}>
+                    this._toReply({id:topic.id})
+                }} style={{marginLeft:8}}>
                     <Icon name="mail-reply" size={20} color="#999"/>
                 </TouchableOpacity>
             </View>
@@ -93,7 +120,7 @@ class Topic extends Component{
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>
                     </View>
                     <TouchableOpacity style={styles.topicCommentBadge} onPress={()=>{
-                        Actions.reply({id:this.props.topic.id,replyTo:reply})
+                        this._toReply({id:this.props.topic.id,replyTo:reply})
                     }}>
                         <Icon name="mail-reply" size={15} color="#AAA"/>
                     </TouchableOpacity>

@@ -8,8 +8,8 @@ export default {
         padding:20
     },
     modalContent:{
-        alignItems:"center",
         backgroundColor:"#FFF",
-        borderRadius:10
+        borderRadius:10,
+        paddingVertical:1
     }
 }

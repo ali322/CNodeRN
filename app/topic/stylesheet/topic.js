@@ -77,6 +77,7 @@ const styles = {
     },
     topicComments:{
         paddingVertical:8,
+        paddingHorizontal:8,
         borderTopWidth:8,
         borderColor:"#DDD"
     },
@@ -122,7 +123,8 @@ const styles = {
        paddingHorizontal:8,
        paddingVertical:10,
        fontSize:13,
-       flex:1
+       textAlignVertical:"top"
+    //    flex:1
     }
 }
 

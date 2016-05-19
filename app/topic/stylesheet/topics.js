@@ -19,6 +19,15 @@ const styles = {
         color:"#666"
         // paddingLeft:3 
     },
+    navigationBarTitle:{
+        marginVertical:Platform.OS === "ios"?8:6,
+        flexDirection:"row",
+        alignItems:"center"
+    },
+    navigationBarTitleText:{
+        fontSize:16,
+        marginRight:8
+    },
     container:{
         flex:1,
         backgroundColor:"#FFF",
@@ -92,6 +101,9 @@ const styles = {
       fontSize:15  
     },
     modalRow:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"center",
         // lineHeight:20,
         paddingVertical:8
     },
@@ -100,6 +112,15 @@ const styles = {
     },
     modalSelectedRowText:{
         color:"blue"
+    },
+    modalCancelRow:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"center",
+        // lineHeight:20,
+        paddingVertical:10,
+        borderTopWidth:0.5,
+        borderColor:"#DDD"
     }
 }
 

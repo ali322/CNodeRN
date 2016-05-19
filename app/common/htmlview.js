@@ -1,6 +1,6 @@
 'use strict'
 
-import React, {Component,Text,StyleSheet,Image,Dimensions} from "react-native"
+import React, {Component,Text,StyleSheet,Image,Dimensions,Platform} from "react-native"
 import HtmlView from "react-native-htmlview"
 import _ from "lodash"
 
@@ -13,11 +13,18 @@ class ResizableImage extends Component{
         }
     }
     componentDidMount(){
-        Image.getSize(this.props.source.uri,(w,h)=>{
-            this.setState({
-                width:w,height:h
+        if(Platform.OS === "ios"){
+            Image.getSize(this.props.source.uri,(w,h)=>{
+                this.setState({
+                    width:w,height:h
+                })
             })
-        })
+        }else{
+            this.setState({
+                width:200,
+                height:200
+            })
+        }
     }
    render(){
        const {width,height} = this.state

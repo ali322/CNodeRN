@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,Text,StyleSheet,TouchableOpacity} from "react-native"
+import React,{Component,View,Text,StyleSheet,TouchableOpacity,Platform} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
@@ -38,7 +38,7 @@ class NavBar extends Component{
                 <Text style={styles.navigationBarButtonText}>rightButton</Text>
             </View>
             )
-        }else if(_.isFunction(leftButton)){
+        }else if(_.isFunction(rightButton)){
             _rightButton = rightButton()
         }
         
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
     navigationBarTitle:{
         // height:20,
-        marginVertical:8,
+        marginVertical:Platform.OS === "ios"?8:6,
         // flex:1,
         flexDirection:"row",
         alignItems:"center"

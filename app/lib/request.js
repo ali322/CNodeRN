@@ -2,10 +2,11 @@
 
 export default {
     get(url,data={}){
-        var params = new URLSearchParams()
+        let params = []
         Object.keys(data).forEach((param)=>{
-            params.append(param,data[param])
+            params.push(`${param}=${encodeURIComponent(data[param])}`)
         })
+        params = params.join("&")
         return fetch(`${url}?${params}`).then(ret=>ret.json())
     },
     post(url,data={}){

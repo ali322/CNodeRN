@@ -12,6 +12,7 @@ import messageScene from "./message/scene"
 import collectScene from "./collect/scene"
 
 import Qrcode from "./authorize/qrcode"
+import Login from "./authorize/login"
 
 import Storage from "./lib/storage"
 global.storage = new Storage()
@@ -41,6 +42,7 @@ export default class extends Component{
                         <Scene key="tab4" icon={tabBarItemCreator("我的",{name:"user",size:20})}>{mineScene}</Scene>
                     </Scene>
                     <Scene key="qrcode" component={Qrcode} hideNavBar={true}/>
+                    <Scene key="login" component={Login} hideNavBar={true}/>
                 </Scene>
             </Router>
         )

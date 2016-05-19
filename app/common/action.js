@@ -22,7 +22,6 @@ export function fetchMessageCount(accessToken){
     return (dispatch)=>{
         dispatch(requestMessageCount())
         fetch(`${api.messageCount}?accesstoken=${accessToken}`).then((ret)=>ret.json()).then((ret)=>{
-            console.log("ret",ret)
             dispatch(responseMessageCount(ret))
         })
     }
