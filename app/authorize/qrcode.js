@@ -1,9 +1,10 @@
 'use strict'
 
-import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,Alert} from "react-native"
+import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,Alert,Platform} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import {Actions} from "react-native-router-flux"
 import Camera from "react-native-camera"
+import BarcodeScanner from "react-native-barcodescanner"
 
 import NavBar from "../common/navbar"
 
@@ -29,10 +30,13 @@ class QrCode extends Component {
     componentWillReceiveProps(nextProps){
         if(!nextProps.isAuthorizing && this.props.isAuthorizing){
             if(nextProps.isAuthorized){
-                Alert.alert("登录成功")
-                global.storage.setItem("user",nextProps.user).then((err)=>{
-                    Actions.mine()
-                })
+                Alert.alert("","登录成功",[
+                    {text:"确定",onPress:()=>{
+                        global.storage.setItem("user",nextProps.user).then((err)=>{
+                            Actions.pop()
+                        })
+                    }}
+                ])
             }else{
                 Alert.alert("登录失败")
             }
@@ -42,19 +46,21 @@ class QrCode extends Component {
         return (
             <View style={styles.container}>
                 <NavBar leftButton="取消"/>
-                <Camera style={styles.preview} aspect={Camera.constants.Aspect.fill}
-                    onBarCodeRead={this.handleBarCodeRead.bind(this)}>
-                        <View style={styles.scanner}>
-                            <View key={1} style={[styles.borderLeftTop, styles.borderBox]}></View>
-                            <View key={2} style={[styles.borderRightTop, styles.borderBox]}></View>
-                            <View key={3} style={[styles.borderLeftBottom, styles.borderBox]}></View>
-                            <View key={4} style={[styles.borderRightBottom, styles.borderBox]}></View>
-                        </View>
-                        <View style={styles.scannerBreif}>
-                            <Text style={styles.scannerHint}>请将二维码放到框内</Text>
-                            <Icon name="camera" size={35} style={styles.capture}/>
-                        </View>
-                </Camera>
+                {Platform.OS === "android"?<BarcodeScanner style={styles.preview} onBarCodeRead={this.handleBarCodeRead.bind(this)}/>:(
+                    <Camera style={styles.preview} aspect={Camera.constants.Aspect.fill}
+                        onBarCodeRead={this.handleBarCodeRead.bind(this)}>
+                            <View style={styles.scanner}>
+                                <View key={1} style={[styles.borderLeftTop, styles.borderBox]}></View>
+                                <View key={2} style={[styles.borderRightTop, styles.borderBox]}></View>
+                                <View key={3} style={[styles.borderLeftBottom, styles.borderBox]}></View>
+                                <View key={4} style={[styles.borderRightBottom, styles.borderBox]}></View>
+                            </View>
+                            <View style={styles.scannerBreif}>
+                                <Text style={styles.scannerHint}>请将二维码放到框内</Text>
+                                <Icon name="camera" size={35} style={styles.capture}/>
+                            </View>
+                    </Camera>
+                )}
             </View>
         )
     }
