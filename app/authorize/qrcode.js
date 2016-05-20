@@ -7,6 +7,7 @@ import Camera from "react-native-camera"
 import BarcodeScanner from "react-native-barcodescanner"
 
 import NavBar from "../common/navbar"
+import Toast from "../common/toast"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {authorizeByToken} from "./action"
@@ -30,15 +31,13 @@ class QrCode extends Component {
     componentWillReceiveProps(nextProps){
         if(!nextProps.isAuthorizing && this.props.isAuthorizing){
             if(nextProps.isAuthorized){
-                Alert.alert("","登录成功",[
-                    {text:"确定",onPress:()=>{
-                        global.storage.setItem("user",nextProps.user).then((err)=>{
-                            Actions.pop()
-                        })
-                    }}
-                ])
+                this.toast.show("登录成功",()=>{
+                    global.storage.setItem("user",nextProps.user).then((err)=>{
+                        Actions.pop()
+                    })
+                })
             }else{
-                Alert.alert("登录失败")
+                this.toast.show("登录失败")
             }
         }
     }
@@ -61,6 +60,7 @@ class QrCode extends Component {
                             </View>
                     </Camera>
                 )}
+                <Toast ref={(view)=>this.toast=view}/>
             </View>
         )
     }

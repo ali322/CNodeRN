@@ -1,7 +1,7 @@
 'use strict'
 
-import React,{Component,Animated,Easing} from "react-native"
-import Icon from "react-native-vector-icons/FontAwesome"
+import React,{Component,Animated,Easing,View,InteractionManager} from "react-native"
+import Icon from "react-native-vector-icons/Ionicons"
 
 class Spinner extends Component{
     constructor(props){
@@ -14,34 +14,38 @@ class Spinner extends Component{
         this.state.rotateValue.setValue(0)
         Animated.timing(this.state.rotateValue,{
             toValue:1,
-            duration:500,
+            duration:800,
             easing:Easing.linear
         }).start(()=>this.startRotate())
     }
     componentDidMount(){
+        const handler = InteractionManager.createInteractionHandle()
         this.startRotate()
+        InteractionManager.clearInteractionHandle(handler)
     }
     componentWillUnmount(){
         this.state.rotateValue.stopAnimation()
     }
     render(){
-        const AnimatedComponent = Animated.createAnimatedComponent(Icon)
+        // const AnimatedComponent = Animated.createAnimatedComponent(Icon)
         return (
-            <AnimatedComponent name={this.props.name} color={this.props.color}
-            size={this.props.size} iconStyle={this.props.style}
+            <Animated.View 
             style={{transform:[{
                 rotateZ:this.state.rotateValue.interpolate({
                     inputRange:[0,1],
-                    outputRange:["0deg","359deg"]
+                    outputRange:["0deg","360deg"]
                 })
-            }]}}/>
+            }]}}>
+            <Icon name={this.props.name} color={this.props.color}
+            size={this.props.size}/>
+            </Animated.View>
         )
     }
 }
 
 Spinner.defaultProps = {
     size:20,
-    name:"refresh",
+    name:"load-c",
     color:"#333",
     style:{}
 }

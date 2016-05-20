@@ -154,7 +154,7 @@ class Topics extends Component{
             refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}
             renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
-            renderFooter={()=>categories[selectedCategory].list.length > 0?<LoadMore active={this.props.topicsFetching}/>:null}/>
+            renderFooter={()=>categories[selectedCategory].list.length > 0?null:null}/>
             )}
             {this.renderModal()}
             </View>

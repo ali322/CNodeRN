@@ -2,15 +2,14 @@
 
 import React,{Component,View,Text,StyleSheet} from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
-
-import Spinner from "./spinner"
+import Spinner from "react-native-spinkit"
 
 class LoadMore extends Component{
     render(){
         return (
             <View style={styles.loadMore}>
-               {this.props.active?<Spinner color="#AAA"/>:<Icon name="arrow-upward" size={20} color="#AAA"/>}
-                <Text style={styles.loadMoreText}>{this.props.active?"加载中":"上拉加载更多"}</Text>
+               {this.props.active?<Spinner isVisble={true} type="FadingCircle" size={20} color="#999"/>:
+               <Icon name="arrow-upward" size={25} color="#AAA"/>}
             </View>
         )
     }
@@ -22,10 +21,10 @@ LoadMore.defaultProps = {
 
 const styles = StyleSheet.create({
     loadMore:{
-        backgroundColor:"#F7F7F7",
+        // backgroundColor:"#F7F7F7",
         flex:1,
-        flexDirection:"row",
-        height:30,
+        // flexDirection:"row",
+        // height:30,
         justifyContent:"center",
         alignItems:"center"
     },
