@@ -1,12 +1,13 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions,Alert} from "react-native"
+import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import HTMLView from "../common/htmlview"
 import Loading from "../common/loading"
 import NavBar from "../common/navbar"
+import Alert from "../common/alert"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {fetchTopic,toggleCollect,toggleAgree} from "./action"
@@ -54,7 +55,7 @@ class Topic extends Component{
         }
         const user = await global.storage.getItem("user")
         if(!user){
-            Alert.alert("请先登录","",[
+            this._alert.alert("请先登录","登录",[
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>Actions.login()}
             ])
@@ -65,7 +66,7 @@ class Topic extends Component{
     async _toggleAgree(replyID){
         const user = await global.storage.getItem("user")
         if(!user){
-            Alert.alert("请先登录","",[
+            this._alert.alert("请先登录","",[
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>Actions.login()}
             ])
@@ -76,7 +77,7 @@ class Topic extends Component{
     async _toReply(param){
         const user = await global.storage.getItem("user")
         if(!user){
-            Alert.alert("请先登录","",[
+            this._alert.alert("请先登录","",[
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>Actions.login()}
             ])
@@ -167,6 +168,7 @@ class Topic extends Component{
             <View style={styles.container}>
             {this.renderNavigationBar()}
             {this.state.loading?<Loading />:this.renderContent()}
+            <Alert ref={(view)=>this._alert=view}/>
             </View>
         )
     }

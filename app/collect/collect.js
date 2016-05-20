@@ -1,5 +1,5 @@
 'use strict'
-import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image,Alert} from "react-native"
+import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image} from "react-native"
 import {Actions} from "react-native-router-flux"
 
 import NavBar from "../common/navbar"

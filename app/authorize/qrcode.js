@@ -1,6 +1,6 @@
 'use strict'
 
-import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,Alert,Platform} from "react-native"
+import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,Platform} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import {Actions} from "react-native-router-flux"
 import Camera from "react-native-camera"
