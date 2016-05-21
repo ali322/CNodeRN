@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Alert} from "react-native"
+import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Alert,Switch,Slider} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavBar from "../common/navbar"
@@ -33,8 +33,28 @@ class Setup extends Component{
             <NavBar title="设置" />
             <View style={styles.setupPanel}>
                 <TouchableHighlight style={[styles.setupRow,{borderBottomWidth:0.5}]}>
-                    <Text style={styles.setupRowLabelText}>清除缓存</Text>
+                    <View style={styles.setupRowLabel}>
+                        <Text style={[styles.setupRowLabelText]}>清除缓存</Text>
+                    </View>
                 </TouchableHighlight>
+                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                    <View style={styles.setupRowLabel}>
+                        <Text style={[styles.setupRowLabelText]}>夜间模式</Text>
+                    </View>
+                    <View style={styles.setupAccessory}>
+                        <Switch style={{marginBottom:1}}/>
+                    </View>
+                </View>
+                <View style={styles.setupRow}>
+                    <View style={styles.setupRowLabel}>
+                        <Text style={[styles.setupRowLabelText]}>字体大小</Text>
+                    </View>
+                    <View style={styles.setupRowContent}>
+                        <Slider/>
+                    </View>
+                </View>
+            </View>
+            <View style={styles.setupPanel}>
                 <TouchableHighlight style={styles.setupRow} onPress={this._handleLogout.bind(this)}>
                     <Text style={[styles.setupRowLabelText,{color:"#FF3300"}]}>切换用户</Text>
                 </TouchableHighlight>

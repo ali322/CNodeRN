@@ -44,6 +44,9 @@ const styles = {
     setupRowContentText:{
         fontSize:13,
         color:"#666"
+    },
+    setupAccessory:{
+        width:60
     }
 }
 
