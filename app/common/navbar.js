@@ -6,9 +6,13 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
 import _ from "lodash"
 
+import {preferredStyles,preferredThemeDefines} from "../lib/helper"
+
 class NavBar extends Component{
     render(){
-        const {tintColor,leftButton,rightButton,title} = this.props
+        const {tintColor,leftButton,rightButton,title,userPrefs} = this.props
+        const styles = preferredStyles(stylesForAll,userPrefs)
+        const defines = preferredThemeDefines(userPrefs)
         let _title = null
         if(_.isString(title)){
             _title = (
@@ -46,9 +50,11 @@ class NavBar extends Component{
             _title?{title:_title}:null,
             _leftButton?{leftButton:_leftButton}:null,
             _rightButton?{rightButton:_rightButton}:null)
+            
+        const statusBar = {tintColor:userPrefs && userPrefs["preferredTheme"] === "dark"?"#FFF":tintColor}
         return (
-            <NavigationBar {...navbarConfig}
-            tintColor={tintColor} style={styles.navigationBar}/>
+            <NavigationBar {...navbarConfig} statusBar={statusBar} 
+            tintColor={defines.navbarTintColor?defines.navbarTintColor:tintColor} style={styles.navigationBar}/>
         )
     }
 }
@@ -58,7 +64,7 @@ NavBar.defaultProps = {
     leftButton:"返回"
 }
 
-const styles = StyleSheet.create({
+const stylesForAll = {
     navigationBar:{
         borderBottomWidth:0.5,
         borderBottomColor:"#DDD"
@@ -85,6 +91,6 @@ const styles = StyleSheet.create({
     navigationBarTitleText:{
         fontSize:16
     }
-})
+}
 
 export default NavBar

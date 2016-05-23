@@ -40,7 +40,8 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new CodePush(this.getResources().getString(R.strings.reactNativeCodePush_androidDeploymentKey), this, BuildConfig.DEBUG),
+            new CodePush("L1jnpcaxxrs0bxi_LWkQbZfcNdA34JhlxojfW", this, BuildConfig.DEBUG),
+            // new CodePush(this.getResources().getString(R.strings.reactNativeCodePush_androidDeploymentKey), this, BuildConfig.DEBUG),
             new RNSpinkitPackage(),
             new BarcodeScanner(),
             new RCTCameraPackage(),

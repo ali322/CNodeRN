@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,Text,StyleSheet,NavigationExperimental} from "react-native"
+import React,{Component,View,Text,StyleSheet,NavigationExperimental,AppState} from "react-native"
 import {Router,Scene,Reducer,Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import Tabs from "react-native-tabs"
@@ -14,6 +14,7 @@ import collectScene from "./collect/scene"
 import Qrcode from "./authorize/qrcode"
 import Login from "./authorize/login"
 
+import {codepush} from "./lib/helper"
 import Storage from "./lib/storage"
 global.storage = new Storage()
 
@@ -31,6 +32,14 @@ const tabBarItemCreator = (tintText,iconConfig,renderCounter=()=>{})=>{
 }
 
 export default class extends Component{
+    componentDidMount(){
+        codepush()
+        AppState.addEventListener("change",(newState)=>{
+            if(newState === "active"){
+                codepush()
+            }
+        })
+    }
     render(){
         return (
             <Router>

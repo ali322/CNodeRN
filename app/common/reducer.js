@@ -20,3 +20,34 @@ export function messageCountReducer(state={},action){
             return state
     }
 }
+
+export function userPrefsReducer(state={},action){
+    switch(action.type){
+        case constants.START_SAVEUSERPREFS:
+            return {
+                ...state,
+                userPrefsSaving:true
+            }
+        case constants.FINISH_SAVEUSERPREFS:
+            return {
+                ...state,
+                userPrefs:action.ret,
+                userPrefsSaving:false,
+                userPrefsSaved:true
+            }
+        case constants.REQUEST_USERPREFS:
+            return {
+                ...state,
+                userPrefsFetching:true
+            }
+        case constants.RESPONSE_USERPREFS:
+            return {
+                ...state,
+                userPrefsFetching:false,
+                userPrefsFetched:true,
+                userPrefs:action.ret
+            }
+        default:
+            return state
+    }
+}

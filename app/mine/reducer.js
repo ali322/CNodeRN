@@ -1,7 +1,8 @@
 'use strict'
 
+import {combineReducers} from "redux"
 import * as constants from "./constant"
-
+import {userPrefsReducer} from "../common/reducer"
 
 export function userReducer(state={},action){
     let user = null
@@ -28,3 +29,8 @@ export function userReducer(state={},action){
             return state
     }
 }
+
+export default combineReducers({
+    userReducer,
+    userPrefsReducer
+})

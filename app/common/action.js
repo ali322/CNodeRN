@@ -26,3 +26,49 @@ export function fetchMessageCount(accessToken){
         })
     }
 }
+
+function requestUserPrefs() {
+    return {
+        type:constants.REQUEST_USERPREFS
+    }
+}
+
+function responseUserPrefs(ret){
+    return {
+        type:constants.RESPONSE_USERPREFS,
+        ret,
+        respondAt:Date.now()
+    }
+}
+
+export function fetchUserPrefs(){
+    return dispatch=>{
+        dispatch(requestUserPrefs())
+        global.storage.getItem("userPrefs").then((ret)=>{
+            dispatch(responseUserPrefs(ret))
+        })
+    }
+}
+
+function startSaveUserPrefs(){
+    return {
+        type:constants.START_SAVEUSERPREFS
+    }
+}
+
+function finishSaveUserPrefs(ret){
+    return {
+        type:constants.FINISH_SAVEUSERPREFS,
+        ret,
+        finishAt:Date.now()
+    }
+}
+
+export function saveUserPrefs(userPrefs){
+    return dispatch=>{
+        dispatch(startSaveUserPrefs())
+        global.storage.setItem("userPrefs",userPrefs).then((err)=>{
+            dispatch(finishSaveUserPrefs(userPrefs))
+        })
+    }
+}

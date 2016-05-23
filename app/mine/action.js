@@ -32,3 +32,5 @@ export function clearUser(){
         type:constants.CLEAR_USER
     }
 }
+
+export {fetchUserPrefs,saveUserPrefs} from "../common/action"
