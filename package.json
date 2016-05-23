@@ -13,6 +13,7 @@
     "react-native": "^0.24.1",
     "react-native-barcodescanner": "^1.0.1",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
+    "react-native-code-push": "^1.11.0-beta",
     "react-native-htmlview": "^0.4.2",
     "react-native-navbar": "^1.4.2",
     "react-native-router-flux": "^3.22.23",

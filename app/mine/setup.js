@@ -3,6 +3,7 @@
 import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Alert,Switch,Slider} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
+import codePush from "react-native-code-push"
 import NavBar from "../common/navbar"
 
 import {containerByComponent} from "../lib/redux-helper"
@@ -27,16 +28,23 @@ class Setup extends Component{
             }}
         ])
     }
+    async handleCheckForUpdate(){
+        const update = await codePush.checkForUpdate("L1jnpcaxxrs0bxi_LWkQbZfcNdA34JhlxojfW")
+        console.log("update",update)
+    }
     render(){
         return (
             <View style={styles.container}>
             <NavBar title="设置" />
             <View style={styles.setupPanel}>
-                <TouchableHighlight style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>清除缓存</Text>
                     </View>
-                </TouchableHighlight>
+                    <View style={styles.setupAccessory}>
+                        <Text style={styles.setupAccessoryText}>无缓存</Text>
+                    </View>
+                </TouchableOpacity>
                 <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>夜间模式</Text>
@@ -45,14 +53,22 @@ class Setup extends Component{
                         <Switch style={{marginBottom:1}}/>
                     </View>
                 </View>
-                <View style={styles.setupRow}>
+                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>字体大小</Text>
                     </View>
                     <View style={styles.setupRowContent}>
-                        <Slider/>
+                        <Slider maximumValue={20} minimumValue={12}/>
                     </View>
                 </View>
+                <TouchableOpacity style={styles.setupRow} onPress={this.handleCheckForUpdate.bind(this)}>
+                    <View style={styles.setupRowLabel}>
+                        <Text style={[styles.setupRowLabelText]}>检查更新</Text>
+                    </View>
+                    <View style={styles.setupAccessory}>
+                        <Text style={styles.setupAccessoryText}>v0.0.1</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
             <View style={styles.setupPanel}>
                 <TouchableHighlight style={styles.setupRow} onPress={this._handleLogout.bind(this)}>

@@ -47,6 +47,10 @@ const styles = {
     },
     setupAccessory:{
         width:60
+    },
+    setupAccessoryText:{
+        color:"#666",
+        fontSize:12
     }
 }
 
