@@ -16,6 +16,7 @@
     "react-native-code-push": "^1.11.0-beta",
     "react-native-htmlview": "^0.4.2",
     "react-native-navbar": "^1.4.2",
+    "react-native-progress": "^3.0.0",
     "react-native-router-flux": "^3.22.23",
     "react-native-scrollable-tab-view": "^0.4.2",
     "react-native-spinkit": "^0.1.0",

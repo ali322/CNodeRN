@@ -33,10 +33,10 @@ const tabBarItemCreator = (tintText,iconConfig,renderCounter=()=>{})=>{
 
 export default class extends Component{
     componentDidMount(){
-        codepush()
+        // codepush()
         AppState.addEventListener("change",(newState)=>{
             if(newState === "active"){
-                codepush()
+                // codepush()
             }
         })
     }

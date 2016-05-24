@@ -77,7 +77,7 @@ const stylesForAll = {
         borderRadius:5
     },
     toastText:{
-        fontSize:16,
+        fontSize:14,
         color:"white"
     }
 }

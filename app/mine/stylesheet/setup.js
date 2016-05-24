@@ -46,7 +46,9 @@ const styles = {
         color:"#666"
     },
     setupAccessory:{
-        width:60
+        width:60,
+        flexDirection:"row",
+        justifyContent:"flex-end"
     },
     setupAccessoryText:{
         color:"#666",

@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,Text,StyleSheet,TouchableOpacity,Platform} from "react-native"
+import React,{Component,View,Text,StyleSheet,TouchableOpacity,Platform,StatusBar} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
@@ -9,6 +9,11 @@ import _ from "lodash"
 import {preferredStyles,preferredThemeDefines} from "../lib/helper"
 
 class NavBar extends Component{
+    componentWillReceiveProps(nextProps){
+        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
+            StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+        }
+    }
     render(){
         const {tintColor,leftButton,rightButton,title,userPrefs} = this.props
         const styles = preferredStyles(stylesForAll,userPrefs)
@@ -51,10 +56,12 @@ class NavBar extends Component{
             _leftButton?{leftButton:_leftButton}:null,
             _rightButton?{rightButton:_rightButton}:null)
             
-        const statusBar = {tintColor:userPrefs && userPrefs["preferredTheme"] === "dark"?"#FFF":tintColor}
         return (
-            <NavigationBar {...navbarConfig} statusBar={statusBar} 
+            <View>
+            <StatusBar ref={view=>this._statusBar=view}/>
+            <NavigationBar {...navbarConfig} statusBar={{hidden:true}} 
             tintColor={defines.navbarTintColor?defines.navbarTintColor:tintColor} style={styles.navigationBar}/>
+            </View>
         )
     }
 }
@@ -66,6 +73,7 @@ NavBar.defaultProps = {
 
 const stylesForAll = {
     navigationBar:{
+        marginTop:Platform.OS === "ios"?20:0,
         borderBottomWidth:0.5,
         borderBottomColor:"#DDD"
     },

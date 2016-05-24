@@ -1,9 +1,10 @@
 'use strict'
 
-import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Alert,Switch,Slider} from "react-native"
+import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Switch,Slider} from "react-native"
 import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavBar from "../common/navbar"
+import Alert from "../common/alert"
 
 import {containerByComponent} from "../lib/redux-helper"
 import {clearUser,fetchUserPrefs,saveUserPrefs} from "./action"
@@ -16,12 +17,12 @@ class Setup extends Component{
         this.props.fetchUserPrefs()
     }
     _handleLogout(){
-        Alert.alert("确定退出?","",[
+        this._alert.alert("确定退出?","",[
             {text:"取消",style:"cancel"},
             {text:"确定",onPress:()=>{
                 global.storage.removeItem("user").then((err)=>{
                     if(err){
-                        Alert.alert(err)
+                        this._alert.alert(err,"")
                     }else{
                         this.props.clearUser()
                     }
@@ -46,7 +47,7 @@ class Setup extends Component{
                         <Text style={[styles.setupRowLabelText]}>清除缓存</Text>
                     </View>
                     <View style={styles.setupAccessory}>
-                        <Text style={styles.setupAccessoryText}>{userPrefs && userPrefs.preferredTheme}</Text>
+                        <Text style={styles.setupAccessoryText}>无缓存</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
@@ -66,12 +67,12 @@ class Setup extends Component{
                         <Slider maximumValue={20} minimumValue={12}/>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.setupRow}>
+                <TouchableOpacity style={styles.setupRow} onPress={()=>Actions.updater()}>
                     <View style={styles.setupRowLabel}>
-                        <Text style={[styles.setupRowLabelText]}>当前版本</Text>
+                        <Text style={[styles.setupRowLabelText]}>检查更新</Text>
                     </View>
                     <View style={styles.setupAccessory}>
-                        <Text style={styles.setupAccessoryText}>v0.0.1</Text>
+                        <Text style={[styles.setupRowLabelText]}><Icon name="angle-right" size={22} color="#666"/></Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -80,6 +81,7 @@ class Setup extends Component{
                     <Text style={[styles.setupRowLabelText,{color:"#FF3300"}]}>切换用户</Text>
                 </TouchableHighlight>
             </View>
+            <Alert ref={view=>this._alert=view}/>
             </View>
         )
     }
