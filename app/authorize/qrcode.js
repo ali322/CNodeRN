@@ -41,6 +41,7 @@ class QrCode extends Component {
         }
     }
     render() {
+        console.log("this.props",this.props)
         return (
             <View style={styles.container}>
                 <NavBar leftButton="取消"/>

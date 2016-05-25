@@ -1,11 +1,14 @@
 'use strict'
 
-import React,{Component,StyleSheet,View,Text,TouchableOpacity} from "react-native"
+import React,{Component,StyleSheet,View,Text,TouchableOpacity,Dimensions} from "react-native"
 import CodePush from "react-native-code-push"
 import * as Progress from 'react-native-progress'
 import Toast from "../common/toast"
 import NavBar from "../common/navbar"
 
+import {containerByComponent} from "../lib/redux-helper"
+import rootReducer from "./reducer"
+import {fetchUserPrefs} from "./action"
 
 class Updater extends Component{
     constructor(props){
@@ -83,7 +86,7 @@ class Updater extends Component{
             return null
         }
         const scale = progress.receivedBytes / progress.totalBytes
-        return  <Progress.Bar progress={scale} width={200} color="#666" borderColor="#666"/>
+        return <Progress.Bar progress={scale} width={200} color="#666" borderColor="#666"/>
     }
     render(){
         return (
@@ -95,6 +98,7 @@ class Updater extends Component{
                     <TouchableOpacity style={styles.updaterButton} onPress={this._updateFromCodePush.bind(this)}><Text style={styles.updaterButtonText}>检查更新</Text></TouchableOpacity>
                 </View>
             </View>
+                {this.renderProgress()}
             <Toast ref={view=>this._toast=view}/>
             </View>
         )
@@ -131,9 +135,9 @@ const stylesForAll = {
     updaterButtonText:{
         color:"#999",
         fontSize:14
-    }
+    },
 }
 
 const styles = StyleSheet.create(Object.assign({},stylesForAll))
 
-export default Updater
+export default containerByComponent(Updater,rootReducer,{fetchUserPrefs},null,(state)=>({...state.userPrefsReducer}))

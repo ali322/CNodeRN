@@ -1,9 +1,14 @@
 'use strict'
 
-import React,{Component,View,Text,StyleSheet,NavigationExperimental,AppState} from "react-native"
+import React,{Component,View,Text,StyleSheet,NavigationExperimental} from "react-native"
 import {Router,Scene,Reducer,Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import Tabs from "react-native-tabs"
+import {combineReducers} from "redux"
+
+import {containerByComponent} from "./lib/redux-helper"
+import {fetchUserPrefs} from "./common/action"
+import {userPrefsReducer} from "./common/reducer"
 
 import MessageCounter from "./common/messagecounter"
 import topicScene from "./topic/scene"
@@ -14,7 +19,6 @@ import collectScene from "./collect/scene"
 import Qrcode from "./authorize/qrcode"
 import Login from "./authorize/login"
 
-import {codepush} from "./lib/helper"
 import Storage from "./lib/storage"
 global.storage = new Storage()
 
@@ -31,16 +35,23 @@ const tabBarItemCreator = (tintText,iconConfig,renderCounter=()=>{})=>{
     }
 }
 
-export default class extends Component{
+const entryReducer = combineReducers({
+    userPrefsReducer
+})
+
+class App extends Component{
     componentDidMount(){
-        // codepush()
-        AppState.addEventListener("change",(newState)=>{
-            if(newState === "active"){
-                // codepush()
-            }
-        })
+        this.props.fetchUserPrefs()
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.userPrefs && !this.props.userPrefs){
+            global.userPrefs = nextProps.userPrefs
+        }
     }
     render(){
+        if(!this.props.userPrefs){
+            return null
+        }
         return (
             <Router>
                 <Scene key="root">
@@ -57,6 +68,8 @@ export default class extends Component{
         )
     }
 }
+
+export default containerByComponent(App,entryReducer,{fetchUserPrefs},null,state=>({...state.userPrefsReducer}))
 
 const styles = StyleSheet.create({
     tabBarItem: {

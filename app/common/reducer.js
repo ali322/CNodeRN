@@ -38,7 +38,7 @@ export function userPrefsReducer(state={},action){
         case constants.REQUEST_USERPREFS:
             return {
                 ...state,
-                // userPrefsFetching:true
+                userPrefsFetching:true
             }
         case constants.RESPONSE_USERPREFS:
             return {

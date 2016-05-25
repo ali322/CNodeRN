@@ -36,11 +36,18 @@ class Setup extends Component{
         userPrefs["preferredTheme"] = enabled? "dark" : "light"
         this.props.saveUserPrefs(userPrefs)
     }
+    componentWillReceiveProps(nextProps){
+        if(this.props.userPrefsSaving && !nextProps.userPrefsSaving){
+            if(nextProps.userPrefsSaved){
+                global.userPrefs = nextProps.userPrefs
+            }
+        }
+    }
     render(){
         const {userPrefs} = this.props
         return (
             <View style={styles.container}>
-            <NavBar title="设置" userPrefs={userPrefs}/>
+            <NavBar title="设置" userPrefs={this.props.userPrefs}/>
             <View style={styles.setupPanel}>
                 <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>

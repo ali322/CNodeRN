@@ -14,10 +14,15 @@ class NavBar extends Component{
             StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
         }
     }
+    componentDidMount(){
+        if(global.userPrefs){
+            StatusBar.setBarStyle((global.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+        }
+    }
     render(){
-        const {tintColor,leftButton,rightButton,title,userPrefs} = this.props
-        const styles = preferredStyles(stylesForAll,userPrefs)
-        const defines = preferredThemeDefines(userPrefs)
+        const {tintColor,leftButton,rightButton,title} = this.props
+        const styles = preferredStyles(stylesForAll,global.userPrefs)
+        const defines = preferredThemeDefines(global.userPrefs)
         let _title = null
         if(_.isString(title)){
             _title = (

@@ -33,7 +33,7 @@
    */
   
   
-  //  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+   jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
   
   /**
    * OPTION 2
@@ -44,7 +44,7 @@
    */
   
 #ifdef DEBUG
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #else
   jsCodeLocation = [CodePush bundleURL];
 #endif
