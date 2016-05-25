@@ -57,9 +57,11 @@ class Alert extends Component{
                     <View style={styles.alertTitle}>
                         <Text style={styles.alertTitleText}>{title}</Text>
                     </View>
+                    {message?(
                     <View style={styles.alertMessage}>
                         <Text style={styles.alertMessageText}>{message}</Text>
                     </View>
+                    ):null}
                     {this._renderButtons()}
                 </View>
             </View>
