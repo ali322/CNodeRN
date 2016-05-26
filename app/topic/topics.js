@@ -118,7 +118,7 @@ class Topics extends Component{
     }
     renderRow(topic){
         return (
-            <TouchableOpacity onPress={()=>Actions.topic({id:topic.id})}>
+            <TouchableOpacity onPress={()=>this.props.router.topic({id:topic.id})}>
             <Animated.View style={[styles.topicCell, {
                 // opacity: this.state.rowScale,
                 // transform: [{ scaleX: this.state.rowScale }]
@@ -149,7 +149,6 @@ class Topics extends Component{
         return (
             <View style={styles.container}>
             {this.state.searchBarActive?this.renderSearchBar():this.renderNavigationBar()}
-            <LoadMore active={true}/>
             {categories[selectedCategory].list.length === 0 && this.props.topicsFetching ? <Loading />:(
             <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
             refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}

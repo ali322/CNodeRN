@@ -1,7 +1,7 @@
 'use strict'
 
 import React,{Component,View,Text,StyleSheet,NavigationExperimental} from "react-native"
-import {Router,Scene,Reducer,Actions} from "react-native-router-flux"
+import {Router,Scene,Reducer,Actions,Modal} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import Tabs from "react-native-tabs"
 import {combineReducers} from "redux"
@@ -54,7 +54,7 @@ class App extends Component{
         }
         return (
             <Router>
-                <Scene key="root">
+                <Scene key="root" component={Modal}>
                     <Scene tabs={true} key="tabbar" hideNavBar={true} tabBarStyle={styles.tabBar}>
                         <Scene key="tab1" icon={tabBarItemCreator("主题",{name:"coffee",size:20})}>{topicScene}</Scene>
                         <Scene key="tab2" icon={tabBarItemCreator("收藏",{name:"bookmark",size:20})}>{collectScene}</Scene>

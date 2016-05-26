@@ -8,8 +8,8 @@ class LoadMore extends Component{
     render(){
         return (
             <View style={styles.loadMore}>
-               {this.props.active?<Spinner isVisble={true} type="FadingCircle" size={15} color="rgba(0,0,0,0.3)"/>:
-               <Icon name="arrow-upward" size={25} color="#AAA"/>}
+               {this.props.active?<Spinner isVisble={true} type="FadingCircle" size={13} color="rgba(0,0,0,0.3)"/>:
+               <Icon name="arrow-upward" size={20} color="#AAA"/>}
                <Text style={styles.loadMoreText}>{this.props.active?"加载中":"上拉加载更多"}</Text>
             </View>
         )

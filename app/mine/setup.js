@@ -45,9 +45,15 @@ class Setup extends Component{
     }
     render(){
         const {userPrefs} = this.props
+        
+        const leftButton = (
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.pop()}>
+                <Text style={styles.navigationBarButtonText}>返回</Text>
+            </TouchableOpacity>
+        )
         return (
             <View style={styles.container}>
-            <NavBar title="设置" userPrefs={this.props.userPrefs}/>
+            <NavBar title="设置" userPrefs={this.props.userPrefs} leftButton={()=>leftButton}/>
             <View style={styles.setupPanel}>
                 <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>

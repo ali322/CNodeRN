@@ -103,8 +103,7 @@ class Topic extends Component{
                 </TouchableOpacity>
             </View>
         )
-
-        return <NavBar title="主题详情" rightButton={()=>rightButton}/>
+        return <NavBar title="主题详情" rightButton={()=>rightButton} {...this.props}/>
     }
     renderContent(){
         const {topic} = this.props

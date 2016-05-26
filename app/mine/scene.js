@@ -1,7 +1,7 @@
 'use strict'
 
 import React from "react-native"
-import {Actions,Scene} from "react-native-router-flux"
+import {Actions,Scene,Modal} from "react-native-router-flux"
 import Mine from "./mine"
 import Setup from "./setup"
 import Updater from "./updater"

@@ -20,7 +20,7 @@ class NavBar extends Component{
         }
     }
     render(){
-        const {tintColor,leftButton,rightButton,title} = this.props
+        const {tintColor,leftButton,rightButton,title,router} = this.props
         const styles = preferredStyles(stylesForAll,global.userPrefs)
         const defines = preferredThemeDefines(global.userPrefs)
         let _title = null
@@ -37,7 +37,7 @@ class NavBar extends Component{
         let _leftButton = null
         if(_.isString(leftButton)){
             _leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.pop()}>
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={router.goBack}>
                 <Text style={styles.navigationBarButtonText}>{leftButton}</Text>
             </TouchableOpacity>
             )
