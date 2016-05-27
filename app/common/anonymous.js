@@ -1,7 +1,6 @@
 'use strict'
 
 import React,{Component,View,Text,StyleSheet,TouchableOpacity} from "react-native"
-import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 class Anonymous extends Component{

@@ -1,7 +1,6 @@
 'use strict'
 
 import React,{Component,View,StyleSheet,Text,ListView,Image,Alert} from "react-native"
-import {Actions} from "react-native-router-flux"
 import ScrollableTabView from "react-native-scrollable-tab-view"
 
 import {containerByComponent} from "../lib/redux-helper"

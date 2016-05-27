@@ -1,6 +1,5 @@
 'use strict'
 import React from "react-native"
-import {Actions,Scene} from "react-native-router-flux"
 import Topics from "./topics"
 import Topic from "./topic"
 import Reply from "./reply"

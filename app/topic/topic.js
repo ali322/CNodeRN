@@ -1,7 +1,6 @@
 'use strict'
 
 import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
-import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import HTMLView from "../common/htmlview"

@@ -1,7 +1,6 @@
 'use stirct'
 
 import React,{Component,View,TouchableOpacity,Text,TextInput,Alert} from "react-native"
-import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import NavBar from "../common/navbar"

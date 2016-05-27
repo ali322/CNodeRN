@@ -4,7 +4,6 @@ import React,{Navigator} from "react-native"
 import Mine from "./mine"
 import Setup from "./setup"
 import Updater from "./updater"
-import Push from "./push"
 
 export default [
     {key:"mine",component:Mine},

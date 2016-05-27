@@ -49,18 +49,18 @@ const stylesForAll = {
         height:44,
         flexDirection:"row",
         alignItems:"center",
-        justifyContent:"center",
+        justifyContent:"center"
     },
     searchBarButtonText:{
         color:"#666"
     },
     searchBarInputWrap:{
         flex:1,
-        // height:30,
         paddingHorizontal:8,
         marginVertical:7,
         borderRadius:5,
         borderColor:"#DDD",
+        backgroundColor:"#FDFDFD",
         borderWidth:0.5
     },
     searchBarInput:{
@@ -88,6 +88,14 @@ const stylesForAndroid = {
     }
 }
 
+const stylesForIOS = {
+    searchBarInputWrap:{
+        ...stylesForAll.searchBarInputWrap,
+        height:30
+    }
+}
+
 const styles = StyleSheet.create(Object.assign({},stylesForAll,
-    Platform.OS === "android"?stylesForAndroid:{}
+    Platform.OS === "android"?stylesForAndroid:{},
+    Platform.OS === "ios"?stylesForIOS:{}
 ))

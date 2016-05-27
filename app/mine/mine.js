@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {Component, View, Text, TouchableOpacity, Image, ListView,ScrollView, Animated,Alert} from "react-native"
-import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import ScrollableTabView from "react-native-scrollable-tab-view"
 
