@@ -2,10 +2,10 @@
 
 import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,Switch,Slider} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-import NavBar from "../common/navbar"
-import Alert from "../common/alert"
+import NavBar from "../common/component/navbar"
+import Alert from "../common/component/alert"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 import {clearUser,fetchUserPrefs,saveUserPrefs} from "./action"
 import rootReducer,{userReducer} from "./reducer"
 
@@ -23,7 +23,7 @@ class Setup extends Component{
                     if(err){
                         this._alert.alert(err,"")
                     }else{
-                        this.props.clearUser()
+                        this.props.actions.clearUser()
                     }
                 })
                 
@@ -33,7 +33,7 @@ class Setup extends Component{
     _handleChangeTheme(enabled){
         let userPrefs = Object.assign({},this.props.userPrefs)
         userPrefs["preferredTheme"] = enabled? "dark" : "light"
-        this.props.saveUserPrefs(userPrefs)
+        this.props.actions.saveUserPrefs(userPrefs)
     }
     componentWillReceiveProps(nextProps){
         if(this.props.userPrefsSaving && !nextProps.userPrefsSaving){

@@ -3,12 +3,12 @@
 import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-import HTMLView from "../common/htmlview"
-import Loading from "../common/loading"
-import NavBar from "../common/navbar"
-import Alert from "../common/alert"
+import HTMLView from "../common/component/htmlview"
+import Loading from "../common/component/loading"
+import NavBar from "../common/component/navbar"
+import Alert from "../common/component/alert"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 import {fetchTopic,toggleCollect,toggleAgree} from "./action"
 import {topicReducer} from "./reducer"
 
@@ -30,7 +30,7 @@ class Topic extends Component{
     componentDidMount(){
         // InteractionManager.runAfterInteractions(()=>{
         requestAnimationFrame(()=>{
-            this.props.fetchTopic(this.props.id)    
+            this.props.actions.fetchTopic(this.props.id)    
         })
         // })
     }
@@ -59,7 +59,7 @@ class Topic extends Component{
                 {text:"确定",onPress:()=>Actions.login()}
             ])
         }else{
-            this.props.toggleCollect(id,user.accessToken,topic.is_collect)
+            this.props.actions.toggleCollect(id,user.accessToken,topic.is_collect)
         }
     }
     async _toggleAgree(replyID){
@@ -70,7 +70,7 @@ class Topic extends Component{
                 {text:"确定",onPress:()=>Actions.login()}
             ])
         }else{
-            this.props.toggleAgree(replyID,user.accessToken)
+            this.props.actions.toggleAgree(replyID,user.accessToken)
         }
     }
     async _toReply(param){

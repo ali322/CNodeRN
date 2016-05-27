@@ -1,11 +1,11 @@
 'use strict'
 import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image} from "react-native"
 
-import NavBar from "../common/navbar"
-import Loading from "../common/loading"
-import Anonymous from "../common/anonymous"
+import NavBar from "../common/component/navbar"
+import Loading from "../common/component/loading"
+import Anonymous from "../common/module/anonymous"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 import {collectReducer} from "./reducer"
 import {fetchUserCollect} from "./action"
 import styles from "./stylesheet"
@@ -26,7 +26,7 @@ class UserCollect extends Component{
         global.storage.getItem("user").then((user)=>{
             if(user){
                 this.setState({isLogined:true})
-                this.props.fetchUserCollect(user.username)
+                this.props.actions.fetchUserCollect(user.username)
             }
         })
     }

@@ -1,7 +1,7 @@
 'use strict'
 import React,{Component,StyleSheet,View,Text} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-import TabBar from "./tabbar"
+import TabBar from "../component/tabbar"
 
 export default function(router,items=[]){
     return class extends Component{

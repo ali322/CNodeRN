@@ -3,9 +3,9 @@
 import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,TextInput,Picker,Alert} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-import NavBar from "../common/navbar"
+import NavBar from "../common/component/navbar"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 import {topicReducer} from "./reducer"
 import {saveTopic,changeField} from "./action"
 
@@ -32,7 +32,7 @@ class Publish extends Component{
     async _handleSave(){
         const user = await global.storage.getItem("user")
         const {topic} = this.props
-        this.props.saveTopic({...topic,accesstoken:user.accessToken})
+        this.props.actions.saveTopic({...topic,accesstoken:user.accessToken})
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.topicSaving && this.props.topicSaving){
@@ -74,7 +74,7 @@ class Publish extends Component{
                     <Text style={styles.publishLabel}>标题</Text>
                     <View style={styles.publishInput}>
                         <TextInput placeholder="请输入标题" style={styles.publishTextInput} 
-                        onChangeText={value=>this.props.changeField("title",value)}/>
+                        onChangeText={value=>this.props.actions.changeField("title",value)}/>
                     </View>
                 </View>
                 <View style={styles.publishRow}>
@@ -87,7 +87,7 @@ class Publish extends Component{
                 <View style={styles.publishFormSeparator}/>
                 <View style={styles.publishArea}>
                     <TextInput placeholder="请输入主题内容" style={styles.publishTextArea} 
-                    onChangeText={value=>this.props.changeField("content",value)}
+                    onChangeText={value=>this.props.actions.changeField("content",value)}
                     multiline={true} maxLength={200}/>
                 </View>
             </View>

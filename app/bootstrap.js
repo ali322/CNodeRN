@@ -2,10 +2,10 @@
 
 import React,{Component,Navigator,View,Platform} from "react-native"
 import {Provider,connect} from "react-redux"
-import configureStore from "./lib/configure-store"
+import containerByComponent from "./lib/redux-helper"
 import {fetchUserPrefs} from "./common/action"
 import {userPrefsReducer} from "./common/reducer"
-import tabBarCreator from "./common/tabbar-creator"
+import tabBarCreator from "./common/module/tabbar-creator"
 import Storage from "./lib/storage"
 global.storage = new Storage()
 
@@ -18,9 +18,6 @@ import mineScenes from "./mine/scene"
 const router = new Router([...topicScenes,...collectScenes,...messageScenes,...mineScenes])
 
 class App extends Component{
-    constructor(props){
-        super(props)
-    }
     _renderScene(route,navigator){
         const {key,component,passProps} = route
         const _router = router.bindNavigator(navigator)
@@ -40,7 +37,7 @@ class App extends Component{
         return Platform.OS === "android"?Navigator.SceneConfigs.FloatFromBottomAndroid:Navigator.SceneConfigs.PushFromRight
     }
     componentDidMount(){
-        this.props.dispatch(fetchUserPrefs())
+        this.props.actions.fetchUserPrefs()
     }
     render(){
         const initialRoute = {
@@ -59,18 +56,4 @@ class App extends Component{
     }
 }
 
-
-const store = configureStore(userPrefsReducer)
-const AppConnected = connect(state=>state)(App)
-
-class BootStrap extends Component{
-    render(){
-        return (
-            <Provider store={store}>
-            <AppConnected />
-            </Provider>
-        )
-    }
-}
-
-export default BootStrap
+export default containerByComponent(App,userPrefsReducer,{fetchUserPrefs})

@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import NavigationBar from "react-native-navbar"
 import _ from "lodash"
 
-import {preferredStyles,preferredThemeDefines} from "../lib/helper"
+import {preferredStyles,preferredThemeDefines} from "../../lib/helper"
 
 class NavBar extends Component{
     componentWillReceiveProps(nextProps){

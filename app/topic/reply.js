@@ -3,9 +3,9 @@
 import React,{Component,View,TouchableOpacity,Text,TextInput,Alert} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-import NavBar from "../common/navbar"
+import NavBar from "../common/component/navbar"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 
 import {topicReducer} from "./reducer"
 import {saveReply} from "./action"
@@ -36,7 +36,7 @@ class Reply extends Component{
                 reply_id:"",
                 accesstoken:user.accessToken
             }
-            this.props.saveReply(this.props.id,reply)
+            this.props.actions.saveReply(this.props.id,reply)
         }
 
         const rightButton = (

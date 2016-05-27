@@ -4,14 +4,14 @@ import React, {Component, View, Text, TouchableOpacity, Image, ListView,ScrollVi
 import Icon from "react-native-vector-icons/FontAwesome"
 import ScrollableTabView from "react-native-scrollable-tab-view"
 
-import Tabs from "../common/tabs"
-import Loading from "../common/loading"
-import Anonymous from "../common/anonymous"
-import NavBar from "../common/navbar"
+import Tabs from "../common/component/tabs"
+import Loading from "../common/component/loading"
+import Anonymous from "../common/module/anonymous"
+import NavBar from "../common/component/navbar"
 
 import {formatTime} from "../lib/helper"
-import {containerByComponent} from "../lib/redux-helper"
-import {fetchUser,clearUser} from "./action"
+import containerByComponent from "../lib/redux-helper"
+import {fetchUser} from "./action"
 import {userReducer} from "./reducer"
 
 import styles from "./stylesheet/mine"
@@ -35,7 +35,7 @@ class Mine extends Component {
         global.storage.getItem("user").then((user)=>{
             if(user){
                 this.setState({isLogined:true})
-                this.props.fetchUser(user.username)
+                this.props.actions.fetchUser(user.username)
             }
         })
     }
@@ -138,4 +138,4 @@ class Mine extends Component {
     }
 }
 
-export default containerByComponent(Mine, userReducer, { fetchUser,clearUser})
+export default containerByComponent(Mine, userReducer, { fetchUser})

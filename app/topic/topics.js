@@ -2,15 +2,15 @@
 
 import React,{Component,View,Text,Image,ListView,Platform,Modal,TouchableOpacity,Animated,RefreshControl,TextInput,LayoutAnimation} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 
 import {topicsReducer} from "./reducer"
 import {fetchTopics,changeCategory,filterTopics} from "./action"
 
-import LoadMore from "../common/loadmore"
-import Loading from "../common/loading"
-import SearchBar from "../common/searchbar"
-import NavBar from "../common/navbar"
+import LoadMore from "../common/component/loadmore"
+import Loading from "../common/component/loading"
+import SearchBar from "../common/module/searchbar"
+import NavBar from "../common/component/navbar"
 
 import styles from "./stylesheet/topics"
 
@@ -30,7 +30,7 @@ class Topics extends Component{
     componentDidMount(){
         const {categories,selectedCategory} = this.props
         if(categories[selectedCategory].list.length === 0){
-            this.props.fetchTopics()
+            this.props.actions.fetchTopics()
         }else{
             this.setState({
                 dataSource:this.state.dataSource.cloneWithRows(categories[selectedCategory].list)
@@ -39,13 +39,13 @@ class Topics extends Component{
     }
     handleLoadMore(){
         const {categories,selectedCategory} = this.props
-        this.props.fetchTopics(selectedCategory,categories[selectedCategory].pageIndex + 1)
+        this.props.actions.fetchTopics(selectedCategory,categories[selectedCategory].pageIndex + 1)
     }
     handleRefresh(){
-        this.props.fetchTopics(this.props.selectedCategory)
+        this.props.actions.fetchTopics(this.props.selectedCategory)
     }
     handleSearch(keyword){
-        this.props.filterTopics(keyword)
+        this.props.actions.filterTopics(keyword)
     }
     toggleSearchActive(){
         this.setState({
@@ -59,8 +59,8 @@ class Topics extends Component{
     }
     handleCategoryChange(category){
         this.toggleModalActive()
-        this.props.changeCategory(category)
-        this.props.fetchTopics(category)
+        this.props.actions.changeCategory(category)
+        this.props.actions.fetchTopics(category)
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.topicsFetching && nextProps.topicsFetched){
@@ -145,6 +145,7 @@ class Topics extends Component{
     render(){
         const threshold = (Platform.OS === "ios" ? 10 : -20)
         const {categories,selectedCategory} = this.props
+        console.log("this.props",this.props)
         return (
             <View style={styles.container}>
             {this.state.searchBarActive?this.renderSearchBar():this.renderNavigationBar()}

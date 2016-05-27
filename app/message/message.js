@@ -3,13 +3,13 @@
 import React,{Component,View,StyleSheet,Text,ListView,Image,Alert} from "react-native"
 import ScrollableTabView from "react-native-scrollable-tab-view"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 import {messageReducer} from "./reducer"
 import {fetchMessages,fetchMessageCount,markAllMessage} from "./action"
-import Tabs from "../common/tabs"
-import Loading from "../common/loading"
-import Anonymous from "../common/anonymous"
-import NavBar from "../common/navbar"
+import Tabs from "../common/component/tabs"
+import Loading from "../common/component/loading"
+import Anonymous from "../common/module/anonymous"
+import NavBar from "../common/component/navbar"
 
 import styles from "./stylesheet/message"
 
@@ -30,7 +30,7 @@ class Message extends Component{
         global.storage.getItem("user").then((user)=>{
             if(user){
                 this.setState({isLogined:true})
-                this.props.fetchMessages(user.accessToken)
+                this.props.actions.fetchMessages(user.accessToken)
             }
         })
     }

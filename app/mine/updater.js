@@ -3,10 +3,10 @@
 import React,{Component,StyleSheet,View,Text,TouchableOpacity,Dimensions} from "react-native"
 import CodePush from "react-native-code-push"
 import * as Progress from 'react-native-progress'
-import Toast from "../common/toast"
-import NavBar from "../common/navbar"
+import Toast from "../common/component/toast"
+import NavBar from "../common/component/navbar"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 import rootReducer from "./reducer"
 import {fetchUserPrefs} from "./action"
 
