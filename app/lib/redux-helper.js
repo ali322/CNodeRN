@@ -40,10 +40,12 @@ export function configureStore(rootReducer,initialState,onComplete=()=>{}){
 }
 
 
-export function createContainer(OriginComponent,store,actions,mapStateToProps=state=>state){
-    const mapDispatchToProps = dispatch=>({
-        actions:bindActionCreators(actions,dispatch)
-    })
+export function createContainer(OriginComponent,store,actions,mapStateToProps=state=>state,mapDispatchToProps=dispatch=>({dispatch})){
+    if(!mapDispatchToProps){
+        mapDispatchToProps = dispatch=>({
+            actions:bindActionCreators(actions,dispatch)
+        })
+    }
     const ConnectedComponent = connect(mapStateToProps,mapDispatchToProps)(OriginComponent)
     return class extends Component{
         render(){
@@ -56,7 +58,7 @@ export function createContainer(OriginComponent,store,actions,mapStateToProps=st
     }
 }
 
-export default function(OriginComponent,rootReducer,actions,initialState,mapStateToProps=state=>state){
+export default function(OriginComponent,rootReducer,actions,initialState,mapStateToProps,mapDispatchToProps){
     const store = configureStore(rootReducer,initialState)
-    return createContainer(OriginComponent,store,actions,mapStateToProps)    
+    return createContainer(OriginComponent,store,actions,mapStateToProps,mapDispatchToProps)    
 }
