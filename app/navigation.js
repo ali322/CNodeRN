@@ -96,7 +96,7 @@ class AppNavigation extends Component{
         // console.log("this.props",this.props)
         const { navigationState, onNavigate } = this.props
         return (
-            <NavigationAnimatedView navigationState={navigationState} onNavigate={onNavigate} renderScene={this._renderScene.bind(this)}/>
+            <NavigationAnimatedView navigationState={navigationState} onNavigate={()=>{}} renderScene={this._renderScene.bind(this)}/>
         )
     }
 }
@@ -120,11 +120,4 @@ class Second extends Component{
 }
 
 
-export default containerByComponent(AppNavigation,appReducer,{navPush,navPop},null,
-state=>({navigationState:state.navigationState}),
-dispatch=>({
-    onNavigate:(action)=>{
-        dispatch(navPush(action))
-    },
-    actions:bindActionCreators({navPush,navPop},dispatch)
-}))
+export default containerByComponent(AppNavigation,appReducer,{navPush,navPop})
