@@ -40,9 +40,7 @@ class TabBar extends Component{
 class TabBarItem extends Component{
     render(){
         const child = React.Children.only(this.props.children)
-        return React.cloneElement(child,{
-            style:[child.props.style,this.props.style]
-        })
+        return React.cloneElement(child)
     }
 }
 

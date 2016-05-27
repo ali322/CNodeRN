@@ -145,7 +145,6 @@ class Topics extends Component{
     render(){
         const threshold = (Platform.OS === "ios" ? 10 : -20)
         const {categories,selectedCategory} = this.props
-        console.log("this.props",this.props)
         return (
             <View style={styles.container}>
             {this.state.searchBarActive?this.renderSearchBar():this.renderNavigationBar()}

@@ -23,9 +23,9 @@ class App extends Component{
         const _router = router.bindNavigator(navigator)
         if(component){
             return React.createElement(component,{
-                router:_router,
-                ...passProps,
-                app:{...this.props}
+                // router:_router,
+                // ...passProps,
+                // app:{...this.props}
             })
         }
         return null
@@ -37,7 +37,7 @@ class App extends Component{
         return Platform.OS === "android"?Navigator.SceneConfigs.FloatFromBottomAndroid:Navigator.SceneConfigs.PushFromRight
     }
     componentDidMount(){
-        this.props.actions.fetchUserPrefs()
+        // this.props.actions.fetchUserPrefs()
     }
     render(){
         const initialRoute = {

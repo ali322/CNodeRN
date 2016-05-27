@@ -4,11 +4,11 @@ import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,P
 import Icon from "react-native-vector-icons/FontAwesome"
 import {Actions} from "react-native-router-flux"
 
-import Scanner from "../common/scanner"
-import NavBar from "../common/navbar"
-import Toast from "../common/toast"
+import Scanner from "../common/component/scanner"
+import NavBar from "../common/component/navbar"
+import Toast from "../common/component/toast"
 
-import {containerByComponent} from "../lib/redux-helper"
+import containerByComponent from "../lib/redux-helper"
 import {authorizeByToken} from "./action"
 import {authorizeReducer} from "./reducer"
 

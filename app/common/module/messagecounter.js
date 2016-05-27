@@ -1,9 +1,9 @@
 'use strict'
 
 import React,{Component,Text,View,StyleSheet} from "react-native"
-import {containerByComponent} from "../lib/redux-helper"
-import {messageCountReducer} from "./reducer"
-import {fetchMessageCount} from "./action"
+import containerByComponent from "../../lib/redux-helper"
+import {messageCountReducer} from "../reducer"
+import {fetchMessageCount} from "../action"
 
 class MessageCounter extends Component{
     componentDidMount(){

@@ -5,7 +5,7 @@ import {connect,Provider} from "react-redux"
 import thunkMiddleware from "redux-thunk"
 import createLogger from "redux-logger"
 import {autoRehydrate,persistStore} from "redux-persist"
-import React,{AsyncStore,Component} from "react-native"
+import React,{AsyncStorage,Component} from "react-native"
 
 const isDebugInChrome = __DEV__ && window.navigator.userAgent
 
@@ -29,10 +29,10 @@ const createStoreWithMiddlewares = compose(
 )(createStore)
 
 export function configureStore(rootReducer,initialState,onComplete=()=>{}){
-    // const store = initialState?createStoreWithMiddlewares(rootReducer,initialState):createStoreWithMiddlewares(rootReducer)
+    // let store = initialState?createStoreWithMiddlewares(rootReducer,initialState):createStoreWithMiddlewares(rootReducer)
     const createStoreRehydrated = autoRehydrate()(createStoreWithMiddlewares)
     const store = initialState?createStoreRehydrated(rootReducer,initialState):createStoreRehydrated(rootReducer)
-    // persistStore(store,{storage:AsyncStore},onComplete).purgeAll()
+    persistStore(store,{storage:AsyncStorage},onComplete).purgeAll()
     if(isDebugInChrome){
         window.store = store
     }

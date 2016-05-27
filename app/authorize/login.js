@@ -1,8 +1,8 @@
 'use strict'
 
 import React,{Component,View} from "react-native"
-import Anonymous from "../common/anonymous"
-import NavBar from "../common/navbar"
+import Anonymous from "../common/module/anonymous"
+import NavBar from "../common/component/navbar"
 
 import styles from "./stylesheet"
 
