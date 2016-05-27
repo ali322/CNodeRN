@@ -6,6 +6,7 @@ import thunkMiddleware from "redux-thunk"
 import createLogger from "redux-logger"
 import {autoRehydrate,persistStore} from "redux-persist"
 import React,{AsyncStorage,Component} from "react-native"
+import _ from "lodash"
 
 const isDebugInChrome = __DEV__ && window.navigator.userAgent
 
@@ -40,13 +41,10 @@ export function configureStore(rootReducer,initialState,onComplete=()=>{}){
 }
 
 
-export function createContainer(OriginComponent,store,actions,mapStateToProps=state=>state,mapDispatchToProps=null){
-    if(!mapDispatchToProps){
-        mapDispatchToProps = dispatch=>({
-            actions:bindActionCreators(actions,dispatch)
-        })
-    }
-    console.log("mapDispatchToProps",mapDispatchToProps)
+export function createContainer(OriginComponent,store,actions,mapStateToProps=state=>state){
+    const mapDispatchToProps = _.isFunction(actions)?actions:(dispatch)=>({
+        actions:bindActionCreators(actions,dispatch)
+    })
     const ConnectedComponent = connect(mapStateToProps,mapDispatchToProps)(OriginComponent)
     return class extends Component{
         render(){
