@@ -1,7 +1,6 @@
 'use strict'
 
 import React,{Component,View,Text,Image,ListView,Platform,Modal,TouchableOpacity,Animated,RefreshControl,TextInput,LayoutAnimation} from "react-native"
-import {Actions} from "react-native-router-flux"
 import Icon from "react-native-vector-icons/FontAwesome"
 import {containerByComponent} from "../lib/redux-helper"
 
@@ -74,7 +73,7 @@ class Topics extends Component{
     renderNavigationBar(){
         const {categories,selectedCategory} = this.props
         const leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>Actions.publish()}>
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>this.props.router.publish()}>
             <Icon name="edit" size={22} color="#999"/>
             </TouchableOpacity>
         )

@@ -5,14 +5,17 @@ import {Provider,connect} from "react-redux"
 import configureStore from "./lib/configure-store"
 import {fetchUserPrefs} from "./common/action"
 import {userPrefsReducer} from "./common/reducer"
-
-import Router from "./router"
-import topicScenes from "./topic/scene"
-
+import tabBarCreator from "./common/tabbar-creator"
 import Storage from "./lib/storage"
 global.storage = new Storage()
 
-const router = new Router([...topicScenes])
+import Router from "./router"
+import topicScenes from "./topic/scene"
+import collectScenes from "./collect/scene"
+import messageScenes from "./message/scene"
+import mineScenes from "./mine/scene"
+
+const router = new Router([...topicScenes,...collectScenes,...messageScenes,...mineScenes])
 
 class App extends Component{
     constructor(props){
@@ -34,13 +37,21 @@ class App extends Component{
         if(route.sceneConfig){
             return route.sceneConfig
         }
-        return Platform.OS === "android"?Navigator.SceneConfigs.FloatFromBottomAndroid:Navigator.SceneConfigs.HorizontalSwipeJump
+        return Platform.OS === "android"?Navigator.SceneConfigs.FloatFromBottomAndroid:Navigator.SceneConfigs.PushFromRight
     }
     componentDidMount(){
         this.props.dispatch(fetchUserPrefs())
     }
     render(){
-        const initialRoute = router.initialRoute()
+        const initialRoute = {
+            key:"home",
+            component:tabBarCreator(router,[
+                {sceneName:"topics",title:"主题",iconName:"coffee"},
+                {sceneName:"collect",title:"收藏",iconName:"bookmark"},
+                {sceneName:"message",title:"消息",iconName:"envelope"},
+                {sceneName:"mine",title:"我的",iconName:"user"}
+            ])
+        }
         return (
            <Navigator initialRoute={initialRoute} renderScene={this._renderScene.bind(this)} ref={view=>this._navigator=view} 
            configureScene={this._configureScene}/>

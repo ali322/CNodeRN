@@ -46,7 +46,7 @@ class Reply extends Component{
             </TouchableOpacity>
         )
 
-        return <NavBar title="回复" rightButton={()=>rightButton}/>
+        return <NavBar title="回复" rightButton={()=>rightButton} {...this.props}/>
     }
     render(){
         return (

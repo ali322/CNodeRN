@@ -13,6 +13,7 @@ class Router{
                 return passProps=>{
                     navigator.push({
                         component:scene.component,
+                        sceneConfig:scene.sceneConfig,
                         passProps
                     })
                 }

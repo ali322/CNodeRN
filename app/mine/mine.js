@@ -65,7 +65,7 @@ class Mine extends Component {
     }
     renderNavigationBar() {
         const rightButton = (
-            <TouchableOpacity style={styles.navigationBarButton} onPress={()=>{Actions.setup()}}>
+            <TouchableOpacity style={styles.navigationBarButton} onPress={()=>{this.props.router.setup()}}>
                 <Icon name="cog" size={20} color="#999"/>
             </TouchableOpacity>
         )

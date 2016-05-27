@@ -51,7 +51,7 @@ class Publish extends Component{
             </TouchableOpacity>
         )
 
-        return <NavBar title="发布主题" rightButton={()=>rightButton}/>
+        return <NavBar title="发布主题" rightButton={()=>rightButton} {...this.props}/>
     }
     renderModal(){
         return (

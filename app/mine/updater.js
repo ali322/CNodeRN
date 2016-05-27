@@ -91,7 +91,7 @@ class Updater extends Component{
     render(){
         return (
             <View style={styles.container}>
-            <NavBar title=""/>
+            <NavBar title="" {...this.props}/>
             <View style={styles.updaterContainer}>
                 <View style={styles.updaterBreif}>{this.state.progress?this.renderProgress():<Text style={styles.updaterBreifText}>{this.state.syncMessage}</Text>}</View>
                 <View style={styles.updaterButtons}>
