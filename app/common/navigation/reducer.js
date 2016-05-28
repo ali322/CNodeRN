@@ -7,7 +7,7 @@ const {
 } = NavigationExperimental
 
 export function navigationReducer(state={},action) {
-    const navigationState = state.navigationState
+    const {navigationState,scenesMap} = state
     switch(action.type){
         case constants.PUSH_SCENE:
             if(navigationState.children[navigationState.index].key === (action.state && action.state.key)){
@@ -15,7 +15,8 @@ export function navigationReducer(state={},action) {
             }
             return {
                 ...state,
-                navigationState:NavigationStateUtils.push(navigationState,action.state)
+                navigationState:NavigationStateUtils.push(navigationState,
+                    Object.assign({},action.state,scenesMap[action.state.key]))
             }
         case constants.POP_SCENE:
             if(navigationState.index === 0 || navigationState.children.length === 1){
