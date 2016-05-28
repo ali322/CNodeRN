@@ -6,37 +6,39 @@ const {
     StateUtils:NavigationStateUtils
 } = NavigationExperimental
 
-const initialState = {
-    key:"navigation",
-    index:0,
-    children:[
-        {key:"first",title:"First"}
-    ]
-}
-
-export function navigationReducer(state=initialState,action) {
+export function navigationReducer(state={},action) {
+    const navigationState = state.navigationState
     switch(action.type){
         case constants.PUSH_SCENE:
-            if(state.children[state.index].key === (action.state && action.state.key)){
+            if(navigationState.children[navigationState.index].key === (action.state && action.state.key)){
                 return state
             }
-            return NavigationStateUtils.push(state,action.state)
-        case constants.POP_SCENE:
-            if(state.index === 0 || state.children.length === 1){
-                return state
-            }
-            return NavigationStateUtils.pop(state)
-        case constants.JUMPTO_SCENE:
-            if(typeof action.key === "string"){
-                return NavigationStateUtils.jumpTo(state,action.key)
-            }
-            return NavigationStateUtils.jumpToIndex(state,action.key)
-        case constants.RESET_SCENE:
             return {
                 ...state,
-                index:action.index,
-                children:action.children
+                navigationState:NavigationStateUtils.push(navigationState,action.state)
             }
+        case constants.POP_SCENE:
+            if(navigationState.index === 0 || navigationState.children.length === 1){
+                return state
+            }
+            return {
+                ...state,
+                navigationState:NavigationStateUtils.pop(navigationState)
+            }
+        case constants.JUMPTO_SCENE:
+            if(typeof action.key === "string"){
+                return {...state,navigationState:NavigationStateUtils.jumpTo(navigationState,action.key)}
+            }
+            return {...state,navigationState:NavigationStateUtils.jumpToIndex(navigationState,action.key)}
+        case constants.RESET_SCENE:
+            return {
+                    ...state,
+                    navigationState:{
+                        ...navigationState,
+                        index:action.index,
+                        children:action.children
+                    }
+                }
         default:
             return state
     }

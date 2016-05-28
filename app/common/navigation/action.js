@@ -4,7 +4,7 @@ import * as constants from "./constant"
 export function pushScene(sceneKey,params){
     return {
         type:constants.PUSH_SCENE,
-        state:{key:sceneKey,title:sceneKey,params},
+        state:{key:sceneKey,title:sceneKey,params}
     }
 }
 

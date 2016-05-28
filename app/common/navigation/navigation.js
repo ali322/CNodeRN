@@ -14,20 +14,19 @@ const {
 } = NavigationExperimental
 
 class Navigation extends Component{
-    static defaultProps = {
-        scenes:[]
-    }
-    constructor(props){
-        super(props)
-        this.sceneConfigs = _.chain(props.scenes).groupBy("key").mapValues(v=>v[0]).value()
-    }
     _renderScene(NavigationSceneRendererProps){
+        const {scenesMap} = this.props
+        // console.log("NavigationSceneRendererProps",NavigationSceneRendererProps)
         return <NavigationCard {...NavigationSceneRendererProps} renderScene={({scene})=>{
             const {navigationState} = scene
             const params = navigationState.params
-            const sceneConfig = this.sceneConfigs[navigationState.key]
-            if(sceneConfig && sceneConfig.component){
-                return React.createElement(sceneConfig.component,{
+            // console.log("navigationState",navigationState,this.props.scenesMap)
+            // const sceneConfig = this.sceneConfigs[navigationState.key]
+            if(navigationState.tabbar){
+                return <TabNavigation items={navigationState.children}/>
+            }
+            if(navigationState.component){
+                return React.createElement(navigationState.component,{
                     ...params,
                     sceneKey:navigationState.key,
                     ...this.props
@@ -38,6 +37,7 @@ class Navigation extends Component{
     }
     render(){
         const {navigationState} = this.props
+        // console.log("navigationState",this.props)
         return (
             <NavigationAnimatedView navigationState={navigationState} onNavigate={()=>{}} 
             renderScene={this._renderScene.bind(this)}/>
@@ -45,10 +45,4 @@ class Navigation extends Component{
     }
 }
 
-const rootReducer = combineReducers({
-    navigationState:navigationReducer
-})
-
-export default containerByComponent(Navigation,rootReducer,dispatch=>({
-    navigationActions:bindActionCreators(actions,dispatch)
-}))
+export default Navigation

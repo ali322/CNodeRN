@@ -4,7 +4,7 @@ import React,{Component,NavigationExperimental,PropTypes,View,Text,TouchableOpac
 import {combineReducers,bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import containerByComponent,{configureStore,createContainer} from "./lib/redux-helper"
-import Navigation from "./common/navigation"
+import Router from "./common/navigation/router"
 
 class First extends Component{
     render(){
@@ -28,9 +28,9 @@ class Second extends Component{
 export default class extends Component{
     render(){
         const scenes = [
-            {key:"first",component:First},
+            {key:"first",component:First,initial:true},
             {key:"second",component:Second}
         ]
-        return <Navigation scenes={scenes}/>
+        return <Router scenes={scenes}/>
     }
 }

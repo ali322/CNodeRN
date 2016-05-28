@@ -33,7 +33,7 @@ export function configureStore(rootReducer,initialState,onComplete=()=>{}){
     // let store = initialState?createStoreWithMiddlewares(rootReducer,initialState):createStoreWithMiddlewares(rootReducer)
     const createStoreRehydrated = autoRehydrate()(createStoreWithMiddlewares)
     const store = initialState?createStoreRehydrated(rootReducer,initialState):createStoreRehydrated(rootReducer)
-    persistStore(store,{storage:AsyncStorage},onComplete).purgeAll()
+    // persistStore(store,{storage:AsyncStorage},onComplete).purgeAll()
     if(isDebugInChrome){
         window.store = store
     }
@@ -57,7 +57,7 @@ export function createContainer(OriginComponent,store,actions,mapStateToProps=st
     }
 }
 
-export default function(OriginComponent,rootReducer,actions,initialState,mapStateToProps,mapDispatchToProps){
+export default function(OriginComponent,rootReducer,actions,initialState,mapStateToProps){
     const store = configureStore(rootReducer,initialState)
-    return createContainer(OriginComponent,store,actions,mapStateToProps,mapDispatchToProps)    
+    return createContainer(OriginComponent,store,actions,mapStateToProps)    
 }
