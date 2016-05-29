@@ -4,7 +4,7 @@ import React,{Component} from "react-native"
 import Navigation from "./navigation"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
-import {navigationReducer} from "./reducer"
+import routerReducer from "./reducer"
 import * as actions from "./action"
 import _ from "lodash"
 
@@ -17,7 +17,7 @@ class Router extends Component{
             navigationState:initialStateFromScenes(this.props.scenes),
             scenesMap:scenesMap(this.props.scenes)
         }
-        const RouterContainer = containerByComponent(Navigation,navigationReducer,dispatch=>({
+        const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
             navigationActions:bindActionCreators(actions,dispatch)
         }),initialState)
         return <RouterContainer/>
@@ -37,7 +37,19 @@ function initialStateFromScenes(scenes){
 }
 
 function scenesMap(scenes){
-    return _.chain(scenes).groupBy("key").mapValues(v=>v[0]).value()
+    return _.chain(scenes).groupBy("key").mapValues(v=>v[0]).mapValues(v=>{
+        if(v.tabbar){
+            v.items = v.items.map((item,i)=>{
+                return {
+                    ...item,
+                    index:0,
+                    key:`${v.key}_${i}`,
+                    children:[item]
+                }
+            })
+        }
+        return v
+    }).value()
 }
 
 export default Router

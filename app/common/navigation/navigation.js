@@ -3,6 +3,7 @@
 import React,{Component,NavigationExperimental} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
+import TabNavigation from "./tabnavigation"
 import {navigationReducer} from "./reducer"
 import * as actions from "./action"
 import _ from "lodash"
@@ -15,7 +16,6 @@ const {
 
 class Navigation extends Component{
     _renderScene(NavigationSceneRendererProps){
-        const {scenesMap} = this.props
         // console.log("NavigationSceneRendererProps",NavigationSceneRendererProps)
         return <NavigationCard {...NavigationSceneRendererProps} renderScene={({scene})=>{
             const {navigationState} = scene
@@ -23,7 +23,7 @@ class Navigation extends Component{
             // console.log("navigationState",navigationState,this.props.scenesMap)
             // const sceneConfig = this.sceneConfigs[navigationState.key]
             if(navigationState.tabbar){
-                return <TabNavigation items={navigationState.children}/>
+                return <TabNavigation navigationState={navigationState} navigationActions={this.props.navigationActions}/>
             }
             if(navigationState.component){
                 return React.createElement(navigationState.component,{
@@ -37,7 +37,7 @@ class Navigation extends Component{
     }
     render(){
         const {navigationState} = this.props
-        // console.log("navigationState",this.props)
+        // console.log("navigationState",navigationState)
         return (
             <NavigationAnimatedView navigationState={navigationState} onNavigate={()=>{}} 
             renderScene={this._renderScene.bind(this)}/>
