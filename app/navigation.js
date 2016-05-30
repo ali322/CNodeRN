@@ -48,14 +48,16 @@ class Four extends Component{
 export default class extends Component{
     render(){
         const scenes = [
-            {key:"first",component:First,initial:true},
-            {key:"second",component:Second},
             {tabbar:true,key:"tabs",items:[
                 {key:"tab_1",iconName:"coffee",children:[
                     {key:"third",component:Third},
+                ]},
+                {key:"tab_1",iconName:"user",children:[
                     {key:"four",component:Four}
                 ]}
-            ]}
+            ]},
+            {key:"first",component:First,initial:true},
+            {key:"second",component:Second},
         ]
         // const scenes = {
         //     "first":{

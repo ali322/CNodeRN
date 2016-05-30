@@ -13,7 +13,6 @@ function navigationReducer(state={},action) {
             if(state.children[state.index].key === (action.state && action.state.key)){
                 return state
             }
-            console.log("state",state,action.state)
             return NavigationStateUtils.push(state,action.state)
         case constants.POP_SCENE:
             if(state.index === 0 || state.children.length === 1){
@@ -40,9 +39,10 @@ export default function routerReducer(state={},action){
     const {navigationState,scenes} = state
     let _navigationState = _.cloneDeep(navigationState)
     let _scenes = _.cloneDeep(scenes)
-    const {scene,path} = action.key?locateScene(_scenes,action.key):{}
-    function nestReducer(navState,navAction){
-        return path?_.update(navState,path,navSubState=>navigationReducer(navSubState,navAction)):
+    const {scene,path} = locateScene(_scenes,action.key)
+    // console.log("scenes",_scenes)
+    function nestReducer(navState,navAction,scenePath){
+        return scenePath?_.update(navState,scenePath,navSubState=>navigationReducer(navSubState,navAction)):
             navigationReducer(navState,navAction)
     }
     switch(action.type){
@@ -64,12 +64,12 @@ export default function routerReducer(state={},action){
                     ...scene
                 }
             }
-            _navigationState = nestReducer(_navigationState,injectedAction)
+            _navigationState = nestReducer(_navigationState,injectedAction,path)
             break
         case constants.POP_SCENE:
         case constants.JUMPTO_SCENE:
         case constants.RESET_SCENE:
-            _navigationState = nestReducer(_navigationState,action)
+            _navigationState = nestReducer(_navigationState,action,path)
             break
     }
     return {
@@ -80,19 +80,23 @@ export default function routerReducer(state={},action){
 
 function locateScene(scenes,key,path="") {
     let _scene = null
-    _.each(scenes,(scene,i)=>{
-        if(scene.key === key){
-            _scene = {scene,path}
-            return false
-        }
-        if(scene.tabbar){
-            _.each(scene.items,(item,j)=>{
-                _scene = locateScene(item.children,key,`${path}children[${i}]items[${j}]`)
-                if(_scene){
-                    return false
-                }
-            })
-        }
-    })
-    return _scene
+    // console.log("scenes",scenes)
+    if(key){
+        _.each(scenes,(scene,i)=>{
+            if(scene.key === key){
+                _scene = {scene,path}
+                return false
+            }
+            if(scene.tabbar){
+                _.each(scene.items,(item,j)=>{
+                    _scene = locateScene(item.children,key,`${path}children[${i}]items[${j}]`)
+                    if(_scene){
+                        return false
+                    }
+                })
+            }
+        })
+    }
+    console.log("scene",_scene)
+    return _scene || {}
 }

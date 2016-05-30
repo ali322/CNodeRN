@@ -6,6 +6,7 @@ import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import routerReducer from "./reducer"
 import * as actions from "./action"
+import _ from "lodash"
 
 class Router extends Component{
     static defaultProps = {
@@ -29,7 +30,17 @@ function initialStateFromScenes(scenes){
         key:"root",
         children:[]
     }
-    state.children[0] = scenes[0]
+    const initialScene = _.cloneDeep(scenes[0])
+    if(initialScene.tabbar){
+        initialScene.items = initialScene.items.map((item,i)=>{
+            return {
+                index:0,
+                ...item,
+                children:[item.children[0]]
+            }
+        })
+    }
+    state.children[0] = initialScene
     return state
 }
 

@@ -6,6 +6,13 @@ import Navigation from "./navigation"
 import Router from "./router"
 
 class TabNavigation extends Component{
+    constructor(props){
+        super(props)
+        this._handleSelect = this._handleSelect.bind(this)
+    }
+    _handleSelect(tab){
+        console.log("tab".tab)
+    }
     _renderIcon(tintText,iconConfig,selected){
             return (
                 <View style={styles.tabBarItem}>
@@ -21,7 +28,8 @@ class TabNavigation extends Component{
             <TabBar>
                 {navigationState.items.map((item,i)=>{
                     return (
-                        <TabBar.Item key={i} renderIcon={(selected)=>this._renderIcon(item.title,{name:item.iconName,size:20},selected)}>
+                        <TabBar.Item key={i} onPress={this._handleSelect}
+                        renderIcon={(selected)=>this._renderIcon(item.title,{name:item.iconName,size:20},selected)}>
                             <Navigation navigationState={item} navigationActions={navigationActions}/>
                         </TabBar.Item>
                     )
