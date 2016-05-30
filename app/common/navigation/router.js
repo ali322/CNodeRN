@@ -30,26 +30,13 @@ function initialStateFromScenes(scenes){
         key:"root",
         children:[]
     }
-    if(scenes.length > 0){
-        state.children[0] = scenes.filter((scene)=>scene.initial)[0] || scenes[0]
-    }
+    state.children[0] = scenes[0]
     return state
 }
 
 function scenesMap(scenes){
-    return _.chain(scenes).groupBy("key").mapValues(v=>v[0]).mapValues(v=>{
-        if(v.tabbar){
-            v.items = v.items.map((item,i)=>{
-                return {
-                    ...item,
-                    index:0,
-                    key:`${v.key}_${i}`,
-                    children:[item]
-                }
-            })
-        }
-        return v
-    }).value()
+    return scenes
+    // return _.chain(scenes).groupBy("key").mapValues(v=>v[0]).value()
 }
 
 export default Router
