@@ -13,6 +13,7 @@ function navigationReducer(state={},action) {
             if(state.children[state.index].key === (action.state && action.state.key)){
                 return state
             }
+            console.log("state",state,action.state)
             return NavigationStateUtils.push(state,action.state)
         case constants.POP_SCENE:
             if(state.index === 0 || state.children.length === 1){
@@ -36,14 +37,18 @@ function navigationReducer(state={},action) {
 }
 
 export default function routerReducer(state={},action){
-    const {navigationState,scenesMap} = state
+    const {navigationState,scenes} = state
     let _navigationState = _.cloneDeep(navigationState)
+    let _scenes = _.cloneDeep(scenes)
+    const {scene,path} = action.key?locateScene(_scenes,action.key):{}
+    function nestReducer(navState,navAction){
+        return path?_.update(navState,path,navSubState=>navigationReducer(navSubState,navAction)):
+            navigationReducer(navState,navAction)
+    }
     switch(action.type){
         case constants.PUSH_SCENE:
-            const {scene,path} = rootPath(scenesMap,action.state.key)
-            let _scene = _.cloneDeep(scene)
-            if(_scene.tabbar){
-                _scene.items = _scene.items.map((item,i)=>{
+            if(scene.tabbar){
+                scene.items = scene.items.map((item,i)=>{
                     return {
                         index:0,
                         ...item,
@@ -51,71 +56,43 @@ export default function routerReducer(state={},action){
                     }
                 })
             }
-            const injectedAction = Object.assign({},action,{
+            const injectedAction = {
+                type:action.type,
                 state:{
-                    ...action.state,
-                    ..._scene
+                    key:action.key,
+                    params:action.params,
+                    ...scene
                 }
-            })
-            // const nestNavigationState = _.get(navigationState,"children[2]items[0]")
-            if(path){
-                _.update(_navigationState,path,(nestNavigationState)=>{
-                    return navigationReducer(nestNavigationState,injectedAction)
-                })
-            }else{
-                _navigationState = navigationReducer(_navigationState,injectedAction)
             }
-            // console.log("injectedAction",injectedAction,scenesMap[action.state.key])
-            return {
-                scenesMap,
-                navigationState:_navigationState
-            }
+            _navigationState = nestReducer(_navigationState,injectedAction)
+            break
         case constants.POP_SCENE:
-            if(action.key){
-                const {scene,path} = rootPath(scenesMap,action.key)
-                let _scene = _.cloneDeep(scene)
-                if(path){
-                    _.update(_navigationState,path,(nestNavigationState)=>{
-                        return navigationReducer(nestNavigationState,action)
-                    })
-                }else{
-                    _navigationState = navigationReducer(_navigationState,action)
-                }
-            }else{
-                _navigationState = navigationReducer(_navigationState,action)
-            }
-            return {
-                scenesMap,
-                navigationState:_navigationState
-            }
         case constants.JUMPTO_SCENE:
         case constants.RESET_SCENE:
-            return {
-                scenesMap,
-                navigationState:navigationReducer(navigationState,action)
-            }
-        default:
-            return state
+            _navigationState = nestReducer(_navigationState,action)
+            break
+    }
+    return {
+        scenes,
+        navigationState:_navigationState
     }
 }
 
-function rootPath(scenesMap,key,path="") {
+function locateScene(scenes,key,path="") {
     let _scene = null
-    _.each(scenesMap,(scene,i)=>{
+    _.each(scenes,(scene,i)=>{
         if(scene.key === key){
             _scene = {scene,path}
             return false
         }
         if(scene.tabbar){
             _.each(scene.items,(item,j)=>{
-                _scene = rootPath(item.children,key,`${path}children[${i}]items[${j}]`)
+                _scene = locateScene(item.children,key,`${path}children[${i}]items[${j}]`)
                 if(_scene){
-                    // _scene.path = `children[i]items[j]`
                     return false
                 }
             })
         }
     })
-    console.log("scene",_scene)
     return _scene
 }

@@ -6,7 +6,6 @@ import containerByComponent from "../../lib/redux-helper"
 import TabNavigation from "./tabnavigation"
 import {navigationReducer} from "./reducer"
 import * as actions from "./action"
-import _ from "lodash"
 
 const {
     RootContainer:NavigationRootContainer,
@@ -39,7 +38,6 @@ class Navigation extends Component{
             if(navigationState.component){
                 return React.createElement(navigationState.component,{
                     ...params,
-                    sceneKey:navigationState.key,
                     ...this.props
                 })
             }

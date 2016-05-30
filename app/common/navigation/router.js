@@ -6,7 +6,6 @@ import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import routerReducer from "./reducer"
 import * as actions from "./action"
-import _ from "lodash"
 
 class Router extends Component{
     static defaultProps = {
@@ -15,7 +14,7 @@ class Router extends Component{
     render(){
         const initialState = {
             navigationState:initialStateFromScenes(this.props.scenes),
-            scenesMap:scenesMap(this.props.scenes)
+            scenes:this.props.scenes
         }
         const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
             navigationActions:bindActionCreators(actions,dispatch)
@@ -32,11 +31,6 @@ function initialStateFromScenes(scenes){
     }
     state.children[0] = scenes[0]
     return state
-}
-
-function scenesMap(scenes){
-    return scenes
-    // return _.chain(scenes).groupBy("key").mapValues(v=>v[0]).value()
 }
 
 export default Router
