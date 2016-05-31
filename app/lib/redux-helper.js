@@ -9,7 +9,7 @@ import React,{AsyncStorage,Component,Platform} from "react-native"
 // import devTools from 'remote-redux-devtools'
 import _ from "lodash"
 
-const isDebugInChrome = __DEV__ && window.navigator.userAgent && window.navigator.userAgent.toLowerCase().indexOf("chrome") > -1
+const isDebugInChrome = __DEV__ && typeof window !== "undefined" && window.navigator.userAgent.toLowerCase().indexOf("chrome") > -1
 
 let middlewares = [
     thunkMiddleware    

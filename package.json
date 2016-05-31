@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver"
+    "test": "mocha --require app/__test__/setup.js --compilers js:babel-core/register app/__test__/spec/"
   },
   "dependencies": {
     "immutable": "^3.8.1",
@@ -29,6 +29,15 @@
     "redux-thunk": "^2.0.1"
   },
   "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-preset-airbnb": "^2.0.0",
+    "babel-preset-react-native": "^1.9.0",
+    "chai": "^3.5.0",
+    "chai-enzyme": "^0.4.2",
+    "enzyme": "^2.3.0",
+    "mocha": "^2.5.3",
+    "react-dom": "^15.1.0",
+    "react-native-mock": "^0.2.2",
     "redux-logger": "^2.6.1",
     "remote-redux-devtools": "^0.3.3",
     "remote-redux-devtools-on-debugger": "^0.4.6"
