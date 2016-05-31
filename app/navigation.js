@@ -4,7 +4,7 @@ import React,{Component,NavigationExperimental,PropTypes,View,Text,TouchableOpac
 import {combineReducers,bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import containerByComponent,{configureStore,createContainer} from "./lib/redux-helper"
-import Router from "./common/navigation/router"
+import Router,{Scene} from "./common/navigation/router"
 
 class First extends Component{
     render(){
@@ -57,27 +57,22 @@ export default class extends Component{
                 ]}
             ]},
             {key:"first",component:First,initial:true},
-            {key:"second",component:Second},
+            {key:"second",component:Second}
         ]
-        // const scenes = {
-        //     "first":{
-        //         component:First,initial:true
-        //     },
-        //     "second":{
-        //         component:Second
-        //     },
-        //     "tabs":{
-        //         tabbar:true,items:[
-        //             {"third":{
-        //                 component:Third
-        //             }}
-        //         ]
-        //     },
-        //     "four":{
-        //         component:"four"
-        //     }
-        // }
-        return <Router scenes={scenes}/>
+        return (
+            <Router>
+                <Scene tabbar={true} key="tabs">
+                    <Scene key="tab_1" iconName="coffee">
+                        <Scene key="third" component={Third}/>
+                    </Scene>
+                    <Scene key="tab_2" iconName="user">
+                        <Scene key="four" component={Four}/>
+                    </Scene>
+                </Scene>
+                <Scene key="first" component={First} initial={true}></Scene>
+                <Scene key="second" component={Second} initial={true}></Scene>
+            </Router>
+        )
     }
 }
 

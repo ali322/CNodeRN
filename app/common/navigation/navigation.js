@@ -47,7 +47,6 @@ class Navigation extends Component{
     }
     render(){
         const {navigationState} = this.props
-        console.log("navigationState",navigationState)
         const options = {}
         options.applyAnimation = (pos,navState)=>{
             Animated.timing(pos,{toValue:navState.index,duration:300}).start()

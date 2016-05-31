@@ -26,7 +26,7 @@ class TabNavigation extends Component{
         console.log("navigationState",navigationState)
         return (
             <TabBar>
-                {navigationState.items.map((item,i)=>{
+                {navigationState.children.map((item,i)=>{
                     return (
                         <TabBar.Item key={i} onPress={this._handleSelect}
                         renderIcon={(selected)=>this._renderIcon(item.title,{name:item.iconName,size:20},selected)}>

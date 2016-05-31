@@ -40,7 +40,9 @@ export default function routerReducer(state={},action){
     let _navigationState = _.cloneDeep(navigationState)
     let _scenes = _.cloneDeep(scenes)
     const {scene,path} = locateScene(_scenes,action.key)
-    // console.log("scenes",_scenes)
+    if(!scene){
+        return state
+    }
     function nestReducer(navState,navAction,scenePath){
         return scenePath?_.update(navState,scenePath,navSubState=>navigationReducer(navSubState,navAction)):
             navigationReducer(navState,navAction)
@@ -48,7 +50,7 @@ export default function routerReducer(state={},action){
     switch(action.type){
         case constants.PUSH_SCENE:
             if(scene.tabbar){
-                scene.items = scene.items.map((item,i)=>{
+                scene.children = scene.children.map((item,i)=>{
                     return {
                         index:0,
                         ...item,
@@ -80,7 +82,6 @@ export default function routerReducer(state={},action){
 
 function locateScene(scenes,key,path="") {
     let _scene = null
-    // console.log("scenes",scenes)
     if(key){
         _.each(scenes,(scene,i)=>{
             if(scene.key === key){
@@ -97,6 +98,5 @@ function locateScene(scenes,key,path="") {
             }
         })
     }
-    console.log("scene",_scene)
     return _scene || {}
 }

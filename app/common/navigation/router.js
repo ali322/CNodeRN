@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component} from "react-native"
+import React,{Component,PropTypes} from "react-native"
 import Navigation from "./navigation"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
@@ -9,18 +9,41 @@ import * as actions from "./action"
 import _ from "lodash"
 
 class Router extends Component{
-    static defaultProps = {
-        scenes:[]
+    constructor(props){
+        super(props)
+        this._scenes = this._scenesListByChilren(props.children)
+    }
+    _scenesListByChilren(chilren){
+        const _scenes = React.Children.map(chilren,(child)=>{
+            let nextChildren = null
+            if(child.props.children){
+                nextChildren = this._scenesListByChilren(child.props.children)
+                return {key:child.key,...child.props,children:nextChildren}
+            }else{
+                const props = _.omit(child,"children")
+                return {key:child.key,...child.props}
+            }
+        })
+        return _scenes
     }
     render(){
         const initialState = {
-            navigationState:initialStateFromScenes(this.props.scenes),
-            scenes:this.props.scenes
+            navigationState:initialStateFromScenes(this._scenes),
+            scenes:this._scenes
         }
         const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
             navigationActions:bindActionCreators(actions,dispatch)
         }),initialState)
         return <RouterContainer/>
+    }
+}
+
+export class Scene extends Component{
+    static propTypes = {
+        key:PropTypes.string
+    }
+    render(){
+        return null
     }
 }
 
@@ -30,9 +53,11 @@ function initialStateFromScenes(scenes){
         key:"root",
         children:[]
     }
-    const initialScene = _.cloneDeep(scenes[0])
+    let initialKey = _.findIndex(scenes,{initial:true})
+    initialKey = initialKey > -1?initialKey:0
+    const initialScene = _.cloneDeep(scenes[initialKey])
     if(initialScene.tabbar){
-        initialScene.items = initialScene.items.map((item,i)=>{
+        initialScene.children = initialScene.children.map((item,i)=>{
             return {
                 index:0,
                 ...item,
