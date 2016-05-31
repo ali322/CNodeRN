@@ -89,9 +89,10 @@ class Updater extends Component{
         return <Progress.Bar progress={scale} width={200} color="#666" borderColor="#666"/>
     }
     render(){
+        const {navigationActions} = this.props
         return (
             <View style={styles.container}>
-            <NavBar title="" {...this.props}/>
+            <NavBar title="" {...this.props} goBack={()=>navigationActions.popScene("setup")}/>
             <View style={styles.updaterContainer}>
                 <View style={styles.updaterBreif}>{this.state.progress?this.renderProgress():<Text style={styles.updaterBreifText}>{this.state.syncMessage}</Text>}</View>
                 <View style={styles.updaterButtons}>

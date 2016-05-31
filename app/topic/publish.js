@@ -2,7 +2,6 @@
 
 import React,{Component,View,Text,TouchableHighlight,TouchableOpacity,TextInput,Picker,Alert} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-
 import NavBar from "../common/component/navbar"
 
 import containerByComponent from "../lib/redux-helper"
@@ -44,13 +43,14 @@ class Publish extends Component{
         }
     }
     renderNavigationBar(){
+        const {popScene} = this.props.navigationActions
         const rightButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={this._handleSave.bind(this)}>
                 <Text style={styles.navigationBarButtonText}>确定</Text>
             </TouchableOpacity>
         )
 
-        return <NavBar title="发布主题" rightButton={()=>rightButton} {...this.props}/>
+        return <NavBar title="发布主题" rightButton={()=>rightButton} goBack={()=>popScene("publish")} {...this.props}/>
     }
     renderModal(){
         return (

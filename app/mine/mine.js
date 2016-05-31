@@ -63,18 +63,18 @@ class Mine extends Component {
         )
     }
     renderNavigationBar() {
+        const {navigationActions} = this.props
         const rightButton = (
-            <TouchableOpacity style={styles.navigationBarButton} onPress={()=>{this.props.router.setup()}}>
+            <TouchableOpacity style={styles.navigationBarButton} onPress={()=>{navigationActions.pushScene("setup")}}>
                 <Icon name="cog" size={20} color="#999"/>
             </TouchableOpacity>
         )
         return <NavBar title="我的" leftButton={false} rightButton={()=>rightButton}/>
     }
     renderTopicRow(topic) {
-        const {user} = this.props
-
+        const {user,navigationActions} = this.props
         return (
-            <TouchableOpacity onPress={() => Actions.topic({ id: topic.id }) }>
+            <TouchableOpacity onPress={()=>navigationActions.pushScene("topic",{ id: topic.id }) }>
                 <Animated.View style={[styles.listCell, {
                     // opacity: this.state.rowScale,
                     // transform: [{ scaleX: this.state.rowScale }]

@@ -89,8 +89,8 @@ function locateScene(scenes,key,path="") {
                 return false
             }
             if(scene.tabbar){
-                _.each(scene.items,(item,j)=>{
-                    _scene = locateScene(item.children,key,`${path}children[${i}]items[${j}]`)
+                _.each(scene.children,(item,j)=>{
+                    _scene = locateScene(item.children,key,`${path}children[${i}]children[${j}]`)
                     if(_scene){
                         return false
                     }

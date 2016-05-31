@@ -43,11 +43,10 @@ class Setup extends Component{
         }
     }
     render(){
-        const {userPrefs} = this.props
-        
+        const {userPrefs,navigationActions} = this.props
         return (
             <View style={styles.container}>
-            <NavBar title="设置" userPrefs={this.props.userPrefs} {...this.props}/>
+            <NavBar title="设置" userPrefs={this.props.userPrefs} goBack={()=>navigationActions.popScene("setup")} {...this.props}/>
             <View style={styles.setupPanel}>
                 <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
@@ -74,7 +73,7 @@ class Setup extends Component{
                         <Slider maximumValue={20} minimumValue={12}/>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.setupRow} onPress={()=>this.props.router.updater()}>
+                <TouchableOpacity style={styles.setupRow} onPress={()=>navigationActions.pushScene("updater")}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>检查更新</Text>
                     </View>

@@ -29,6 +29,7 @@ class Reply extends Component{
         }
     }
     renderNavigationBar(){
+        const {navigationActions} = this.props
         const handleSave = async ()=>{
             const user = await global.storage.getItem("user")
             const reply = {
@@ -45,7 +46,7 @@ class Reply extends Component{
             </TouchableOpacity>
         )
 
-        return <NavBar title="回复" rightButton={()=>rightButton} {...this.props}/>
+        return <NavBar title="回复" rightButton={()=>rightButton} goBack={()=>navigationActions.popScene("reply")} {...this.props}/>
     }
     render(){
         return (

@@ -21,8 +21,8 @@ class Second extends Component{
     render(){
         // console.log("this.props",this.props)
         return <View  style={styles.container}><Text>Second</Text>
-        <TouchableOpacity onPress={()=>this.props.navigationActions.popScene()}><Text>back</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=>this.props.navigationActions.pushScene("tabs")}><Text>next</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>this.props.navigationActions.popScene("second")}><Text>back</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>this.props.navigationActions.pushScene("third")}><Text>next</Text></TouchableOpacity>
         </View>
     }
 }
@@ -63,14 +63,14 @@ export default class extends Component{
             <Router>
                 <Scene tabbar={true} key="tabs">
                     <Scene key="tab_1" iconName="coffee">
+                        <Scene key="first" component={First}></Scene>
+                        <Scene key="second" component={Second}></Scene>
                         <Scene key="third" component={Third}/>
                     </Scene>
                     <Scene key="tab_2" iconName="user">
                         <Scene key="four" component={Four}/>
                     </Scene>
                 </Scene>
-                <Scene key="first" component={First} initial={true}></Scene>
-                <Scene key="second" component={Second} initial={true}></Scene>
             </Router>
         )
     }

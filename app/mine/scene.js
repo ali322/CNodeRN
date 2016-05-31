@@ -1,12 +1,13 @@
 'use strict'
 
 import React,{Navigator} from "react-native"
+import {Scene} from "../common/navigation/router"
 import Mine from "./mine"
 import Setup from "./setup"
 import Updater from "./updater"
 
 export default [
-    {key:"mine",component:Mine},
-    {key:"setup",component:Setup},
-    {key:"updater",component:Updater,sceneConfig:Navigator.SceneConfigs.FloatFromBottom}
+    <Scene key="mine" component={Mine}/>,
+    <Scene key="setup" component={Setup}/>,
+    <Scene key="updater" component={Updater}/>
 ]

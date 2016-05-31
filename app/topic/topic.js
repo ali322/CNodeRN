@@ -74,6 +74,7 @@ class Topic extends Component{
         }
     }
     async _toReply(param){
+        const {navigationActions} = this.props
         const user = await global.storage.getItem("user")
         if(!user){
             this._alert.alert("请先登录","",[
@@ -81,11 +82,12 @@ class Topic extends Component{
                 {text:"确定",onPress:()=>Actions.login()}
             ])
         }else{
-            Actions.reply(param)
+            navigationActions.pushScene("reply",param)
         }
     }
     renderNavigationBar(){
         const {topic} = this.props
+        const {popScene} = this.props.navigationActions
         const isCollect = topic && topic.is_collect
         const rightButton = (
             <View style={[styles.navigationBarButton,{marginRight:5}]}>
@@ -102,7 +104,7 @@ class Topic extends Component{
                 </TouchableOpacity>
             </View>
         )
-        return <NavBar title="主题详情" rightButton={()=>rightButton} {...this.props}/>
+        return <NavBar title="主题详情" rightButton={()=>rightButton} goBack={()=>popScene("topic")} {...this.props}/>
     }
     renderContent(){
         const {topic} = this.props

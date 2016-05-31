@@ -68,7 +68,6 @@ class UserCollect extends Component{
         )
     }
     render(){
-        console.log("this.props",this.props)
         return (
             <View style={styles.container}>
             <NavBar title="收藏的主题" leftButton={false}/>

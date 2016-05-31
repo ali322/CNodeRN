@@ -1,7 +1,8 @@
 'use strict'
 import React from "react-native"
+import {Scene} from "../common/navigation/router"
 import UserCollect from "./collect"
 
 export default [
-    {key:"collect",component:UserCollect}
+    <Scene key="collect" component={UserCollect}/>
 ]

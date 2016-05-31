@@ -71,9 +71,9 @@ class Topics extends Component{
         }
     }
     renderNavigationBar(){
-        const {categories,selectedCategory} = this.props
+        const {categories,selectedCategory,navigationActions} = this.props
         const leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>this.props.router.publish()}>
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>navigationActions.pushScene("publish")}>
             <Icon name="edit" size={22} color="#999"/>
             </TouchableOpacity>
         )
@@ -88,7 +88,7 @@ class Topics extends Component{
                 <Icon name="angle-down" size={16} color="#999"/>
             </TouchableOpacity>
         )
-        return <NavBar leftButton={()=>leftButton} rightButton={()=>rightButton} title={()=>title}/>
+        return <NavBar leftButton={()=>leftButton} rightButton={()=>rightButton} title={()=>title} {...this.props}/>
     }
     renderModal(){
         const {categories,selectedCategory} = this.props
@@ -116,8 +116,9 @@ class Topics extends Component{
         onClose={this.toggleSearchActive.bind(this)}/>
     }
     renderRow(topic){
+        const {pushScene} = this.props.navigationActions
         return (
-            <TouchableOpacity onPress={()=>this.props.router.topic({id:topic.id})}>
+            <TouchableOpacity onPress={()=>pushScene("topic",{id:topic.id})}>
             <Animated.View style={[styles.topicCell, {
                 // opacity: this.state.rowScale,
                 // transform: [{ scaleX: this.state.rowScale }]
