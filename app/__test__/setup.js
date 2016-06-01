@@ -41,4 +41,6 @@ global.__DEV__ = true
 global.expect = chai.expect
 chai.use(chaiEnzyme())
 
-require('react-native-mock/mock')
+if(process.env.NODE_ENV === "test"){
+    require('react-native-mock/mock')
+}

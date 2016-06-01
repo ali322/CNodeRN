@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "mocha --require app/__test__/setup.js --compilers js:babel-core/register app/__test__/spec/"
+    "test": "NODE_ENV=test mocha --require app/__test__/setup.js --compilers js:babel-core/register app/__test__/spec/"
   },
   "dependencies": {
     "immutable": "^3.8.1",
@@ -36,6 +36,7 @@
     "chai-enzyme": "^0.4.2",
     "enzyme": "^2.3.0",
     "mocha": "^2.5.3",
+    "react-addons-test-utils": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-native-mock": "^0.2.2",
     "redux-logger": "^2.6.1",

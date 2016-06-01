@@ -1,38 +1,64 @@
 'use strict'
 
-import React,{Component,View} from "react-native"
-import TabNavigator from "react-native-tab-navigator"
-import _ from "lodash"
+import React,{Component,View,TouchableOpacity,StyleSheet,Text,Dimensions,PropTypes} from "react-native"
+import Icon from "react-native-vector-icons/FontAwesome"
 
 class TabBar extends Component{
     static defaultProps = {
-        selectedIndex:0,
-        onSelect:()=>{}
+        activeIndex:0,
+        beforeSelect:()=>true,
+        afterSelect:()=>{}
+    }
+    static propTypes = {
+        activeIndex:PropTypes.number,
+        // beforeSelect:PropTypes.function
     }
     constructor(props){
         super(props)
         this.state = {
-            selectedIndex:props.selectedIndex
+            activeIndex:props.activeIndex
+        }
+        this._handleClick = this._handleClick.bind(this)
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.activeIndex !== this.props.activeIndex){
+            this.setState({activeIndex:nextProps.activeIndex})
         }
     }
-    _handleSelect(item,index){
+    _handleClick(index){
+        const {beforeSelect,afterSelect} = this.props
+        if(!beforeSelect(index)){
+            return false
+        }
         this.setState({
-            selectedIndex:index
-        },()=>this.props.onSelect(item))
+            activeIndex:index
+        },()=>{
+            afterSelect(index)
+        })
     }
-    _renderTab(item,index){
-        const props = _.pick(item.props,["title","tabStyle","renderIcon"])
-        const renderIcon = props.renderIcon || (()=>null)
-        return <TabNavigator.Item key={index} onPress={this._handleSelect.bind(this,item,index)} 
-        renderIcon={()=>renderIcon()} renderSelectedIcon={()=>renderIcon(true)} titleStyle={{height:0}} title="title"
-        {...props} selected={this.state.selectedIndex === index}
-        >{item}</TabNavigator.Item>
+    _renderTabContent(){
+        return  React.Children.toArray(this.props.children)
+            .filter((child,i)=>this.state.activeIndex === i)[0]
+    }
+    _renderTabBar(){
+        return React.Children.map(this.props.children,(child,i)=>{
+            return (
+                <TouchableOpacity style={styles.tab} key={i} onPress={()=>this._handleClick(i)}>
+                    {child.props.renderIcon(i === this.state.activeIndex)}
+                </TouchableOpacity>
+            )
+        })
     }
     render(){
-        const sceneStyle = {paddingBottom:0}
         return (
-            <TabNavigator sceneStyle={sceneStyle}
-            >{React.Children.map(this.props.children,this._renderTab.bind(this))}</TabNavigator>
+            <View style={styles.container}>
+            <View style={styles.tabContent}>
+                {this._renderTabContent()}
+            </View>
+            <View style={[styles.tabs,this.props.style]}>
+                {this._renderTabBar()}
+            </View>
+            </View>
         )
     }
 }
@@ -43,6 +69,32 @@ class TabBarItem extends Component{
         return React.cloneElement(child)
     }
 }
+
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        flexDirection:"column",
+        justifyContent:"center"
+    },
+    tabContent:{
+        flex:1  
+    },
+    tabs:{
+        position:"absolute",
+        bottom:0,
+        left:0,
+        width:Dimensions.get("window").width,
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center",
+        height:50
+    },
+    tab:{
+        flex:1,
+        justifyContent:"center",
+        alignItems:"center"
+    }
+})
 
 TabBar.Item = TabBarItem
 

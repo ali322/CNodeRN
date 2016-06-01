@@ -12,6 +12,7 @@ class TabNavigation extends Component{
     }
     _handleSelect(tab){
         console.log("tab".tab)
+        return false
     }
     _renderIcon(tintText,iconConfig,selected){
             return (
@@ -23,9 +24,9 @@ class TabNavigation extends Component{
         }
     render(){
         const {navigationState,navigationActions} = this.props
-        console.log("navigationState",navigationState)
+        // console.log("navigationState",navigationState)
         return (
-            <TabBar>
+            <TabBar style={styles.tabBar}>
                 {navigationState.children.map((item,i)=>{
                     return (
                         <TabBar.Item key={i} onPress={this._handleSelect}
