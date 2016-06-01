@@ -92,7 +92,7 @@ class Updater extends Component{
         const {navigationActions} = this.props
         return (
             <View style={styles.container}>
-            <NavBar title="" {...this.props} goBack={()=>navigationActions.popScene("setup")}/>
+            <NavBar title="" {...this.props} onLeftButtonClick={()=>navigationActions.popScene("setup")}/>
             <View style={styles.updaterContainer}>
                 <View style={styles.updaterBreif}>{this.state.progress?this.renderProgress():<Text style={styles.updaterBreifText}>{this.state.syncMessage}</Text>}</View>
                 <View style={styles.updaterButtons}>

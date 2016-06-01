@@ -16,6 +16,8 @@ import messageScenes from "./message/scene"
 import mineScenes from "./mine/scene"
 import Login from "./authorize/login"
 import Qrcode from "./authorize/qrcode"
+import Immutable from "seamless-immutable"
+import _ from "lodash"
 
 class App extends Component{
     constructor(props){

@@ -73,22 +73,21 @@ class Topics extends Component{
     renderNavigationBar(){
         const {categories,selectedCategory,navigationActions} = this.props
         const leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={()=>navigationActions.pushScene("publish")}>
             <Icon name="edit" size={22} color="#999"/>
-            </TouchableOpacity>
         )
         const rightButton = (
-            <TouchableOpacity style={styles.navigationBarButton} onPress={this.toggleSearchActive.bind(this)}>
             <Icon name="search" size={20} color="#999"/>
-            </TouchableOpacity>
         )
         const title = (            
-            <TouchableOpacity style={styles.navigationBarTitle} onPress={this.toggleModalActive.bind(this)}>
+            <View style={styles.navigationBarTitle}>
                 <Text style={styles.navigationBarTitleText}>{categories[selectedCategory].name}</Text>
                 <Icon name="angle-down" size={16} color="#999"/>
-            </TouchableOpacity>
+            </View>
         )
-        return <NavBar leftButton={()=>leftButton} rightButton={()=>rightButton} title={()=>title} {...this.props}/>
+        return <NavBar leftButton={leftButton} rightButton={rightButton} title={title} 
+        onLeftButtonClick={()=>navigationActions.pushScene("publish")} 
+        onRightButtonClick={this.toggleSearchActive.bind(this)}
+        {...this.props}/>
     }
     renderModal(){
         const {categories,selectedCategory} = this.props

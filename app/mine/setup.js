@@ -46,7 +46,7 @@ class Setup extends Component{
         const {userPrefs,navigationActions} = this.props
         return (
             <View style={styles.container}>
-            <NavBar title="设置" userPrefs={this.props.userPrefs} goBack={()=>navigationActions.popScene("setup")} {...this.props}/>
+            <NavBar title="设置" userPrefs={this.props.userPrefs} onLeftButtonClick={()=>navigationActions.popScene("setup")} {...this.props}/>
             <View style={styles.setupPanel}>
                 <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>

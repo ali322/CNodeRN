@@ -7,6 +7,7 @@ import containerByComponent from "../../lib/redux-helper"
 import routerReducer from "./reducer"
 import * as actions from "./action"
 import _ from "lodash"
+import Immutable from "seamless-immutable"
 
 class Router extends Component{
     constructor(props){

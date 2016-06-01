@@ -23,41 +23,40 @@ class NavBar extends Component{
         }
     }
     _renderNavBar(){
-        const {title,leftButton,rightButton,goBack} = this.props
+        const {title,leftButton,rightButton,onLeftButtonClick,onRightButtonClick} = this.props
         const styles = preferredStyles(stylesForAll,global.userPrefs)
         const defines = preferredThemeDefines(global.userPrefs)
-        let _title = null
-        if(_.isString(title)){
-            _title = (
-                <View style={styles.navigationBarTitle}>
-                    <Text style={styles.navigationBarTitleText}>{title}</Text>
-                </View>
-            )
-        }else if(_.isFunction(title)){
+        
+        let _title = (
+            <View style={styles.navigationBarTitle}>
+            {_.isString(title)?<Text style={styles.navigationBarButtonText}>{title}</Text>:
+                React.isValidElement(title)?title:null}
+            </View>
+        )
+        if(_.isFunction(title)){
             _title = title()
         }
         
-        let _leftButton = null
-        if(_.isString(leftButton)){
-            _leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={goBack || (()=>{})}>
-                <Text style={styles.navigationBarButtonText}>{leftButton}</Text>
+        let _leftButton = (
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onLeftButtonClick || (()=>{})}>
+            {_.isString(leftButton)?<Text style={styles.navigationBarButtonText}>{leftButton}</Text>:
+                React.isValidElement(leftButton)?leftButton:null}
             </TouchableOpacity>
-            )
-        }else if(_.isFunction(leftButton)){
+        )
+        if(_.isFunction(leftButton)){
             _leftButton = leftButton()
         }
         
-        let _rightButton = null
-        if(_.isString(rightButton)){
-            _rightButton = (
-            <View style={[styles.navigationBarButton,{marginLeft:5}]}>
-                <Text style={styles.navigationBarButtonText}>rightButton</Text>
-            </View>
-            )
-        }else if(_.isFunction(rightButton)){
+        let _rightButton = (
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onRightButtonClick || (()=>{})}>
+            {_.isString(rightButton)?<Text style={styles.navigationBarButtonText}>{rightButton}</Text>:
+                React.isValidElement(rightButton)?rightButton:null}
+            </TouchableOpacity>
+        )
+        if(_.isFunction(rightButton)){
             _rightButton = rightButton()
         }
+        
         return (
             <View style={styles.navigationBar}>
             {_leftButton}{_title}{_rightButton}
