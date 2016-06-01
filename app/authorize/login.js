@@ -8,10 +8,11 @@ import styles from "./stylesheet"
 
 class Login extends Component{
     render(){
+        const {navigationActions}= this.props
         return (
             <View style={styles.container}>
-            <NavBar title="登录"/>
-            <Anonymous />
+            <NavBar title="登录" goBack={()=>navigationActions.popScene("login")}/>
+            <Anonymous toLogin={navigationActions.pushScene("qrcode")}/>
             </View>
         )
     }

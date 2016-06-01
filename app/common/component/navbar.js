@@ -1,13 +1,17 @@
 'use strict'
 
-import React,{Component,View,Text,StyleSheet,TouchableOpacity,Platform,StatusBar} from "react-native"
-import Icon from "react-native-vector-icons/FontAwesome"
-import NavigationBar from "react-native-navbar"
+import React,{Component,View,Text,TouchableOpacity,StatusBar,StyleSheet,Platform} from "react-native"
 import _ from "lodash"
-
 import {preferredStyles,preferredThemeDefines} from "../../lib/helper"
 
 class NavBar extends Component{
+    static defaultProps = {
+        leftButton:"返回"
+    }
+    constructor(props){
+        super(props)
+        this._renderNavBar = this._renderNavBar.bind(this)
+    }
     componentWillReceiveProps(nextProps){
         if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
             StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
@@ -18,8 +22,8 @@ class NavBar extends Component{
             StatusBar.setBarStyle((global.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
         }
     }
-    render(){
-        const {tintColor,leftButton,rightButton,title,goBack} = this.props
+    _renderNavBar(){
+        const {title,leftButton,rightButton,goBack} = this.props
         const styles = preferredStyles(stylesForAll,global.userPrefs)
         const defines = preferredThemeDefines(global.userPrefs)
         let _title = null
@@ -54,32 +58,34 @@ class NavBar extends Component{
         }else if(_.isFunction(rightButton)){
             _rightButton = rightButton()
         }
-        
-        const navbarConfig = Object.assign({},
-            _title?{title:_title}:null,
-            _leftButton?{leftButton:_leftButton}:null,
-            _rightButton?{rightButton:_rightButton}:null)
-            
         return (
-            <View>
-            <StatusBar ref={view=>this._statusBar=view}/>
-            <NavigationBar {...navbarConfig} statusBar={{hidden:true}} 
-            tintColor={defines.navbarTintColor?defines.navbarTintColor:tintColor} style={styles.navigationBar}/>
+            <View style={styles.navigationBar}>
+            {_leftButton}{_title}{_rightButton}
+            </View>
+        )
+    }
+    render(){
+        const headerStyle = {
+            height:64,
+            borderBottomWidth:0.5,
+            borderBottomColor:"#DDD",
+            backgroundColor:"#F8F8F8"
+        }
+        return (
+            <View style={headerStyle}>
+            <StatusBar />
+            {this._renderNavBar()}
             </View>
         )
     }
 }
 
-NavBar.defaultProps = {
-    tintColor:"#F8F8F8",
-    leftButton:"返回"
-}
-
 const stylesForAll = {
     navigationBar:{
         marginTop:Platform.OS === "ios"?20:0,
-        borderBottomWidth:0.5,
-        borderBottomColor:"#DDD"
+        flexDirection:"row",
+        alignItems:"center",
+        flex:1
     },
     navigationBarButton:{
         marginRight:8,
@@ -96,8 +102,9 @@ const stylesForAll = {
     navigationBarTitle:{
         // height:20,
         marginVertical:Platform.OS === "ios"?8:6,
-        // flex:1,
+        flex:1,
         flexDirection:"row",
+        justifyContent:"center",
         alignItems:"center"
     },
     navigationBarTitleText:{

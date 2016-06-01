@@ -6,14 +6,6 @@ import Navigation from "./navigation"
 import Router from "./router"
 
 class TabNavigation extends Component{
-    constructor(props){
-        super(props)
-        this._handleSelect = this._handleSelect.bind(this)
-    }
-    _handleSelect(tab){
-        console.log("tab".tab)
-        return false
-    }
     _renderIcon(tintText,iconConfig,selected){
             return (
                 <View style={styles.tabBarItem}>
@@ -29,7 +21,7 @@ class TabNavigation extends Component{
             <TabBar style={styles.tabBar}>
                 {navigationState.children.map((item,i)=>{
                     return (
-                        <TabBar.Item key={i} onPress={this._handleSelect}
+                        <TabBar.Item key={i} beforeSelect={()=>item.onSelect(navigationState,navigationActions)} 
                         renderIcon={(selected)=>this._renderIcon(item.title,{name:item.iconName,size:20},selected)}>
                             <Navigation navigationState={item} navigationActions={navigationActions}/>
                         </TabBar.Item>

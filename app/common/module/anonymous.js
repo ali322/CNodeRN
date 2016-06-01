@@ -8,7 +8,7 @@ class Anonymous extends Component{
         return (
             <View style={styles.anonymousPanel}>
                 <View style={styles.anonymousContainer}>
-                    <Icon.Button name="qrcode" onPress={()=>Actions.qrcode()}
+                    <Icon.Button name="qrcode" onPress={this.props.toLogin}
                     size={30} backgroundColor="transparent" color="#666">
                         <Text style={styles.authorizeQrcodeText}>扫码登录</Text>
                     </Icon.Button>

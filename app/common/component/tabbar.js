@@ -5,9 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 
 class TabBar extends Component{
     static defaultProps = {
-        activeIndex:0,
-        beforeSelect:()=>true,
-        afterSelect:()=>{}
+        activeIndex:0
     }
     static propTypes = {
         activeIndex:PropTypes.number,
@@ -26,15 +24,11 @@ class TabBar extends Component{
         }
     }
     _handleClick(index){
-        const {beforeSelect,afterSelect} = this.props
-        if(!beforeSelect(index)){
-            return false
+        if(this.state.activeIndex !== index){
+            this.setState({
+                activeIndex:index
+            })
         }
-        this.setState({
-            activeIndex:index
-        },()=>{
-            afterSelect(index)
-        })
     }
     _renderTabContent(){
         return  React.Children.toArray(this.props.children)
@@ -43,7 +37,12 @@ class TabBar extends Component{
     _renderTabBar(){
         return React.Children.map(this.props.children,(child,i)=>{
             return (
-                <TouchableOpacity style={styles.tab} key={i} onPress={()=>this._handleClick(i)}>
+                <TouchableOpacity style={styles.tab} key={i} onPress={()=>{
+                    if(child.props.beforeSelect()){
+                        this._handleClick(i)
+                        child.props.afterSelect(i)
+                    }
+                }}>
                     {child.props.renderIcon(i === this.state.activeIndex)}
                 </TouchableOpacity>
             )
@@ -64,6 +63,10 @@ class TabBar extends Component{
 }
 
 class TabBarItem extends Component{
+    static defaultProps = {
+        beforeSelect:()=>true,
+        afterSelect:()=>{}
+    }
     render(){
         const child = React.Children.only(this.props.children)
         return React.cloneElement(child)

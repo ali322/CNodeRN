@@ -27,8 +27,11 @@ class Router extends Component{
         return _scenes
     }
     render(){
+        if(!this.props.initialSceneKey){
+            throw new Error("missing initialSceneKey")
+        }
         const initialState = {
-            navigationState:initialStateFromScenes(this._scenes),
+            navigationState:initialStateFromScenes(this._scenes,this.props.initialSceneKey),
             scenes:this._scenes
         }
         const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
@@ -47,15 +50,15 @@ export class Scene extends Component{
     }
 }
 
-function initialStateFromScenes(scenes){
+function initialStateFromScenes(scenes,initialSceneKey){
     let state = {
         index:0,
         key:"root",
         children:[]
     }
-    let initialKey = _.findIndex(scenes,{initial:true})
-    initialKey = initialKey > -1?initialKey:0
-    const initialScene = _.cloneDeep(scenes[initialKey])
+    let initialSceneIndex = _.findIndex(scenes,{key:initialSceneKey})
+    initialSceneIndex = initialSceneIndex > -1?initialSceneIndex:0
+    const initialScene = _.cloneDeep(scenes[initialSceneIndex])
     if(initialScene.tabbar){
         initialScene.children = initialScene.children.map((item,i)=>{
             return {

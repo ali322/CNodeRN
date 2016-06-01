@@ -20,8 +20,10 @@ const styles = {
         // paddingLeft:3 
     },
     navigationBarTitle:{
+        flex:1,
         marginVertical:Platform.OS === "ios"?8:6,
         flexDirection:"row",
+        justifyContent:"center",
         alignItems:"center"
     },
     navigationBarTitleText:{
