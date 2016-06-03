@@ -1,11 +1,15 @@
 'use strict'
-import React,{Component,StyleSheet,View,Text} from "react-native"
+import React,{Component,StyleSheet,View,Text,PropTypes} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import TabBar from "../component/tabbar"
 import Navigation from "./navigation"
 import Router from "./router"
 
 class TabNavigation extends Component{
+    static propTypes = {
+        navigationState:PropTypes.object,
+        navigationActions:PropTypes.object
+    }
     _renderIcon(tintText,iconConfig,selected){
             return (
                 <View style={styles.tabBarItem}>
@@ -16,7 +20,6 @@ class TabNavigation extends Component{
         }
     render(){
         const {navigationState,navigationActions} = this.props
-        // console.log("navigationState",navigationState)
         return (
             <TabBar style={styles.tabBar}>
                 {navigationState.children.map((item,i)=>{

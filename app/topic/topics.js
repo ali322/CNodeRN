@@ -3,6 +3,7 @@
 import React,{Component,View,Text,Image,ListView,Platform,Modal,TouchableOpacity,Animated,RefreshControl,TextInput,LayoutAnimation} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import containerByComponent from "../lib/redux-helper"
+import pureRender from "../lib/pure-render"
 
 import {topicsReducer} from "./reducer"
 import {fetchTopics,changeCategory,filterTopics} from "./action"
@@ -161,4 +162,4 @@ class Topics extends Component{
     }
 }
 
-export default containerByComponent(Topics,topicsReducer,{fetchTopics,changeCategory,filterTopics})
+export default containerByComponent(pureRender(Topics),topicsReducer,{fetchTopics,changeCategory,filterTopics})

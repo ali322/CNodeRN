@@ -9,6 +9,9 @@ import * as actions from "./action"
 import Immutable from "seamless-immutable"
 
 class Router extends Component{
+    static propTypes = {
+        initialSceneKey:PropTypes.string
+    }
     constructor(props){
         super(props)
         this._scenes = this._scenesListByChilren(props.children)
@@ -42,6 +45,8 @@ class Router extends Component{
 
 export class Scene extends Component{
     static propTypes = {
+        tabbar:PropTypes.bool,
+        component:PropTypes.element,
         key:PropTypes.string
     }
     render(){

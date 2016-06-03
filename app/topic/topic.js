@@ -9,6 +9,7 @@ import NavBar from "../common/component/navbar"
 import Alert from "../common/component/alert"
 
 import containerByComponent from "../lib/redux-helper"
+import pureRender from "../lib/pure-render"
 import {fetchTopic,toggleCollect,toggleAgree} from "./action"
 import {topicReducer} from "./reducer"
 
@@ -28,11 +29,11 @@ class Topic extends Component{
         } 
     }
     componentDidMount(){
-        // InteractionManager.runAfterInteractions(()=>{
-        requestAnimationFrame(()=>{
+        InteractionManager.runAfterInteractions(()=>{
+        // requestAnimationFrame(()=>{
             this.props.actions.fetchTopic(this.props.id)    
-        })
         // })
+        })
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.topicFetched && !nextProps.topicFetching){
@@ -174,7 +175,7 @@ class Topic extends Component{
     }
 }
 
-export default containerByComponent(Topic,topicReducer,{fetchTopic,toggleAgree,toggleCollect},{...this.props})
+export default containerByComponent(pureRender(Topic),topicReducer,{fetchTopic,toggleAgree,toggleCollect},{...this.props})
 
 
 

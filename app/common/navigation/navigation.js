@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,NavigationExperimental,StyleSheet,Animated} from "react-native"
+import React,{Component,NavigationExperimental,StyleSheet,Animated,PropTypes} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import TabNavigation from "./tabnavigation"
@@ -19,6 +19,9 @@ const {
 } = NavigationCard
 
 class Navigation extends Component{
+    static propTypes = {
+        navigationState:PropTypes.object
+    }
     constructor(props){
         super(props)
         this._renderCard = this._renderCard.bind(this)
@@ -54,6 +57,7 @@ class Navigation extends Component{
         return (
             <NavigationAnimatedView style={styles.animatedView} 
             navigationState={navigationState} onNavigate={()=>{}} 
+            renderOverlay={()=>null}  
             renderScene={this._renderCard} {...options}/>
         )
     }
