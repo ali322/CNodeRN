@@ -1,7 +1,6 @@
 'use strict'
 import {NavigationExperimental} from "react-native"
 import * as constants from "./constant"
-import _ from "lodash"
 
 const {
     StateUtils:NavigationStateUtils
@@ -36,67 +35,68 @@ function navigationReducer(state={},action) {
 }
 
 export default function routerReducer(state={},action){
-    const {navigationState,scenes} = state
-    let _navigationState = _.cloneDeep(navigationState)
-    let _scenes = _.cloneDeep(scenes)
-    const {scene,path} = locateScene(_scenes,action.key)
+    let {navigationState,scenes} = state
+    // let _navigationState = navigationState.asMutable()
+    // let _navigationState = _.cloneDeep(navigationState)
+    // let _scenes = _.cloneDeep(scenes)
+    const {scene,path} = locateScene(scenes,action.key)
     if(!scene){
         return state
     }
     function nestReducer(navState,navAction,scenePath){
-        return scenePath?_.update(navState,scenePath,navSubState=>navigationReducer(navSubState,navAction)):
+        return scenePath.length > 0?navState.updateIn(scenePath,nestNavState=>navigationReducer(nestNavState,navAction)):
             navigationReducer(navState,navAction)
     }
     switch(action.type){
         case constants.PUSH_SCENE:
-            if(scene.tabbar){
-                scene.children = scene.children.map((item,i)=>{
-                    return {
-                        index:0,
-                        ...item,
-                        children:[item.children[0]]
-                    }
-                })
-            }
+            const nextScene = scene.tabbar?scene.set("children",children=>children.map((item,i)=>{
+                return {
+                    index:0,
+                    ...item,
+                    children:[item.children[0]]
+                }
+            })):scene
             const injectedAction = {
                 type:action.type,
                 state:{
                     key:action.key,
                     params:action.params,
-                    ...scene
+                    ...nextScene
                 }
             }
-            _navigationState = nestReducer(_navigationState,injectedAction,path)
+            navigationState = navigationState.updateIn(path,nestNavState=>navigationReducer(nestNavState,injectedAction))
             break
         case constants.POP_SCENE:
         case constants.JUMPTO_SCENE:
         case constants.RESET_SCENE:
-            _navigationState = nestReducer(_navigationState,action,path)
+            navigationState = nestReducer(navigationState,action,path)
             break
     }
     return {
         scenes,
-        navigationState:_navigationState
+        navigationState:navigationState
     }
 }
 
-function locateScene(scenes,key,path="") {
+function locateScene(scenes,key,path=[]) {
     let _scene = null
     if(key){
-        _.each(scenes,(scene,i)=>{
+        for(let i in scenes){
+            const scene = scenes[i]
             if(scene.key === key){
                 _scene = {scene,path}
-                return false
+                break
             }
             if(scene.tabbar){
-                _.each(scene.children,(item,j)=>{
-                    _scene = locateScene(item.children,key,`${path}children[${i}]children[${j}]`)
+                for(let j in scene.children){
+                    const item = scene.children[j]
+                    _scene = locateScene(item.children,key,[...path,"children",i,"children",j])
                     if(_scene){
-                        return false
+                        break
                     }
-                })
+                }
             }
-        })
+        }
     }
     return _scene || {}
 }

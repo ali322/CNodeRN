@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "NODE_ENV=test mocha --require app/__test__/setup.js --compilers js:babel-core/register app/__test__/spec/"
   },

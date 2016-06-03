@@ -6,7 +6,6 @@ import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import routerReducer from "./reducer"
 import * as actions from "./action"
-import _ from "lodash"
 import Immutable from "seamless-immutable"
 
 class Router extends Component{
@@ -21,11 +20,10 @@ class Router extends Component{
                 nextChildren = this._scenesListByChilren(child.props.children)
                 return {key:child.key,...child.props,children:nextChildren}
             }else{
-                const props = _.omit(child,"children")
                 return {key:child.key,...child.props}
             }
         })
-        return _scenes
+        return Immutable(_scenes)
     }
     render(){
         if(!this.props.initialSceneKey){
@@ -52,24 +50,24 @@ export class Scene extends Component{
 }
 
 function initialStateFromScenes(scenes,initialSceneKey){
-    let state = {
+    let state = Immutable({
         index:0,
         key:"root",
         children:[]
-    }
-    let initialSceneIndex = _.findIndex(scenes,{key:initialSceneKey})
+    })
+    let initialSceneIndex = scenes.findIndex(scene=>scene.key === initialSceneKey)
     initialSceneIndex = initialSceneIndex > -1?initialSceneIndex:0
-    const initialScene = _.cloneDeep(scenes[initialSceneIndex])
+    let initialScene = scenes[initialSceneIndex]
     if(initialScene.tabbar){
-        initialScene.children = initialScene.children.map((item,i)=>{
+        initialScene = initialScene.set("children",initialScene.children.map((item,i)=>{
             return {
                 index:0,
                 ...item,
                 children:[item.children[0]]
             }
-        })
+        }))
     }
-    state.children[0] = initialScene
+    state = state.setIn(["children",0],initialScene)
     return state
 }
 

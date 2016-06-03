@@ -6,7 +6,7 @@ import thunkMiddleware from "redux-thunk"
 import createLogger from "redux-logger"
 import {autoRehydrate,persistStore} from "redux-persist"
 import React,{AsyncStorage,Component,Platform} from "react-native"
-// import devTools from 'remote-redux-devtools'
+import devTools from 'remote-redux-devtools'
 import _ from "lodash"
 
 const isDebugInChrome = __DEV__ && typeof window !== "undefined" 
@@ -24,16 +24,16 @@ const logger = createLogger({
 })
 
 if(isDebugInChrome){
-    middlewares.push(logger)
+    // middlewares.push(logger)
 }
 
 const createStoreWithMiddlewares = compose(
     applyMiddleware(...middlewares),
-    // devTools({
-    //     name: Platform.OS,
-    //     hostname: 'localhost',
-    //     port: 5678
-    // })
+    devTools({
+        name: Platform.OS,
+        hostname: 'localhost',
+        port: 5678
+    })
 )(createStore)
 
 export function configureStore(rootReducer,initialState,onComplete=()=>{}){
