@@ -65,7 +65,7 @@ class Mine extends Component {
     renderNavigationBar() {
         const {navigationActions} = this.props
         const rightButton = (
-            <TouchableOpacity style={styles.navigationBarButton} onPress={()=>{navigationActions.pushScene("setup")}}>
+            <TouchableOpacity style={styles.navigationBarButton} onPress={()=>navigationActions.pushScene("setup")}>
                 <Icon name="cog" size={20} color="#999"/>
             </TouchableOpacity>
         )

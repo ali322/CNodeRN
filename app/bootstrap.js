@@ -33,6 +33,8 @@ class App extends Component{
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>navActions.pushScene("login")}
             ])
+        }else{
+            return true
         }
     }
     componentDidMount(){

@@ -46,7 +46,7 @@ class Router extends Component{
 export class Scene extends Component{
     static propTypes = {
         tabbar:PropTypes.bool,
-        component:PropTypes.element,
+        component:PropTypes.any,
         key:PropTypes.string
     }
     render(){

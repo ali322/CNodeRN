@@ -36,10 +36,7 @@ function navigationReducer(state={},action) {
 
 export default function routerReducer(state={},action){
     let {navigationState,scenes} = state
-    // let _navigationState = navigationState.asMutable()
-    // let _navigationState = _.cloneDeep(navigationState)
-    // let _scenes = _.cloneDeep(scenes)
-    const {scene,path} = locateScene(scenes,action.key)
+    const {scene,path} = locateScene(scenes,action.key) || {}
     if(!scene){
         return state
     }
@@ -64,7 +61,7 @@ export default function routerReducer(state={},action){
                     ...nextScene
                 }
             }
-            navigationState = navigationState.updateIn(path,nestNavState=>navigationReducer(nestNavState,injectedAction))
+            navigationState = nestReducer(navigationState,injectedAction,path)
             break
         case constants.POP_SCENE:
         case constants.JUMPTO_SCENE:
@@ -98,5 +95,5 @@ function locateScene(scenes,key,path=[]) {
             }
         }
     }
-    return _scene || {}
+    return _scene
 }

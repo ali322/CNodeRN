@@ -13,7 +13,7 @@ import styles from "./stylesheet/setup"
 
 class Setup extends Component{
     componentDidMount(){
-        this.props.fetchUserPrefs()
+        this.props.actions.fetchUserPrefs()
     }
     _handleLogout(){
         this._alert.alert("确定退出?","",[

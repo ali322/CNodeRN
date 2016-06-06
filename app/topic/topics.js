@@ -162,4 +162,4 @@ class Topics extends Component{
     }
 }
 
-export default containerByComponent(pureRender(Topics),topicsReducer,{fetchTopics,changeCategory,filterTopics})
+export default containerByComponent(Topics,topicsReducer,{fetchTopics,changeCategory,filterTopics})

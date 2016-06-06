@@ -24,7 +24,7 @@ class TabNavigation extends Component{
             <TabBar style={styles.tabBar}>
                 {navigationState.children.map((item,i)=>{
                     return (
-                        <TabBar.Item key={i} beforeSelect={()=>item.onSelect(navigationState,navigationActions)} 
+                        <TabBar.Item key={i} beforeSelect={()=>item.onSelect?item.onSelect(navigationState,navigationActions):true} 
                         renderIcon={(selected)=>this._renderIcon(item.title,{name:item.iconName,size:20},selected)}>
                             <Navigation navigationState={item} navigationActions={navigationActions}/>
                         </TabBar.Item>

@@ -12,7 +12,7 @@ class Login extends Component{
         return (
             <View style={styles.container}>
             <NavBar title="登录" onLeftButtonClick={()=>navigationActions.popScene("login")}/>
-            <Anonymous toLogin={navigationActions.pushScene("qrcode")}/>
+            <Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>
             </View>
         )
     }

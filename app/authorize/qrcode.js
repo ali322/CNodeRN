@@ -22,17 +22,18 @@ class QrCode extends Component {
             return
         }
         this.successed = true
-        this.props.authorizeByToken(ret.data)
+        this.props.actions.authorizeByToken(ret.data)
     }
-    // componentDidMount(){
-    //     this.props.authorizeByToken("01206bae-f6ed-42de-bd0e-3775776deaf9")
-    // }
+    componentDidMount(){
+        this.props.actions.authorizeByToken("01206bae-f6ed-42de-bd0e-3775776deaf9")
+    }
     componentWillReceiveProps(nextProps){
+        const {navigationActions} = this.props
         if(!nextProps.isAuthorizing && this.props.isAuthorizing){
             if(nextProps.isAuthorized){
                 this.toast.show("登录成功",()=>{
                     global.storage.setItem("user",nextProps.user).then((err)=>{
-                        Actions.pop()
+                        navigationActions.popScene("qrcode")
                     })
                 })
             }else{
