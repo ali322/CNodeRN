@@ -66,12 +66,9 @@ class NavBar extends Component{
     render(){
         const headerStyle = {
             height:64,
-            // position:"absolute",
-            // top:0,
-            // width:Dimensions.get("window").width,
             borderBottomWidth:0.5,
             borderBottomColor:"#DDD",
-            backgroundColor:"#F8F8F8"
+            backgroundColor:global.userPrefs && global.userPrefs["preferredTheme"] === "dark"?"#555":"#F8F8F8"
         }
         return (
             <View style={headerStyle}>

@@ -3,11 +3,11 @@
 
 export const dark = {
     navigationBarButtonText:{
-        color:"#FFF",
+        color:"#FFF"
         // fontSize:16
     },
     navigationBarTitleText:{
-        color:"#FFF",
+        color:"#FFF"
         // fontSize:16
     }
 }
