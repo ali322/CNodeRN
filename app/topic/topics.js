@@ -88,7 +88,7 @@ class Topics extends Component{
         return <NavBar leftButton={leftButton} rightButton={rightButton} title={title} 
         onLeftButtonClick={()=>navigationActions.pushScene("publish")} 
         onRightButtonClick={this.toggleSearchActive.bind(this)}
-        {...this.props}/>
+        userPrefs={this.props.userPrefs}/>
     }
     renderModal(){
         const {categories,selectedCategory} = this.props

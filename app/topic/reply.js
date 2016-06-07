@@ -46,7 +46,7 @@ class Reply extends Component{
             </TouchableOpacity>
         )
 
-        return <NavBar title="回复" rightButton={()=>rightButton} onLeftButtonClick={()=>navigationActions.popScene("reply")} {...this.props}/>
+        return <NavBar title="回复" rightButton={()=>rightButton} onLeftButtonClick={()=>navigationActions.popScene("reply")} userPrefs={this.props.userPrefs}/>
     }
     render(){
         return (

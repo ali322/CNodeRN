@@ -105,7 +105,7 @@ class Topic extends Component{
                 </TouchableOpacity>
             </View>
         )
-        return <NavBar title="主题详情" rightButton={()=>rightButton} onLeftButtonClick={()=>popScene("topic")} {...this.props}/>
+        return <NavBar title="主题详情" rightButton={()=>rightButton} onLeftButtonClick={()=>popScene("topic")} userPrefs={this.props.userPrefs}/>
     }
     renderContent(){
         const {topic} = this.props
@@ -165,6 +165,7 @@ class Topic extends Component{
         )
     }
     render(){
+        console.log('this.props',this.props)
         return (
             <View style={styles.container}>
             {this.renderNavigationBar()}

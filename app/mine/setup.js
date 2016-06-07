@@ -6,15 +6,12 @@ import NavBar from "../common/component/navbar"
 import Alert from "../common/component/alert"
 
 import containerByComponent from "../lib/redux-helper"
-import {clearUser,fetchUserPrefs,saveUserPrefs} from "./action"
-import rootReducer,{userReducer} from "./reducer"
+import {clearUser} from "./action"
+import {userReducer} from "./reducer"
 
 import styles from "./stylesheet/setup"
 
 class Setup extends Component{
-    componentDidMount(){
-        this.props.actions.fetchUserPrefs()
-    }
     _handleLogout(){
         this._alert.alert("确定退出?","",[
             {text:"取消",style:"cancel"},
@@ -33,20 +30,22 @@ class Setup extends Component{
     _handleChangeTheme(enabled){
         let userPrefs = Object.assign({},this.props.userPrefs)
         userPrefs["preferredTheme"] = enabled? "dark" : "light"
-        this.props.actions.saveUserPrefs(userPrefs)
+        this.props.saveUserPrefs(userPrefs)
     }
-    componentWillReceiveProps(nextProps){
-        if(this.props.userPrefsSaving && !nextProps.userPrefsSaving){
-            if(nextProps.userPrefsSaved){
-                global.userPrefs = nextProps.userPrefs
-            }
-        }
-    }
+    // componentWillReceiveProps(nextProps){
+    //     if(this.props.userPrefsSaving && !nextProps.userPrefsSaving){
+    //         if(nextProps.userPrefsSaved){
+    //             global.userPrefs = nextProps.userPrefs
+    //         }
+    //     }
+    // }
     render(){
         const {userPrefs,navigationActions} = this.props
         return (
             <View style={styles.container}>
-            <NavBar title="设置" userPrefs={this.props.userPrefs} onLeftButtonClick={()=>navigationActions.popScene("setup")} {...this.props}/>
+            <NavBar title="设置" userPrefs={this.props.userPrefs} 
+            onLeftButtonClick={()=>navigationActions.popScene("setup")} 
+            userPrefs={this.props.userPrefs}/>
             <View style={styles.setupPanel}>
                 <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
@@ -56,7 +55,9 @@ class Setup extends Component{
                         <Text style={styles.setupAccessoryText}>无缓存</Text>
                     </View>
                 </TouchableOpacity>
-                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]} onPress={()=>{
+                    this.props.saveUserPrefs({preferredTheme:"dark"})
+                }}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>夜间模式</Text>
                     </View>
@@ -64,7 +65,7 @@ class Setup extends Component{
                         <Switch style={{marginBottom:1}} onValueChange={this._handleChangeTheme.bind(this)} 
                         value={userPrefs && userPrefs["preferredTheme"] === "dark"}/>
                     </View>
-                </View>
+                </TouchableOpacity>
                 <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>字体大小</Text>
@@ -93,7 +94,4 @@ class Setup extends Component{
     }
 }
 
-export default containerByComponent(Setup,rootReducer,{clearUser,fetchUserPrefs,saveUserPrefs},{},state=>({
-    ...state.userReducer,
-    ...state.userPrefsReducer
-}))
+export default containerByComponent(Setup,userReducer,{clearUser})

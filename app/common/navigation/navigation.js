@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,NavigationExperimental,StyleSheet,Animated,PropTypes} from "react-native"
+import React,{Component,NavigationExperimental,StyleSheet,Animated,PropTypes,View,Text} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import TabNavigation from "./tabnavigation"
@@ -27,6 +27,7 @@ class Navigation extends Component{
         this._renderCard = this._renderCard.bind(this)
     }
     _renderCard(NavigationSceneRendererProps){
+        const {sceneProps,navigationActions} = this.props
         const {navigationState} = NavigationSceneRendererProps.scene
         const isVertical = navigationState.direction === "vertical"
         const panHandlers = isVertical?NavigationCardStackPanResponder.forVertical(NavigationSceneRendererProps):
@@ -36,13 +37,18 @@ class Navigation extends Component{
         return <NavigationCard {...NavigationSceneRendererProps} renderScene={(props/*NavigationSceneRendererProps*/ )=>{
             const params = navigationState.params
             if(navigationState.tabbar){
-                return <TabNavigation navigationState={navigationState} navigationActions={this.props.navigationActions}/>
+                return <TabNavigation navigationState={navigationState} navigationActions={this.props.navigationActions}
+                 sceneProps={sceneProps}/>
             }
             if(navigationState.component){
-                return React.createElement(navigationState.component,{
-                    ...params,
-                    ...this.props
-                })
+                const SceneComponent = navigationState.component
+                console.log("sceneComponent",SceneComponent)
+                return <SceneComponent navigationActions={navigationActions} {...sceneProps} {...params}/>
+                // return React.createElement(navigationState.component,{
+                //     ...sceneProps,
+                //     navigationActions,
+                //     ...params
+                // })
             }
             return null
         }} panHandlers={panHandlers} style={animationStyle} 
@@ -54,6 +60,7 @@ class Navigation extends Component{
         options.applyAnimation = (pos,navState)=>{
             Animated.timing(pos,{toValue:navState.index,duration:300}).start()
         }
+        console.log("navigationState",navigationState)
         return (
             <NavigationAnimatedView style={styles.animatedView} 
             navigationState={navigationState} onNavigate={()=>{}} 

@@ -1,13 +1,24 @@
 'use strict'
 
+import {StyleSheet} from "react-native"
 
-export const dark = {
-    navigationBarButtonText:{
-        color:"#FFF"
-        // fontSize:16
-    },
-    navigationBarTitleText:{
-        color:"#FFF"
-        // fontSize:16
+export const theme = {
+    dark:{
+        header:{
+            backgroundColor:"#555"
+        },
+        navigationBarTitleText:{
+            color:"#FFF"
+        },
+        navigationBarButtonText:{
+            color:"#FFF"
+        }
     }
+}
+
+export default function preferredThemeByName(themeName) {
+    if(!themeName){
+        return {}
+    }
+    return StyleSheet.create(theme[themeName])
 }

@@ -5,10 +5,11 @@ import containerByComponent from "./lib/redux-helper"
 import Router,{Scene} from "./common/navigation/router"
 import Alert from "./common/component/alert"
 
-import {fetchUserPrefs} from "./common/action"
+import {fetchUserPrefs,saveUserPrefs} from "./common/action"
 import {userPrefsReducer} from "./common/reducer"
 import Storage from "./lib/storage"
 global.storage = new Storage()
+global.userPrefs = {}
 
 import topicScenes from "./topic/scene"
 import collectScenes from "./collect/scene"
@@ -20,6 +21,9 @@ import Immutable from "seamless-immutable"
 import _ from "lodash"
 
 class App extends Component{
+    static defaultProps = {
+        userPrefs:{}
+    }
     constructor(props){
         super(props)
         this.state = {
@@ -46,9 +50,10 @@ class App extends Component{
         })
     }
     render(){
+        const sceneProps = {userPrefs:this.props.userPrefs,saveUserPrefs:this.props.actions.saveUserPrefs}
         return (
             <View style={{flex:1}}>
-                <Router initialSceneKey="tabs">
+                <Router initialSceneKey="tabs" sceneProps={sceneProps}>
                     <Scene tabbar={true} key="tabs">
                         <Scene key="tab_1" title="主题" iconName="coffee">{topicScenes}</Scene>
                         <Scene key="tab_2" title="收藏" iconName="bookmark" onSelect={this._handleTabSelect}>{collectScenes}</Scene>
@@ -64,4 +69,4 @@ class App extends Component{
     }
 }
 
-export default containerByComponent(App,userPrefsReducer,{fetchUserPrefs})
+export default containerByComponent(App,userPrefsReducer,{fetchUserPrefs,saveUserPrefs})

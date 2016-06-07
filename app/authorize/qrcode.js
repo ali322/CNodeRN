@@ -24,9 +24,9 @@ class QrCode extends Component {
         this.successed = true
         this.props.actions.authorizeByToken(ret.data)
     }
-    componentDidMount(){
-        this.props.actions.authorizeByToken("01206bae-f6ed-42de-bd0e-3775776deaf9")
-    }
+    // componentDidMount(){
+    //     this.props.actions.authorizeByToken("01206bae-f6ed-42de-bd0e-3775776deaf9")
+    // }
     componentWillReceiveProps(nextProps){
         const {navigationActions} = this.props
         if(!nextProps.isAuthorizing && this.props.isAuthorizing){
@@ -45,7 +45,7 @@ class QrCode extends Component {
         const {navigationActions} = this.props
         return (
             <View style={styles.container}>
-                <NavBar leftButton="取消" onLeftButtonClick={()=>navigationActions.popScene("qrcode")}/>
+                <NavBar leftButton="取消" onLeftButtonClick={()=>navigationActions.popScene("qrcode")} userPrefs={this.props.userPrefs}/>
                 <Scanner handleBarCodeRead={this.handleBarCodeRead.bind(this)}/>
                 <Toast ref={(view)=>this.toast=view}/>
             </View>

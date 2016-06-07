@@ -19,14 +19,15 @@ class TabNavigation extends Component{
             )
         }
     render(){
-        const {navigationState,navigationActions} = this.props
+        const {navigationState,navigationActions,sceneProps} = this.props
+        console.log('tabnavigation',sceneProps)
         return (
             <TabBar style={styles.tabBar}>
                 {navigationState.children.map((item,i)=>{
                     return (
                         <TabBar.Item key={i} beforeSelect={()=>item.onSelect?item.onSelect(navigationState,navigationActions):true} 
                         renderIcon={(selected)=>this._renderIcon(item.title,{name:item.iconName,size:20},selected)}>
-                            <Navigation navigationState={item} navigationActions={navigationActions}/>
+                            <Navigation navigationState={item} navigationActions={navigationActions} sceneProps={sceneProps}/>
                         </TabBar.Item>
                     )
                 })}

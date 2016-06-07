@@ -50,7 +50,7 @@ class Publish extends Component{
             </TouchableOpacity>
         )
 
-        return <NavBar title="发布主题" rightButton={()=>rightButton} onLeftButtonClick={()=>popScene("publish")} {...this.props}/>
+        return <NavBar title="发布主题" rightButton={()=>rightButton} onLeftButtonClick={()=>popScene("publish")} userPrefs={this.props.userPrefs}/>
     }
     renderModal(){
         return (

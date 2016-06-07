@@ -35,7 +35,7 @@ function navigationReducer(state={},action) {
 }
 
 export default function routerReducer(state={},action){
-    let {navigationState,scenes} = state
+    let {navigationState,scenes,sceneProps} = state
     const {scene,path} = locateScene(scenes,action.key) || {}
     if(!scene){
         return state
@@ -70,8 +70,9 @@ export default function routerReducer(state={},action){
             break
     }
     return {
+        sceneProps,
         scenes,
-        navigationState:navigationState
+        navigationState
     }
 }
 

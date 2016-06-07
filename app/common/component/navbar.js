@@ -4,6 +4,8 @@ import React,{Component,View,Text,TouchableOpacity,StatusBar,StyleSheet,Platform
 import _ from "lodash"
 import {preferredStyles,preferredThemeDefines} from "../../lib/helper"
 
+import preferredThemeByName from "../stylesheet/theme"
+
 class NavBar extends Component{
     static defaultProps = {
         leftButton:"返回"
@@ -11,25 +13,22 @@ class NavBar extends Component{
     constructor(props){
         super(props)
         this._renderNavBar = this._renderNavBar.bind(this)
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
             StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
         }
     }
     componentDidMount(){
-        if(global.userPrefs){
-            StatusBar.setBarStyle((global.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
-        }
+        StatusBar.setBarStyle((this.props.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
     }
     _renderNavBar(){
         const {title,leftButton,rightButton,onLeftButtonClick,onRightButtonClick} = this.props
-        const styles = preferredStyles(stylesForAll,global.userPrefs)
-        const defines = preferredThemeDefines(global.userPrefs)
-        
         let _title = (
             <View style={styles.navigationBarTitle}>
-            {_.isString(title)?<Text style={styles.navigationBarButtonText}>{title}</Text>:
+            {_.isString(title)?<Text style={[styles.navigationBarTitleText,this._preferredTheme["navigationBarTitleText"]]}>{title}</Text>:
                 React.isValidElement(title)?title:null}
             </View>
         )
@@ -39,7 +38,7 @@ class NavBar extends Component{
         
         let _leftButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onLeftButtonClick || (()=>{})}>
-            {_.isString(leftButton)?<Text style={styles.navigationBarButtonText}>{leftButton}</Text>:
+            {_.isString(leftButton)?<Text style={[styles.navigationBarButtonText,this._preferredTheme["navigationBarButtonText"]]}>{leftButton}</Text>:
                 React.isValidElement(leftButton)?leftButton:null}
             </TouchableOpacity>
         )
@@ -49,7 +48,7 @@ class NavBar extends Component{
         
         let _rightButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onRightButtonClick || (()=>{})}>
-            {_.isString(rightButton)?<Text style={styles.navigationBarButtonText}>{rightButton}</Text>:
+            {_.isString(rightButton)?<Text style={[styles.navigationBarButtonText,this._preferredTheme["navigationBarButtonText"] ]}>{rightButton}</Text>:
                 React.isValidElement(rightButton)?rightButton:null}
             </TouchableOpacity>
         )
@@ -64,14 +63,8 @@ class NavBar extends Component{
         )
     }
     render(){
-        const headerStyle = {
-            height:64,
-            borderBottomWidth:0.5,
-            borderBottomColor:"#DDD",
-            backgroundColor:global.userPrefs && global.userPrefs["preferredTheme"] === "dark"?"#555":"#F8F8F8"
-        }
         return (
-            <View style={headerStyle}>
+            <View style={[styles.header,this._preferredTheme["header"]]}>
             <StatusBar />
             {this._renderNavBar()}
             </View>
@@ -80,6 +73,12 @@ class NavBar extends Component{
 }
 
 const stylesForAll = {
+    header:{
+        height:64,
+        borderBottomWidth:0.5,
+        borderBottomColor:"#DDD",
+        backgroundColor:"#F8F8F8"
+    },
     navigationBar:{
         marginTop:Platform.OS === "ios"?20:0,
         flexDirection:"row",
@@ -110,5 +109,7 @@ const stylesForAll = {
         fontSize:16
     }
 }
+
+const styles = StyleSheet.create(stylesForAll)
 
 export default NavBar

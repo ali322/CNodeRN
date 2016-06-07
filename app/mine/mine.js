@@ -69,7 +69,7 @@ class Mine extends Component {
                 <Icon name="cog" size={20} color="#999"/>
             </TouchableOpacity>
         )
-        return <NavBar title="我的" leftButton={false} rightButton={()=>rightButton}/>
+        return <NavBar title="我的" leftButton={false} rightButton={()=>rightButton} userPrefs={this.props.userPrefs}/>
     }
     renderTopicRow(topic) {
         const {user,navigationActions} = this.props

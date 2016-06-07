@@ -1,10 +1,7 @@
 'use strict'
 import {NetInfo,Platform,StyleSheet,Alert} from "react-native"
 import moment from "moment"
-import _ from "lodash"
 import codePush from "react-native-code-push"
-import * as themes from "../common/stylesheet/theme"
-import * as defines from "../common/stylesheet/defines"
 
 export function fromNow(time){
     moment.updateLocale('en',{
@@ -31,20 +28,13 @@ export function formatTime(time,format="YYYY-MM-DD"){
     return moment(time).format(format)
 }
 
-export function preferredStyles(styles,userPrefs){
-    userPrefs = userPrefs || {}
-    let _styles = _.cloneDeep(styles)
-    if(userPrefs["preferredTheme"] && themes[userPrefs.preferredTheme]){
-        _.mergeWith(_styles,themes[userPrefs.preferredTheme],(oldValue,newValue)=>{
-            return Object.assign({},oldValue,newValue)
-        })
+export function omit(obj,keys=[]){
+    for(let key in obj){
+        if(key in keys){
+            delete obj[key]
+        }
     }
-    return StyleSheet.create(_styles)
-}
-
-export function preferredThemeDefines(userPrefs){
-    userPrefs = userPrefs || {}
-    return userPrefs["preferredTheme"] && defines[userPrefs["preferredTheme"]] ? defines[userPrefs["preferredTheme"]] :{}
+    return obj
 }
 
 export function codepush(){

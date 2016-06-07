@@ -83,7 +83,7 @@ class Message extends Component{
     render(){
         return (
             <View style={styles.container}>
-            <NavBar title="消息" leftButton={false}/>
+            <NavBar title="消息" leftButton={false} userPrefs={this.props.userPrefs}/>
             {!this.state.isLogined?<Anonymous />:this.props.messagesFetching?<Loading />:this._renderTimeline()}
             </View>
         )

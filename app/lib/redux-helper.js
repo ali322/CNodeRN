@@ -24,7 +24,7 @@ const logger = createLogger({
 })
 
 if(isDebugInChrome){
-    // middlewares.push(logger)
+    middlewares.push(logger)
 }
 
 const createStoreWithMiddlewares = compose(

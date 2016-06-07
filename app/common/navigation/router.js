@@ -32,9 +32,11 @@ class Router extends Component{
         if(!this.props.initialSceneKey){
             throw new Error("missing initialSceneKey")
         }
+        // console.log('sceneProps',this.props.sceneProps)
         const initialState = {
             navigationState:initialStateFromScenes(this._scenes,this.props.initialSceneKey),
-            scenes:this._scenes
+            scenes:this._scenes,
+            sceneProps:this.props.sceneProps
         }
         const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
             navigationActions:bindActionCreators(actions,dispatch)
