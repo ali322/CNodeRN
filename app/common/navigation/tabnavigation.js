@@ -20,7 +20,6 @@ class TabNavigation extends Component{
         }
     render(){
         const {navigationState,navigationActions,sceneProps} = this.props
-        console.log('tabnavigation',sceneProps)
         return (
             <TabBar style={styles.tabBar}>
                 {navigationState.children.map((item,i)=>{

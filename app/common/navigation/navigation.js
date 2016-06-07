@@ -42,7 +42,6 @@ class Navigation extends Component{
             }
             if(navigationState.component){
                 const SceneComponent = navigationState.component
-                console.log("sceneComponent",SceneComponent)
                 return <SceneComponent navigationActions={navigationActions} {...sceneProps} {...params}/>
                 // return React.createElement(navigationState.component,{
                 //     ...sceneProps,
@@ -60,7 +59,6 @@ class Navigation extends Component{
         options.applyAnimation = (pos,navState)=>{
             Animated.timing(pos,{toValue:navState.index,duration:300}).start()
         }
-        console.log("navigationState",navigationState)
         return (
             <NavigationAnimatedView style={styles.animatedView} 
             navigationState={navigationState} onNavigate={()=>{}} 

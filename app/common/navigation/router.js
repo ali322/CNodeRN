@@ -34,7 +34,7 @@ class Router extends Component{
         }
         // console.log('sceneProps',this.props.sceneProps)
         const initialState = {
-            navigationState:initialStateFromScenes(this._scenes,this.props.initialSceneKey),
+            navigationState:initialStateFromScenes(this._scenes,props.initialSceneKey),
             scenes:this._scenes,
             sceneProps:this.props.sceneProps
         }
