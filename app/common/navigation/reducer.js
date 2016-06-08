@@ -1,6 +1,8 @@
 'use strict'
+
 import {NavigationExperimental} from "react-native"
 import * as constants from "./constant"
+import Immutable from "seamless-immutable"
 
 const {
     StateUtils:NavigationStateUtils
@@ -34,11 +36,30 @@ function navigationReducer(state={},action) {
     }
 }
 
-export default function routerReducer(state={},action){
-    let {navigationState,scenes,sceneProps} = state
-    const {scene,path} = locateScene(scenes,action.key) || {}
+let initialState = Immutable({
+    index:0,
+    key:"root",
+    children:[]
+})
+    
+export default function routerReducer(navigationState=initialState,action){
+    const {scene,path} = locateScene(action.scenes,action.key) || {}
     if(!scene){
-        return state
+        return navigationState
+    }
+    if(navigationState.children.length === 0){
+        let initialScene = scene
+        if(scene.tabbar){
+            initialScene = scene.set("children",scene.children.map((item,i)=>{
+                return {
+                    index:0,
+                    ...item,
+                    children:[item.children[0]]
+                }
+            }))
+        }
+        navigationState = navigationState.setIn(["children",0],initialScene)
+        return navigationState
     }
     function nestReducer(navState,navAction,scenePath){
         return scenePath.length > 0?navState.updateIn(scenePath,nestNavState=>navigationReducer(nestNavState,navAction)):
@@ -69,11 +90,7 @@ export default function routerReducer(state={},action){
             navigationState = nestReducer(navigationState,action,path)
             break
     }
-    return {
-        sceneProps,
-        scenes,
-        navigationState
-    }
+    return navigationState
 }
 
 function locateScene(scenes,key,path=[]) {

@@ -1,17 +1,12 @@
 'use strict'
 
-import React,{Component,PropTypes,View} from "react-native"
-import {combineReducers,bindActionCreators} from "redux"
+import React,{Component,View} from "react-native"
+import {combineReducers} from "redux"
 import containerByComponent from "./lib/redux-helper"
 import Router,{Scene} from "./common/navigation/router"
-import routerReducer from "./common/navigation/reducer"
-import Alert from "./common/component/alert"
-
 import {fetchUserPrefs,saveUserPrefs} from "./common/action"
 import {userPrefsReducer} from "./common/reducer"
-import Storage from "./lib/storage"
-global.storage = new Storage()
-global.userPrefs = {}
+import Alert from "./common/component/alert"
 
 import topicScenes from "./topic/scene"
 import collectScenes from "./collect/scene"
@@ -19,13 +14,8 @@ import messageScenes from "./message/scene"
 import mineScenes from "./mine/scene"
 import Login from "./authorize/login"
 import Qrcode from "./authorize/qrcode"
-import Immutable from "seamless-immutable"
-import _ from "lodash"
 
-class App extends Component{
-    static defaultProps = {
-        userPrefs:{}
-    }
+class Entry extends Component{
     constructor(props){
         super(props)
         this.state = {
@@ -45,19 +35,12 @@ class App extends Component{
     }
     componentDidMount(){
         this.props.actions.fetchUserPrefs()
-        console.log(this._router)
-        global.storage.getItem("user").then((user)=>{
-            if(user){
-                this.setState({isLogined:true})
-            }
-        })
     }
     render(){
-        const sceneProps = {userPrefs:this.props.userPrefs,saveUserPrefs:this.props.actions.saveUserPrefs}
+        const sceneProps = {}
         return (
             <View style={{flex:1}}>
-                <Router initialSceneKey="tabs" sceneProps={sceneProps} 
-                navigationState={this.props.navigationState} dispatch={this.props.dispatch}>
+                <Router initialSceneKey="tabs" sceneProps={sceneProps} ref={view=>this._router=view}>
                     <Scene tabbar={true} key="tabs">
                         <Scene key="tab_1" title="主题" iconName="coffee">{topicScenes}</Scene>
                         <Scene key="tab_2" title="收藏" iconName="bookmark" onSelect={this._handleTabSelect}>{collectScenes}</Scene>
@@ -73,12 +56,4 @@ class App extends Component{
     }
 }
 
-const rootReducer = combineReducers({
-    userPrefsReducer,
-    navigationState:routerReducer
-})
-
-export default containerByComponent(App,rootReducer,dispatch=>({
-    dispatch,
-    actions:bindActionCreators({fetchUserPrefs,saveUserPrefs},dispatch)
-}))
+export default containerByComponent(Entry,userPrefsReducer,{fetchUserPrefs,saveUserPrefs})

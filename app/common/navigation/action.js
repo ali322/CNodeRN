@@ -1,24 +1,27 @@
 'use strict'
 import * as constants from "./constant"
 
-export function pushScene(sceneKey,params){
+export function pushScene(scenes,key,params){
     return {
         type:constants.PUSH_SCENE,
-        key:sceneKey,
+        scenes,
+        key,
         params
     }
 }
 
-export function popScene(key){
+export function popScene(scenes,key){
     return {
         type:constants.POP_SCENE,
+        scenes,
         key
     }
 }
 
-export function jumpToScene(key,params){
+export function jumpToScene(scenes,key,params){
     return {
         type:constants.JUMPTO_SCENE,
+        scenes,
         key,
         params
     }

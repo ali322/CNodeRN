@@ -15,6 +15,14 @@ class Router extends Component{
     constructor(props){
         super(props)
         this._scenes = this._scenesListByChilren(props.children)
+        // this._navigationState = initialStateFromScenes(this._scenes,props.initialSceneKey)
+        let injectedActions = {}
+        for(let actionName in actions){
+            injectedActions[actionName] = (...args)=>{
+                return actions[actionName](this._scenes,...args)
+            }
+        }
+        this._navigationActions = bindActionCreators(injectedActions,props.dispatch)
     }
     _scenesListByChilren(chilren){
         const _scenes = React.Children.map(chilren,(child)=>{
@@ -28,20 +36,26 @@ class Router extends Component{
         })
         return Immutable(_scenes)
     }
+    componentDidMount(){
+        this._navigationActions.pushScene(this.props.initialSceneKey)
+    }
     render(){
         if(!this.props.initialSceneKey){
             throw new Error("missing initialSceneKey")
         }
-        // console.log('sceneProps',this.props.sceneProps)
-        const initialState = {
-            navigationState:initialStateFromScenes(this._scenes,props.initialSceneKey),
-            scenes:this._scenes,
-            sceneProps:this.props.sceneProps
-        }
-        const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
-            navigationActions:bindActionCreators(actions,dispatch)
-        }),initialState)
-        return <RouterContainer/>
+        return <Navigation navigationActions={this._navigationActions} navigationState={this.props.navigationState} 
+        sceneProps={this.props.sceneProps}/>
+        // }else{
+        //     const initialState = {
+        //         navigationState:this._navigationState,
+        //         scenes:this._scenes,
+        //         sceneProps:this.props.sceneProps
+        //     }
+        //     const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
+        //         navigationActions:bindActionCreators(actions,dispatch)
+        //     }),initialState)
+        //     return <RouterContainer/>
+        // }
     }
 }
 
