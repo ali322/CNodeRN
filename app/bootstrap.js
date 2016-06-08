@@ -45,7 +45,6 @@ class App extends Component{
     }
     componentDidMount(){
         this.props.actions.fetchUserPrefs()
-        console.log(this._router)
         global.storage.getItem("user").then((user)=>{
             if(user){
                 this.setState({isLogined:true})
@@ -81,4 +80,7 @@ const rootReducer = combineReducers({
 export default containerByComponent(App,rootReducer,dispatch=>({
     dispatch,
     actions:bindActionCreators({fetchUserPrefs,saveUserPrefs},dispatch)
+}),null,state=>({
+    ...state.userPrefsReducer,
+    navigationState:state.navigationState
 }))

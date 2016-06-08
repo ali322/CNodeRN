@@ -21,7 +21,9 @@ export function messageCountReducer(state={},action){
     }
 }
 
-export function userPrefsReducer(state={},action){
+export function userPrefsReducer(state={
+    userPrefs:{}
+},action){
     switch(action.type){
         case constants.START_SAVEUSERPREFS:
             return {

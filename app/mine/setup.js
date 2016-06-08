@@ -55,9 +55,7 @@ class Setup extends Component{
                         <Text style={styles.setupAccessoryText}>无缓存</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]} onPress={()=>{
-                    this.props.saveUserPrefs({preferredTheme:"dark"})
-                }}>
+                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>夜间模式</Text>
                     </View>
@@ -65,7 +63,7 @@ class Setup extends Component{
                         <Switch style={{marginBottom:1}} onValueChange={this._handleChangeTheme.bind(this)} 
                         value={userPrefs && userPrefs["preferredTheme"] === "dark"}/>
                     </View>
-                </TouchableOpacity>
+                </View>
                 <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
                     <View style={styles.setupRowLabel}>
                         <Text style={[styles.setupRowLabelText]}>字体大小</Text>
