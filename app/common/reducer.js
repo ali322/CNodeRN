@@ -53,3 +53,23 @@ export function userPrefsReducer(state={
             return state
     }
 }
+
+export function userReducer(state={},action){
+    switch (action.type) {
+        case constants.REQUEST_USER:
+            return {
+                ...state,
+                userFetching:true,
+                userFetched:false
+            }
+        case constants.RESPONSE_USER:
+            return {
+                ...state,
+                userFetched:true,
+                userFetching:false,
+                user:action.ret
+            }
+        default:
+            return state
+    }
+}

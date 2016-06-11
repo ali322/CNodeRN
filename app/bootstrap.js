@@ -7,8 +7,8 @@ import Router,{Scene} from "./common/navigation/router"
 import routerReducer from "./common/navigation/reducer"
 import Alert from "./common/component/alert"
 
-import {fetchUserPrefs,saveUserPrefs} from "./common/action"
-import {userPrefsReducer} from "./common/reducer"
+import {fetchUserPrefs,saveUserPrefs,fetchUser} from "./common/action"
+import {userPrefsReducer,userReducer} from "./common/reducer"
 import Storage from "./lib/storage"
 global.storage = new Storage()
 global.userPrefs = {}
@@ -45,11 +45,7 @@ class App extends Component{
     }
     componentDidMount(){
         this.props.actions.fetchUserPrefs()
-        global.storage.getItem("user").then((user)=>{
-            if(user){
-                this.setState({isLogined:true})
-            }
-        })
+        this.props.actions.fetchUser()
     }
     render(){
         const sceneProps = {userPrefs:this.props.userPrefs,saveUserPrefs:this.props.actions.saveUserPrefs}
@@ -73,14 +69,16 @@ class App extends Component{
 }
 
 const rootReducer = combineReducers({
+    userReducer,
     userPrefsReducer,
     navigationState:routerReducer
 })
 
 export default containerByComponent(App,rootReducer,dispatch=>({
     dispatch,
-    actions:bindActionCreators({fetchUserPrefs,saveUserPrefs},dispatch)
+    actions:bindActionCreators({fetchUserPrefs,saveUserPrefs,fetchUser},dispatch)
 }),null,state=>({
+    ...state.userReducer,
     ...state.userPrefsReducer,
     navigationState:state.navigationState
 }))

@@ -72,3 +72,26 @@ export function saveUserPrefs(userPrefs){
         })
     }
 }
+
+function requestUser() {
+    return {
+        type:constants.REQUEST_USER
+    }
+}
+
+function responseUser(ret){
+    return {
+        type:constants.RESPONSE_USER,
+        ret,
+        respondAt:Date.now
+    }
+}
+
+export function fetchUser(){
+    return dispatch=>{
+        dispatch(requestUser())
+        global.storage.getItem("user").then(ret=>{
+            dispatch(responseUser(ret))
+        })
+    }
+}
