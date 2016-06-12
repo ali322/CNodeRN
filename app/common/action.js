@@ -73,25 +73,25 @@ export function saveUserPrefs(userPrefs){
     }
 }
 
-function requestUser() {
+function requestAuthentication() {
     return {
-        type:constants.REQUEST_USER
+        type:constants.REQUEST_AUTHENTICATION
     }
 }
 
-function responseUser(ret){
+function responseAuthentication(ret){
     return {
-        type:constants.RESPONSE_USER,
+        type:constants.RESPONSE_AUTHENTICATION,
         ret,
         respondAt:Date.now
     }
 }
 
-export function fetchUser(){
+export function fetchAuthentication(){
     return dispatch=>{
-        dispatch(requestUser())
+        dispatch(requestAuthentication())
         global.storage.getItem("user").then(ret=>{
-            dispatch(responseUser(ret))
+            dispatch(responseAuthentication(ret))
         })
     }
 }

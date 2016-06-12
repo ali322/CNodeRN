@@ -10,22 +10,14 @@ class TabNavigation extends Component{
         navigationState:PropTypes.object,
         navigationActions:PropTypes.object
     }
-    _renderIcon(tintText,iconConfig,selected){
-            return (
-                <View style={styles.tabBarItem}>
-                    <Icon {...iconConfig} color={selected?"blue":"#333"}/>
-                    <Text style={[styles.tabBarItemText,selected?{color:"blue"}:null]}>{tintText}</Text>
-                </View>
-            )
-        }
     render(){
         const {navigationState,navigationActions,sceneProps} = this.props
         return (
-            <TabBar style={styles.tabBar}>
+            <TabBar sceneProps={sceneProps}>
                 {navigationState.children.map((item,i)=>{
                     return (
                         <TabBar.Item key={i} beforeSelect={()=>item.onSelect?item.onSelect(navigationState,navigationActions):true} 
-                        renderIcon={(selected)=>this._renderIcon(item.title,{name:item.iconName,size:20},selected)}>
+                        title={item.title} iconName={item.iconName}>
                             <Navigation navigationState={item} navigationActions={navigationActions} sceneProps={sceneProps}/>
                         </TabBar.Item>
                     )
@@ -34,22 +26,5 @@ class TabNavigation extends Component{
         )
     }
 }
-
-const styles = StyleSheet.create({
-    tabBarItem: {
-        flexDirection: "column",
-        alignItems: "center"
-    },
-    tabBar: {
-        backgroundColor: "#F7F7F7",
-        borderTopWidth: 1,
-        borderTopColor: "#DDD"
-    },
-    tabBarItemText: {
-        fontSize: 12,
-        color: "#666",
-        paddingTop:3
-    }
-})
 
 export default TabNavigation

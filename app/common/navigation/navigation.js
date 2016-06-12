@@ -27,7 +27,7 @@ class Navigation extends Component{
         this._renderCard = this._renderCard.bind(this)
     }
     _renderCard(NavigationSceneRendererProps){
-        const {sceneProps,navigationActions} = this.props
+        const {sceneProps,navigationActions,scenes} = this.props
         const {navigationState} = NavigationSceneRendererProps.scene
         const isVertical = navigationState.direction === "vertical"
         const panHandlers = isVertical?NavigationCardStackPanResponder.forVertical(NavigationSceneRendererProps):

@@ -1,17 +1,16 @@
 'use strict'
 
-import React,{Component,PropTypes,View} from "react-native"
+import React,{Component,PropTypes,View,StyleSheet} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "./lib/redux-helper"
 import Router,{Scene} from "./common/navigation/router"
 import routerReducer from "./common/navigation/reducer"
 import Alert from "./common/component/alert"
 
-import {fetchUserPrefs,saveUserPrefs,fetchUser} from "./common/action"
-import {userPrefsReducer,userReducer} from "./common/reducer"
+import {fetchUserPrefs,saveUserPrefs,fetchAuthentication} from "./common/action"
+import {userPrefsReducer,authenticationReducer} from "./common/reducer"
 import Storage from "./lib/storage"
 global.storage = new Storage()
-global.userPrefs = {}
 
 import topicScenes from "./topic/scene"
 import collectScenes from "./collect/scene"
@@ -20,21 +19,14 @@ import mineScenes from "./mine/scene"
 import Login from "./authorize/login"
 import Qrcode from "./authorize/qrcode"
 import Immutable from "seamless-immutable"
-import _ from "lodash"
 
 class App extends Component{
-    static defaultProps = {
-        userPrefs:{}
-    }
     constructor(props){
         super(props)
-        this.state = {
-            isLogined:false
-        }
         this._handleTabSelect = this._handleTabSelect.bind(this)
     }
     _handleTabSelect(navState,navActions){
-        if(!this.state.isLogined){
+        if(!this.props.user){
             this._alert.alert("请先登录","登录",[
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>navActions.pushScene("login")}
@@ -44,8 +36,16 @@ class App extends Component{
         }
     }
     componentDidMount(){
+        this.props.actions.fetchAuthentication()
         this.props.actions.fetchUserPrefs()
-        this.props.actions.fetchUser()
+    }
+    _renderIcon(tintText,iconConfig,selected){
+        return (
+            <View style={styles.tabBarItem}>
+                <Icon {...iconConfig} color={selected?"blue":"#333"}/>
+                <Text style={[styles.tabBarItemText,selected?{color:"blue"}:null]}>{tintText}</Text>
+            </View>
+        )
     }
     render(){
         const sceneProps = {userPrefs:this.props.userPrefs,saveUserPrefs:this.props.actions.saveUserPrefs}
@@ -68,17 +68,29 @@ class App extends Component{
     }
 }
 
+const styles = StyleSheet.create({
+    tabBarItem: {
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    tabBarItemText: {
+        fontSize: 12,
+        color: "#666",
+        paddingTop:3
+    }
+})
+
 const rootReducer = combineReducers({
-    userReducer,
+    authenticationReducer,
     userPrefsReducer,
     navigationState:routerReducer
 })
 
 export default containerByComponent(App,rootReducer,dispatch=>({
     dispatch,
-    actions:bindActionCreators({fetchUserPrefs,saveUserPrefs,fetchUser},dispatch)
+    actions:bindActionCreators({fetchUserPrefs,saveUserPrefs,fetchAuthentication},dispatch)
 }),null,state=>({
-    ...state.userReducer,
+    ...state.authenticationReducer,
     ...state.userPrefsReducer,
     navigationState:state.navigationState
 }))

@@ -45,17 +45,6 @@ class Router extends Component{
         }
         return <Navigation navigationActions={this._navigationActions} navigationState={this.props.navigationState} 
         sceneProps={this.props.sceneProps}/>
-        // }else{
-        //     const initialState = {
-        //         navigationState:this._navigationState,
-        //         scenes:this._scenes,
-        //         sceneProps:this.props.sceneProps
-        //     }
-        //     const RouterContainer = containerByComponent(Navigation,routerReducer,dispatch=>({
-        //         navigationActions:bindActionCreators(actions,dispatch)
-        //     }),initialState)
-        //     return <RouterContainer/>
-        // }
     }
 }
 
@@ -68,28 +57,6 @@ export class Scene extends Component{
     render(){
         return null
     }
-}
-
-function initialStateFromScenes(scenes,initialSceneKey){
-    let state = Immutable({
-        index:0,
-        key:"root",
-        children:[]
-    })
-    let initialSceneIndex = scenes.findIndex(scene=>scene.key === initialSceneKey)
-    initialSceneIndex = initialSceneIndex > -1?initialSceneIndex:0
-    let initialScene = scenes[initialSceneIndex]
-    if(initialScene.tabbar){
-        initialScene = initialScene.set("children",initialScene.children.map((item,i)=>{
-            return {
-                index:0,
-                ...item,
-                children:[item.children[0]]
-            }
-        }))
-    }
-    state = state.setIn(["children",0],initialScene)
-    return state
 }
 
 export default Router

@@ -12,6 +12,29 @@ export const theme = {
         },
         navigationBarButtonText:{
             color:"#FFF"
+        },
+        searchBar:{
+            backgroundColor:"#555"
+        },
+        searchBarButtonText:{
+            color:"#FFF"
+        },
+        tabBar:{
+            backgroundColor:"#353535"
+        },
+        tabBarItemText:{
+            color:"#FFF"
+        },
+        tabBarSelectedItemText:{
+            color:"yellow"
+        }
+    },
+    light:{
+        tabBarItemText:{
+            color:"#333"
+        },
+        tabBarSelectedItemText:{
+            color:"blue"
         }
     }
 }

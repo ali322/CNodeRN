@@ -14,6 +14,7 @@ import SearchBar from "../common/module/searchbar"
 import NavBar from "../common/component/navbar"
 
 import styles from "./stylesheet/topics"
+import preferredThemeByName from "../common/stylesheet/theme"
 
 class Topics extends Component{
     constructor(props){
@@ -27,6 +28,7 @@ class Topics extends Component{
             searchBarActive:false,
             modalActive:false
         }
+        this._preferredTheme = {}
     }
     componentDidMount(){
         const {categories,selectedCategory} = this.props
@@ -70,6 +72,9 @@ class Topics extends Component{
                 dataSource:this.state.dataSource.cloneWithRows(categories[selectedCategory].list)
             })
         }
+        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
+            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
+        }
     }
     renderNavigationBar(){
         const {categories,selectedCategory,navigationActions} = this.props
@@ -81,7 +86,7 @@ class Topics extends Component{
         )
         const title = (            
             <View style={styles.navigationBarTitle}>
-                <Text style={styles.navigationBarTitleText}>{categories[selectedCategory].name}</Text>
+                <Text style={[styles.navigationBarTitleText,this._preferredTheme["navigationBarButtonText"]]}>{categories[selectedCategory].name}</Text>
                 <Icon name="angle-down" size={16} color="#999"/>
             </View>
         )
@@ -113,7 +118,7 @@ class Topics extends Component{
     }
     renderSearchBar(){
         return <SearchBar active={this.state.searchBarActive} onSearch={this.handleSearch.bind(this)} 
-        onClose={this.toggleSearchActive.bind(this)}/>
+        onClose={this.toggleSearchActive.bind(this)} preferredTheme={this._preferredTheme}/>
     }
     renderRow(topic){
         const {pushScene} = this.props.navigationActions

@@ -54,19 +54,19 @@ export function userPrefsReducer(state={
     }
 }
 
-export function userReducer(state={},action){
+export function authenticationReducer(state={},action){
     switch (action.type) {
-        case constants.REQUEST_USER:
+        case constants.REQUEST_AUTHENTICATION:
             return {
                 ...state,
-                userFetching:true,
-                userFetched:false
+                authenticationFetching:true,
+                authenticationFetched:false
             }
-        case constants.RESPONSE_USER:
+        case constants.RESPONSE_AUTHENTICATION:
             return {
                 ...state,
-                userFetched:true,
-                userFetching:false,
+                authenticationFetched:true,
+                authenticationFetching:false,
                 user:action.ret
             }
         default:

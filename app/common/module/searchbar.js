@@ -3,6 +3,9 @@
 import React,{Component,Text,View,TextInput,TouchableOpacity,StyleSheet,Platform} from "react-native"
 
 export default class SearchBar extends Component{
+    static defaultProps = {
+        preferredTheme:{}
+    }
     constructor(props){
         super(props)
         this.state = {
@@ -13,14 +16,15 @@ export default class SearchBar extends Component{
         const handleSearch = ()=>{
             this.props.onSearch(this.state.keyword)
         }
+        const {preferredTheme} = this.props
         return (
-        <View style={styles.searchBar}>
+        <View style={[styles.searchBar,preferredTheme.searchBar]}>
         <View style={styles.searchBarInputWrap}>
             <TextInput style={styles.searchBarInput} ref="searchTextInput" placeholder="请输入搜索关键字" clearButtonMode="while-editing" 
             onChangeText={(keyword)=>this.setState({keyword})}/>
         </View>
         <TouchableOpacity style={styles.searchBarButton} onPress={this.state.keyword === ""?this.props.onClose:handleSearch}>
-            <Text style={styles.searchBarButtonText}>{this.state.keyword === ""?"取消":"搜索"}</Text>
+            <Text style={[styles.searchBarButtonText,preferredTheme.searchBarButtonText]}>{this.state.keyword === ""?"取消":"搜索"}</Text>
         </TouchableOpacity>
         </View> 
         )
