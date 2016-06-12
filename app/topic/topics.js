@@ -28,7 +28,7 @@ class Topics extends Component{
             searchBarActive:false,
             modalActive:false
         }
-        this._preferredTheme = {}
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     componentDidMount(){
         const {categories,selectedCategory} = this.props
@@ -124,25 +124,27 @@ class Topics extends Component{
         const {pushScene} = this.props.navigationActions
         return (
             <TouchableOpacity onPress={()=>pushScene("topic",{id:topic.id})}>
-            <Animated.View style={[styles.topicCell, {
+            <Animated.View style={[styles.topicCell,this._preferredTheme["topicCell"],{
                 // opacity: this.state.rowScale,
                 // transform: [{ scaleX: this.state.rowScale }]
             }]}>
                     <View style={styles.topicBreif}>
                         <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
                         <View style={styles.topicSubtitle}>
-                            <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
+                            <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{topic.author.loginname}</Text>
                             <View style={styles.topicMintitle}>
-                                <Text style={styles.topicMintitleText}>{topic.create_at}</Text>
-                                <View style={styles.topicTag}><Text style={styles.topicTagText}>{topic.tab}</Text></View>
+                                <Text style={[styles.topicMintitleText]}>{topic.create_at}</Text>
+                                <View style={[styles.topicTag,this._preferredTheme["topicTag"]]}>
+                                    <Text style={[styles.topicTagText,this._preferredTheme["topicTagText"]]}>{topic.tab}</Text>
+                                </View>
                             </View>
                         </View>
                         <View style={styles.topicAccessory}>
-                            <Text style={styles.topicStatic}><Text style={styles.topicReply}>{topic.reply_count}</Text> /{topic.visit_count}</Text>
+                            <Text style={styles.topicStatic}><Text style={[styles.topicReply,this._preferredTheme["topicSubtitleText"]]}>{topic.reply_count}</Text> /{topic.visit_count}</Text>
                         </View>
                     </View>
                     <View style={styles.topicTitle}>
-                        <Text style={styles.topicTitleText} numberOfLines={2}>{topic.title}</Text>
+                        <Text style={[styles.topicTitleText,this._preferredTheme["topicSubtitleText"]]} numberOfLines={2}>{topic.title}</Text>
                     </View>
             </Animated.View>
             </TouchableOpacity>
@@ -152,13 +154,13 @@ class Topics extends Component{
         const threshold = (Platform.OS === "ios" ? 10 : -20)
         const {categories,selectedCategory} = this.props
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this._preferredTheme["container"]]}>
             {this.state.searchBarActive?this.renderSearchBar():this.renderNavigationBar()}
             {categories[selectedCategory].list.length === 0 && this.props.topicsFetching ? <Loading />:(
             <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
             refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}
-            renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
+            renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={[styles.cellSeparator,this._preferredTheme["cellSeparator"]]}/>}
             renderFooter={()=>categories[selectedCategory].list.length > 0?<LoadMore active={this.props.topicsFetching}/>:null}/>
             )}
             {this.renderModal()}
