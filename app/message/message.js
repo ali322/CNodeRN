@@ -90,7 +90,7 @@ class Message extends Component{
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
             <NavBar title="消息" leftButton={false} userPrefs={this.props.userPrefs}/>
-            {!this.state.isLogined?<Anonymous />:this.props.messagesFetching?<Loading />:this._renderTimeline()}
+            {!this.state.isLogined?<Anonymous />:this.props.messagesFetching?<Loading color={this._preferredThemeDefines["loading"].color}/>:this._renderTimeline()}
             </View>
         )
     }

@@ -5,10 +5,7 @@ import CodePush from "react-native-code-push"
 import * as Progress from 'react-native-progress'
 import Toast from "../common/component/toast"
 import NavBar from "../common/component/navbar"
-
-import containerByComponent from "../lib/redux-helper"
-import rootReducer from "./reducer"
-import {fetchUserPrefs} from "./action"
+import preferredThemeByName from "../common/stylesheet/theme"
 
 class Updater extends Component{
     constructor(props){
@@ -16,6 +13,7 @@ class Updater extends Component{
         this.state = {
             syncMessage:""
         }
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     componentDidMount() {
         CodePush.notifyApplicationReady()
@@ -91,12 +89,16 @@ class Updater extends Component{
     render(){
         const {navigationActions} = this.props
         return (
-            <View style={styles.container}>
-            <NavBar title="" {...this.props} onLeftButtonClick={()=>navigationActions.popScene("setup")} userPrefs={this.props.userPrefs}/>
-            <View style={styles.updaterContainer}>
+            <View style={[styles.container,this._preferredTheme["container"]]}>
+            <NavBar title="设置" 
+            onLeftButtonClick={()=>navigationActions.popScene("setup")} 
+            userPrefs={this.props.userPrefs}/>
+            <View style={[styles.updaterContainer,this._preferredTheme["updaterContainer"]]}>
                 <View style={styles.updaterBreif}>{this.state.progress?this.renderProgress():<Text style={styles.updaterBreifText}>{this.state.syncMessage}</Text>}</View>
                 <View style={styles.updaterButtons}>
-                    <TouchableOpacity style={styles.updaterButton} onPress={this._updateFromCodePush.bind(this)}><Text style={styles.updaterButtonText}>检查更新</Text></TouchableOpacity>
+                    <TouchableOpacity style={[styles.updaterButton,this._preferredTheme["updaterButton"]]} onPress={this._updateFromCodePush.bind(this)}>
+                        <Text style={[styles.updaterButtonText,this._preferredTheme["updaterButtonText"]]}>检查更新</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
                 {this.renderProgress()}
@@ -141,4 +143,5 @@ const stylesForAll = {
 
 const styles = StyleSheet.create(Object.assign({},stylesForAll))
 
-export default containerByComponent(Updater,rootReducer,{fetchUserPrefs},null,(state)=>({...state.userPrefsReducer}))
+export default Updater
+// export default containerByComponent(Updater,userReducer,{fetchUserPrefs},null,(state)=>({...state.userPrefsReducer}))

@@ -9,7 +9,7 @@ import {topicReducer} from "./reducer"
 import {saveTopic,changeField} from "./action"
 
 import styles from "./stylesheet/publish"
-import preferredThemeByName from "../common/stylesheet/theme"
+import preferredThemeByName,{theme} from "../common/stylesheet/theme"
 
 const topicTabs = {
     "ask":"问答",
@@ -24,6 +24,7 @@ class Publish extends Component{
             pickerActive:false
         }
         this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
+        this._preferredThemeDefines = theme[props.userPrefs["preferredTheme"]]
     }
     _togglePicker(){
         this.setState({
@@ -75,7 +76,8 @@ class Publish extends Component{
                 <View style={[styles.publishRow,this._preferredTheme["publishRow"]]}>
                     <Text style={[styles.publishLabel,this._preferredTheme["publishLabel"]]}>标题</Text>
                     <View style={styles.publishInput}>
-                        <TextInput placeholder="请输入标题" style={styles.publishTextInput} 
+                        <TextInput placeholder="请输入标题" placeholderTextColor={this._preferredThemeDefines["publishLabel"].color} 
+                        style={styles.publishTextInput} 
                         onChangeText={value=>this.props.actions.changeField("title",value)}/>
                     </View>
                 </View>
@@ -88,7 +90,8 @@ class Publish extends Component{
                 </View>
                 <View style={styles.publishFormSeparator}/>
                 <View style={[styles.publishArea,this._preferredTheme["publishArea"]]}>
-                    <TextInput placeholder="请输入主题内容" style={[styles.publishTextArea,this._preferredTheme["publishTextArea"]]} 
+                    <TextInput placeholder="请输入主题内容" style={[styles.publishTextArea,this._preferredTheme["publishTextArea"]]}  
+                    placeholderTextColor={this._preferredThemeDefines["publishLabel"].color} 
                     onChangeText={value=>this.props.actions.changeField("content",value)}
                     multiline={true} maxLength={200}/>
                 </View>

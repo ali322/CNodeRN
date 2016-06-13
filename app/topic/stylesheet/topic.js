@@ -69,6 +69,7 @@ const styles = {
       fontSize:15  
     },
     topicDesc:{
+        marginTop:8,
         paddingVertical:8,
         paddingHorizontal:8
     },
@@ -123,8 +124,8 @@ const styles = {
        paddingHorizontal:8,
        paddingVertical:10,
        fontSize:13,
-       textAlignVertical:"top"
-    //    flex:1
+       textAlignVertical:"top",
+       flex:1
     }
 }
 

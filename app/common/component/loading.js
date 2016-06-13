@@ -4,10 +4,13 @@ import React,{Component,View,StyleSheet,ActivityIndicatorIOS,ProgressBarAndroid,
 import Spinner from "react-native-spinkit"
 
 export default class Loading extends Component{
+    static defaultProps = {
+        color:"#333"
+    }
     render(){
         // const spinner = Platform.OS === "ios"?<ActivityIndicatorIOS animating={true} {...this.props}/>:
         // <ProgressBarAndroid {...this.props}/>
-        const spinner = <Spinner type="FadingCircleAlt" size={20}/>
+        const spinner = <Spinner type="FadingCircleAlt" color={this.props.color} size={20}/>
         return (
             <View style={styles.loading}>{spinner}</View>
         )

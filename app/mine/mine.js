@@ -133,7 +133,7 @@ class Mine extends Component {
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
                 {this.renderNavigationBar() }
-                {!this.state.isLogined?<Anonymous />:this.props.userFetching?<Loading />:(
+                {!this.state.isLogined?<Anonymous />:this.props.userFetching?<Loading color={this._preferredThemeDefines["loading"].color}/>:(
                     <ScrollView>
                     {this.renderBreif() }
                     {this.renderTrends() }

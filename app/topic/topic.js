@@ -4,6 +4,7 @@ import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,Int
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import HTMLView from "../common/component/htmlview"
+import WebContainer from "../common/component/webcontainer"
 import Loading from "../common/component/loading"
 import NavBar from "../common/component/navbar"
 import Alert from "../common/component/alert"
@@ -138,7 +139,7 @@ class Topic extends Component{
                         <Text style={[styles.topicAgreeBadgeText,{color:reply.agreeStatus === "up"?selectedIcon:unselectedIcon}]}> +{reply.ups.length}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.topicDesc}>
+                <View style={[styles.topicDesc,this._preferredTheme["topicDesc"]]}>
                     <HTMLView value={reply.content.replace(/(\n|\r)+$/g,"")}/>
                 </View>
                 </View>            
@@ -162,7 +163,7 @@ class Topic extends Component{
                                 <Text style={[styles.topicBadgeText,this._preferredTheme["topicTagText"]]}>{topic.tab}</Text>
                             </View>
                         </View>
-                        <View style={styles.topicDesc}>
+                        <View style={[styles.topicDesc,this._preferredTheme["topicDesc"]]}>
                             <HTMLView value={topic.content.replace(/(\n|\r)+$/g,"")} maxImageWidth={Dimensions.get("window").width - 16}/>
                         </View>
                         <View style={[styles.topicComments,this._preferredTheme["topicComments"]]}>
@@ -177,7 +178,7 @@ class Topic extends Component{
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
             {this.renderNavigationBar()}
-            {this.state.loading?<Loading />:this.renderContent()}
+            {this.state.loading?<Loading color={this._preferredThemeDefines["loading"].color}/>:this.renderContent()}
             <Alert ref={(view)=>this._alert=view}/>
             </View>
         )

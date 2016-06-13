@@ -10,8 +10,13 @@ import {clearUser} from "./action"
 import {userReducer} from "./reducer"
 
 import styles from "./stylesheet/setup"
+import preferredThemeByName from "../common/stylesheet/theme"
 
 class Setup extends Component{
+    constructor(props){
+        super(props)
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
+    }
     _handleLogout(){
         this._alert.alert("确定退出?","",[
             {text:"取消",style:"cancel"},
@@ -32,41 +37,34 @@ class Setup extends Component{
         userPrefs["preferredTheme"] = enabled? "dark" : "light"
         this.props.saveUserPrefs(userPrefs)
     }
-    // componentWillReceiveProps(nextProps){
-    //     if(this.props.userPrefsSaving && !nextProps.userPrefsSaving){
-    //         if(nextProps.userPrefsSaved){
-    //             global.userPrefs = nextProps.userPrefs
-    //         }
-    //     }
-    // }
     render(){
         const {userPrefs,navigationActions} = this.props
         return (
-            <View style={styles.container}>
-            <NavBar title="设置" userPrefs={this.props.userPrefs} 
+            <View style={[styles.container,this._preferredTheme["container"]]}>
+            <NavBar title="设置" 
             onLeftButtonClick={()=>navigationActions.popScene("setup")} 
             userPrefs={this.props.userPrefs}/>
-            <View style={styles.setupPanel}>
-                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+            <View style={[styles.setupPanel,this._preferredTheme["setupPanel"]]}>
+                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5},this._preferredTheme["setupRow"]]}>
                     <View style={styles.setupRowLabel}>
-                        <Text style={[styles.setupRowLabelText]}>清除缓存</Text>
+                        <Text style={[styles.setupRowLabelText,this._preferredTheme["setupRowLabelText"]]}>清除缓存</Text>
                     </View>
                     <View style={styles.setupAccessory}>
-                        <Text style={styles.setupAccessoryText}>无缓存</Text>
+                        <Text style={[styles.setupAccessoryText,this._preferredTheme["setupRowLabelText"]]}>无缓存</Text>
                     </View>
                 </TouchableOpacity>
-                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                <View style={[styles.setupRow,{borderBottomWidth:0.5},this._preferredTheme["setupRow"]]}>
                     <View style={styles.setupRowLabel}>
-                        <Text style={[styles.setupRowLabelText]}>夜间模式</Text>
+                        <Text style={[styles.setupRowLabelText,this._preferredTheme["setupRowLabelText"]]}>夜间模式</Text>
                     </View>
                     <View style={styles.setupAccessory}>
                         <Switch style={{marginBottom:1}} onValueChange={this._handleChangeTheme.bind(this)} 
                         value={userPrefs && userPrefs["preferredTheme"] === "dark"}/>
                     </View>
                 </View>
-                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                <View style={[styles.setupRow,{borderBottomWidth:0.5},this._preferredTheme["setupRow"]]}>
                     <View style={styles.setupRowLabel}>
-                        <Text style={[styles.setupRowLabelText]}>字体大小</Text>
+                        <Text style={[styles.setupRowLabelText,this._preferredTheme["setupRowLabelText"]]}>字体大小</Text>
                     </View>
                     <View style={styles.setupRowContent}>
                         <Slider maximumValue={20} minimumValue={12}/>
@@ -74,14 +72,14 @@ class Setup extends Component{
                 </View>
                 <TouchableOpacity style={styles.setupRow} onPress={()=>navigationActions.pushScene("updater")}>
                     <View style={styles.setupRowLabel}>
-                        <Text style={[styles.setupRowLabelText]}>检查更新</Text>
+                        <Text style={[styles.setupRowLabelText,this._preferredTheme["setupRowLabelText"]]}>检查更新</Text>
                     </View>
                     <View style={styles.setupAccessory}>
                         <Text style={[styles.setupRowLabelText]}><Icon name="angle-right" size={22} color="#666"/></Text>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={styles.setupPanel}>
+            <View style={[styles.setupPanel,this._preferredTheme["setupPanel"]]}>
                 <TouchableHighlight style={styles.setupRow} onPress={this._handleLogout.bind(this)}>
                     <Text style={[styles.setupRowLabelText,{color:"#FF3300"}]}>切换用户</Text>
                 </TouchableHighlight>

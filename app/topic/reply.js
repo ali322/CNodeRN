@@ -10,7 +10,7 @@ import {topicReducer} from "./reducer"
 import {saveReply} from "./action"
 
 import styles from "./stylesheet/topic"
-import preferredThemeByName from "../common/stylesheet/theme"
+import preferredThemeByName,{theme} from "../common/stylesheet/theme"
 
 class Reply extends Component{
     constructor(props){
@@ -19,6 +19,7 @@ class Reply extends Component{
             content:""
         }
         this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
+        this._preferredThemeDefines = theme[props.userPrefs["preferredTheme"]]
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.replySaving && this.props.replySaving){
@@ -55,9 +56,10 @@ class Reply extends Component{
             {this.renderNavigationBar()}
             <View style={styles.replyWrap}>
             <TextInput placeholder="回复内容不超过50字" onChangeText={(content)=>this.setState({content})} 
+            placeholderTextColor={this._preferredThemeDefines["publishLabel"].color} 
             defaultValue={this.props.replyTo?`@${this.props.replyTo.author.loginname} `:""} numberOfLines={10} 
             multiline={true} maxLength={200} 
-            style={styles.replyInput}/>
+            style={[styles.replyInput,this._preferredTheme["replyInput"]]}/>
             </View>
             </View>
         )

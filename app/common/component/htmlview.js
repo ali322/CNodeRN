@@ -2,7 +2,6 @@
 
 import React, {Component,Text,StyleSheet,Image,Dimensions,Platform} from "react-native"
 import HtmlView from "react-native-htmlview"
-import _ from "lodash"
 
 class ResizableImage extends Component{
     constructor(props){

@@ -8,6 +8,9 @@ export const theme = {
             backgroundColor:"#444",
             borderBottomColor:"#000"
         },
+        loading:{
+            color:"#FFF"
+        },
         navigationBarTitleText:{
             color:"#FFF"
         },
@@ -87,9 +90,36 @@ export const theme = {
         },
         agreeIcon:{
             color:"dodgerblue"
+        },
+        topicDesc:{
+            backgroundColor:"#CCC"
+        },
+        replyInput:{
+            color:"#FFF"
+        },
+        setupPanel:{
+            backgroundColor:"#555"
+        },
+        setupRow:{
+            borderBottomColor:"#000"
+        },
+        setupRowLabelText:{
+            color:"#FFF"
+        },
+        updaterContainer:{
+            backgroundColor:"#444"
+        },
+        updaterButton:{
+            backgroundColor:"#555"
+        },
+        updaterButtonText:{
+            color:"#FFF"
         }
     },
     light:{
+        loading:{
+            color:"#333"
+        },
         tabBarItemText:{
             color:"#333"
         },
@@ -106,6 +136,9 @@ export const theme = {
             color:"#AAA"
         },
         agreeIcon:{
+            color:"#333"
+        },
+        publishLabel:{
             color:"#333"
         }
     }

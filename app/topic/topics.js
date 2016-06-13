@@ -14,7 +14,7 @@ import SearchBar from "../common/module/searchbar"
 import NavBar from "../common/component/navbar"
 
 import styles from "./stylesheet/topics"
-import preferredThemeByName from "../common/stylesheet/theme"
+import preferredThemeByName,{theme} from "../common/stylesheet/theme"
 
 class Topics extends Component{
     constructor(props){
@@ -29,6 +29,7 @@ class Topics extends Component{
             modalActive:false
         }
         this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
+        this._preferredThemeDefines = theme[props.userPrefs["preferredTheme"]]
     }
     componentDidMount(){
         const {categories,selectedCategory} = this.props
@@ -74,6 +75,7 @@ class Topics extends Component{
         }
         if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
             this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
+            this._preferredThemeDefines = theme[nextProps.userPrefs["preferredTheme"]]
         }
     }
     renderNavigationBar(){
@@ -153,10 +155,11 @@ class Topics extends Component{
     render(){
         const threshold = (Platform.OS === "ios" ? 10 : -20)
         const {categories,selectedCategory} = this.props
+        const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
             {this.state.searchBarActive?this.renderSearchBar():this.renderNavigationBar()}
-            {categories[selectedCategory].list.length === 0 && this.props.topicsFetching ? <Loading />:(
+            {categories[selectedCategory].list.length === 0 && this.props.topicsFetching ? <Loading color={loadingColor}/>:(
             <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
             refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}
