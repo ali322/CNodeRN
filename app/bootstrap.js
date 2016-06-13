@@ -6,6 +6,7 @@ import containerByComponent from "./lib/redux-helper"
 import Router,{Scene} from "./common/navigation/router"
 import routerReducer from "./common/navigation/reducer"
 import Alert from "./common/component/alert"
+import Splash from "./common/module/splash"
 
 import {fetchUserPrefs,saveUserPrefs,fetchAuthentication} from "./common/action"
 import {userPrefsReducer,authenticationReducer} from "./common/reducer"
@@ -49,6 +50,9 @@ class App extends Component{
     }
     render(){
         const sceneProps = {userPrefs:this.props.userPrefs,saveUserPrefs:this.props.actions.saveUserPrefs}
+        if(!this.props.user || !this.props.userPrefs){
+            return <Splash />
+        }
         return (
             <View style={{flex:1}}>
                 <Router initialSceneKey="tabs" sceneProps={sceneProps} 
