@@ -130,10 +130,11 @@ class Mine extends Component {
         )
     }
     render() {
+        const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
                 {this.renderNavigationBar() }
-                {!this.state.isLogined?<Anonymous />:this.props.userFetching?<Loading color={this._preferredThemeDefines["loading"].color}/>:(
+                {!this.state.isLogined?<Anonymous />:this.props.userFetching?<Loading color={loadingColor}/>:(
                     <ScrollView>
                     {this.renderBreif() }
                     {this.renderTrends() }

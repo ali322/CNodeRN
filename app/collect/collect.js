@@ -76,10 +76,11 @@ class UserCollect extends Component{
         )
     }
     render(){
+        const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
             <NavBar title="收藏的主题" leftButton={false} userPrefs={this.props.userPrefs}/>
-            {!this.state.isLogined?<Anonymous />:this.props.collectFetching?<Loading color={this._preferredThemeDefines["loading"].color}/>:(
+            {!this.state.isLogined?<Anonymous />:this.props.collectFetching?<Loading color={loadingColor}/>:(
                 <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
                 refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
                 renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={[styles.cellSeparator,this._preferredTheme["cellSeparator"]]}/>}/>
