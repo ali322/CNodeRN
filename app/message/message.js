@@ -12,6 +12,7 @@ import Anonymous from "../common/module/anonymous"
 import NavBar from "../common/component/navbar"
 
 import styles from "./stylesheet/message"
+import preferredThemeByName from "../common/stylesheet/theme"
 
 class Message extends Component{
     constructor(props){
@@ -25,6 +26,7 @@ class Message extends Component{
             }),
             isLogined:false
         }
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     componentDidMount(){
         global.storage.getItem("user").then((user)=>{
@@ -41,23 +43,26 @@ class Message extends Component{
                 readDataSource:this.state.readDataSource.cloneWithRows(nextProps.messages.has_read_messages)
             })
         }
+        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
+            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
+        }
     }
     _renderMessage(message){
         return (
-            <View>
+            <View style={[styles.listCell,this._preferredTheme["topicCell"]]}>
                 <View style={styles.cellRow}>
                     <Image source={{uri:message.author.avatar_url}} style={styles.cellImage}/>
                     <View style={styles.cellSubtitle}>
-                        <Text style={styles.cellSubtitleText}>{message.author.loginname}</Text>
+                        <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubTitleText"]]}>{message.author.loginname}</Text>
                         <Text style={styles.cellMintitleText}>{message.reply.create_at}</Text>
                     </View>
                     <View style={styles.cellAccessory}><Text style={styles.cellAccessoryText}>回复</Text></View>
                 </View>
                 <View style={styles.cellTitle}>
-                    <Text style={styles.cellSubtitleText}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
+                    <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubTitleText"]]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
                 </View>
                 <View style={styles.cellTitle}>
-                    <Text style={[styles.cellSubtitleText,styles.replyContent]}>{message.reply.content.replace(/\s/g,"")}</Text>
+                    <Text style={[styles.cellSubtitleText,styles.replyContent,this._preferredTheme["topicSubTitleText"]]}>{message.reply.content.replace(/\s/g,"")}</Text>
                 </View>
             </View>
         )
@@ -65,7 +70,8 @@ class Message extends Component{
     _renderTimeline(){
         const renderTabBar = ()=>{
             return (
-                <Tabs style={styles.tab} selectedStyle={styles.selectedTab}>
+                <Tabs style={[styles.tab,this._preferredTheme["tab"]]} 
+                selectedStyle={[styles.selectedTab,this._preferredTheme["selectedTab"]]}>
                     <Text style={styles.unselectedTab}>未读</Text>
                     <Text style={styles.unselectedTab}>已读</Text>
                 </Tabs>
@@ -82,7 +88,7 @@ class Message extends Component{
     }
     render(){
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this._preferredTheme["container"]]}>
             <NavBar title="消息" leftButton={false} userPrefs={this.props.userPrefs}/>
             {!this.state.isLogined?<Anonymous />:this.props.messagesFetching?<Loading />:this._renderTimeline()}
             </View>

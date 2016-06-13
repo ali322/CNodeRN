@@ -9,6 +9,7 @@ import {topicReducer} from "./reducer"
 import {saveTopic,changeField} from "./action"
 
 import styles from "./stylesheet/publish"
+import preferredThemeByName from "../common/stylesheet/theme"
 
 const topicTabs = {
     "ask":"问答",
@@ -22,6 +23,7 @@ class Publish extends Component{
         this.state = {
             pickerActive:false
         }
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     _togglePicker(){
         this.setState({
@@ -70,23 +72,23 @@ class Publish extends Component{
         const {topic} = this.props
         return (
             <View style={styles.publishForm}>
-                <View style={styles.publishRow}>
-                    <Text style={styles.publishLabel}>标题</Text>
+                <View style={[styles.publishRow,this._preferredTheme["publishRow"]]}>
+                    <Text style={[styles.publishLabel,this._preferredTheme["publishLabel"]]}>标题</Text>
                     <View style={styles.publishInput}>
                         <TextInput placeholder="请输入标题" style={styles.publishTextInput} 
                         onChangeText={value=>this.props.actions.changeField("title",value)}/>
                     </View>
                 </View>
-                <View style={styles.publishRow}>
-                    <Text style={styles.publishLabel}>分类</Text>
+                <View style={[styles.publishRow,{borderBottomWidth:0}]}>
+                    <Text style={[styles.publishLabel,this._preferredTheme["publishLabel"]]}>分类</Text>
                     <TouchableOpacity style={[styles.publishInput,styles.publishPickerInput]} onPress={this._togglePicker.bind(this)}>
                         <Text style={styles.publishPickerValue}>{topicTabs[topic.tab]}</Text>
                         <Icon name="angle-right" size={25} color="#999"/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.publishFormSeparator}/>
-                <View style={styles.publishArea}>
-                    <TextInput placeholder="请输入主题内容" style={styles.publishTextArea} 
+                <View style={[styles.publishArea,this._preferredTheme["publishArea"]]}>
+                    <TextInput placeholder="请输入主题内容" style={[styles.publishTextArea,this._preferredTheme["publishTextArea"]]} 
                     onChangeText={value=>this.props.actions.changeField("content",value)}
                     multiline={true} maxLength={200}/>
                 </View>
@@ -95,7 +97,7 @@ class Publish extends Component{
     }
     render(){
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this._preferredTheme["container"]]}>
             {this.renderNavigationBar()}
             {this.renderForm()}
             {this.state.pickerActive?this.renderModal():null}

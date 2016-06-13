@@ -15,6 +15,7 @@ import {fetchUser} from "./action"
 import {userReducer} from "./reducer"
 
 import styles from "./stylesheet/mine"
+import preferredThemeByName from "../common/stylesheet/theme"
 
 class Mine extends Component {
     constructor(props) {
@@ -30,6 +31,7 @@ class Mine extends Component {
             }),
             isLogined:false
         }
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     componentDidMount() {
         global.storage.getItem("user").then((user)=>{
@@ -45,6 +47,9 @@ class Mine extends Component {
                 topicDatasource: this.state.topicDatasource.cloneWithRows(nextProps.user.recent_topics),
                 replyDatasource: this.state.topicDatasource.cloneWithRows(nextProps.user.recent_replies)
             })
+        }
+        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
+            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
         }
     }
     renderBreif() {
@@ -75,19 +80,19 @@ class Mine extends Component {
         const {user,navigationActions} = this.props
         return (
             <TouchableOpacity onPress={()=>navigationActions.pushScene("topic",{ id: topic.id }) }>
-                <Animated.View style={[styles.listCell, {
+                <Animated.View style={[styles.listCell,this._preferredTheme["topicCell"],{
                     // opacity: this.state.rowScale,
                     // transform: [{ scaleX: this.state.rowScale }]
                 }]}>
                     <View style={styles.topicBreif}>
                         <Image source={{ uri: user.avatar_url }} style={styles.topicImage}/>
                         <View style={styles.topicSubtitle}>
-                            <Text style={styles.topicSubtitleText}>{user.loginname}</Text>
+                            <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{user.loginname}</Text>
                             <Text style={styles.topicMintitleText}>{topic.last_reply_at}</Text>
                         </View>
                     </View>
                     <View style={styles.topicTitle}>
-                        <Text style={styles.topicTitleText} numberOfLines={2}>{topic.title}</Text>
+                        <Text style={[styles.topicTitleText,this._preferredTheme["topicSubtitleText"]]} numberOfLines={2}>{topic.title}</Text>
                     </View>
                 </Animated.View>
             </TouchableOpacity>
@@ -100,7 +105,8 @@ class Mine extends Component {
         }
         const renderTabs = ()=>{
             return (
-                <Tabs style={styles.mineTrendsTab} selectedStyle={styles.mineTrendsSelectedTab}>
+                <Tabs style={[styles.mineTrendsTab,this._preferredTheme["tab"]]} 
+                selectedStyle={[styles.mineTrendsSelectedTab,this._preferredTheme["selectedTab"]]}>
                     <Text style={styles.mineTrendsUnselectedTab} name="topic">最近主题</Text>
                     <Text style={styles.mineTrendsUnselectedTab} name="reply">最近回复</Text>
                 </Tabs>
@@ -111,12 +117,12 @@ class Mine extends Component {
                 <ScrollableTabView renderTabBar={renderTabs}>
                     <View style={styles.mineTrendsContent}>
                         <ListView dataSource={this.state.topicDatasource} renderRow={this.renderTopicRow.bind(this) } enableEmptySections={true} 
-                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
+                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={[styles.cellSeparator,this._preferredTheme["cellSeparator"]]}/>}
                             />
                     </View>
                     <View style={styles.mineTrendsContent}>
                         <ListView dataSource={this.state.replyDatasource} renderRow={this.renderTopicRow.bind(this) } enableEmptySections={true} 
-                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
+                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={[styles.cellSeparator,this._preferredTheme["cellSeparator"]]}/>}
                             />
                     </View>
                 </ScrollableTabView>
@@ -125,7 +131,7 @@ class Mine extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this._preferredTheme["container"]]}>
                 {this.renderNavigationBar() }
                 {!this.state.isLogined?<Anonymous />:this.props.userFetching?<Loading />:(
                     <ScrollView>

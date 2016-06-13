@@ -14,6 +14,7 @@ import {fetchTopic,toggleCollect,toggleAgree} from "./action"
 import {topicReducer} from "./reducer"
 
 import styles from "./stylesheet/topic"
+import preferredThemeByName,{theme} from "../common/stylesheet/theme"
 
 class Topic extends Component{
     constructor(props){
@@ -26,7 +27,9 @@ class Topic extends Component{
                 },
                 sectionHeaderHasChanged:(s1,s2)=>s1 !== s2
             })
-        } 
+        }
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
+        this._preferredThemeDefines = theme[props.userPrefs["preferredTheme"]]
     }
     componentDidMount(){
         InteractionManager.runAfterInteractions(()=>{
@@ -90,10 +93,12 @@ class Topic extends Component{
         const {topic} = this.props
         const {popScene} = this.props.navigationActions
         const isCollect = topic && topic.is_collect
+        const unselectedIcon = this._preferredThemeDefines["uncollectIcon"].color
+        const selectedIcon = this._preferredThemeDefines["collectIcon"].color
         const rightButton = (
             <View style={[styles.navigationBarButton,{marginRight:5}]}>
                 <TouchableOpacity onPress={this._toggleCollect.bind(this)}>
-                    <Icon name={isCollect?"heart":"heart-o"} size={20} color={isCollect?"#333":"#999"}/>
+                    <Icon name={isCollect?"heart":"heart-o"} size={20} color={isCollect?selectedIcon:unselectedIcon}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                     if(!topic){
@@ -112,13 +117,15 @@ class Topic extends Component{
         if(!topic){
             return null
         }
+        const unselectedIcon = this._preferredThemeDefines["disagreeIcon"].color
+        const selectedIcon = this._preferredThemeDefines["agreeIcon"].color
         const renderComment = (reply)=>{
             return (
-                <View style={styles.topicComment}>
+                <View style={[styles.topicComment,this._preferredTheme["topicComment"]]}>
                 <View style={styles.topicCommentBreif}>
                     <Image source={{uri:reply.author.avatar_url}} style={styles.topicImage}/>
                     <View style={styles.topicSubtitle}>
-                        <Text style={styles.topicSubtitleText}>{reply.author.loginname}</Text>
+                        <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{reply.author.loginname}</Text>
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>
                     </View>
                     <TouchableOpacity style={styles.topicCommentBadge} onPress={()=>{
@@ -127,8 +134,8 @@ class Topic extends Component{
                         <Icon name="mail-reply" size={15} color="#AAA"/>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.topicCommentBadge,styles.topicAgreeBadge]} onPress={this._toggleAgree.bind(this,reply.id)}>
-                        <Icon name="thumbs-up" size={15} color={reply.agreeStatus === "up"?"#333":"#AAA"}/>
-                        <Text style={[styles.topicAgreeBadgeText,{color:reply.agreeStatus === "up"?"#333":"#AAA"}]}> +{reply.ups.length}</Text>
+                        <Icon name="thumbs-up" size={15} color={reply.agreeStatus === "up"?selectedIcon:unselectedIcon}/>
+                        <Text style={[styles.topicAgreeBadgeText,{color:reply.agreeStatus === "up"?selectedIcon:unselectedIcon}]}> +{reply.ups.length}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.topicDesc}>
@@ -148,16 +155,18 @@ class Topic extends Component{
                         <View style={styles.topicBreif}>
                             <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
                             <View style={styles.topicSubtitle}>
-                                <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
+                                <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{topic.author.loginname}</Text>
                                 <Text style={styles.topicMintitleText}>{topic.create_at},{topic.visit_count} 次点击</Text>
                             </View>
-                            <View style={styles.topicBadge}><Text style={styles.topicBadgeText}>{topic.tab}</Text></View>
+                            <View style={[styles.topicBadge,this._preferredTheme["topicTag"]]}>
+                                <Text style={[styles.topicBadgeText,this._preferredTheme["topicTagText"]]}>{topic.tab}</Text>
+                            </View>
                         </View>
                         <View style={styles.topicDesc}>
                             <HTMLView value={topic.content.replace(/(\n|\r)+$/g,"")} maxImageWidth={Dimensions.get("window").width - 16}/>
                         </View>
-                        <View style={styles.topicComments}>
-                            <Text style={styles.topicCommentsStatus}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
+                        <View style={[styles.topicComments,this._preferredTheme["topicComments"]]}>
+                            <Text style={[styles.topicCommentsStatus,this._preferredTheme["topicSubtitleText"]]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
                         </View>
                     </View>
                 )
@@ -165,9 +174,8 @@ class Topic extends Component{
         )
     }
     render(){
-        console.log('this.props',this.props)
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this._preferredTheme["container"]]}>
             {this.renderNavigationBar()}
             {this.state.loading?<Loading />:this.renderContent()}
             <Alert ref={(view)=>this._alert=view}/>

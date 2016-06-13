@@ -4,13 +4,13 @@ import React,{Component,View,TouchableOpacity,Text,TextInput,Alert} from "react-
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import NavBar from "../common/component/navbar"
-
 import containerByComponent from "../lib/redux-helper"
 
 import {topicReducer} from "./reducer"
 import {saveReply} from "./action"
 
 import styles from "./stylesheet/topic"
+import preferredThemeByName from "../common/stylesheet/theme"
 
 class Reply extends Component{
     constructor(props){
@@ -18,6 +18,7 @@ class Reply extends Component{
         this.state = {
             content:""
         }
+        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.replySaving && this.props.replySaving){
@@ -50,7 +51,7 @@ class Reply extends Component{
     }
     render(){
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,this._preferredTheme["container"]]}>
             {this.renderNavigationBar()}
             <View style={styles.replyWrap}>
             <TextInput placeholder="回复内容不超过50字" onChangeText={(content)=>this.setState({content})} 

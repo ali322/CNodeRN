@@ -23,7 +23,7 @@ const styles = {
     },
     mineBreif:{
         height:150,
-        backgroundColor:"#FFF",
+        // backgroundColor:"#FFF",
         flexDirection:"row",
         alignItems:"center",
         justifyContent:"center"

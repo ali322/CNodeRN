@@ -49,8 +49,44 @@ export const theme = {
         topicTagText:{
             color:"#999"
         },
+        tab:{
+          borderBottomColor:"#000"  
+        },
+        selectedTab:{
+            color:"#FFF"
+        },
+        publishArea:{
+          borderTopColor:"#555"  
+        },
+        publishTextArea:{
+          color:"#FFF"
+        },
+        publishRow:{
+          borderBottomColor:"#000"  
+        },
+        publishLabel:{
+            color:"#FFF"
+        },
+        topicComments:{
+            borderTopColor:"#000"  
+        },
+        topicComment:{
+            borderBottomColor:"#000"
+        },
+        uncollectIcon:{
+          color:"#999"  
+        },
+        collectIcon:{
+          color:"#FF3300"  
+        },
         container:{
             backgroundColor:"#333"
+        },
+        disagreeIcon:{
+            color:"#AAA"
+        },
+        agreeIcon:{
+            color:"dodgerblue"
         }
     },
     light:{
@@ -59,6 +95,18 @@ export const theme = {
         },
         tabBarSelectedItemText:{
             color:"blue"
+        },
+        uncollectIcon:{
+          color:"#999"  
+        },
+        collectIcon:{
+          color:"#333"  
+        },
+        disagreeIcon:{
+            color:"#AAA"
+        },
+        agreeIcon:{
+            color:"#333"
         }
     }
 }
