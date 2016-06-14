@@ -41,10 +41,6 @@ module.exports = {
         "guard-for-in": 2,
         "vars-on-top": 2,
         "no-use-before-define": 0,
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         // "quotes":[2, "double", {"avoidEscape": true, "allowTemplateLiterals": true}],
         "semi": [
             "error",
