@@ -10,6 +10,7 @@ import Tabs from "../common/component/tabs"
 import Loading from "../common/component/loading"
 import Anonymous from "../common/module/anonymous"
 import NavBar from "../common/component/navbar"
+import HTMLView from "../common/component/htmlview"
 
 import styles from "./stylesheet/message"
 import preferredThemeByName from "../common/stylesheet/theme"
@@ -62,7 +63,7 @@ class Message extends Component{
                     <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubTitleText"]]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
                 </View>
                 <View style={styles.cellTitle}>
-                    <Text style={[styles.cellSubtitleText,styles.replyContent,this._preferredTheme["topicSubTitleText"]]}>{message.reply.content.replace(/\s/g,"")}</Text>
+                    <HTMLView value={message.reply.content.replace(/(\n|\r)+$/g,"")}/>
                 </View>
             </View>
         )

@@ -2,7 +2,6 @@
 
 import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,Platform} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-import {Actions} from "react-native-router-flux"
 
 import Scanner from "../common/component/scanner"
 import NavBar from "../common/component/navbar"
