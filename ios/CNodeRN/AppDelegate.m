@@ -33,7 +33,7 @@
    */
   
   
-   jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+  //   jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
   
   /**
    * OPTION 2
@@ -43,11 +43,11 @@
    * simulator in the "Release" build configuration.
    */
   
-#ifdef DEBUG
-  // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-#else
-  jsCodeLocation = [CodePush bundleURL];
-#endif
+  //#ifdef DEBUG
+  //#else
+  //  jsCodeLocation = [CodePush bundleURL];
+  //#endif
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
   
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation

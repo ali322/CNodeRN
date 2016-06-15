@@ -3,9 +3,9 @@
 > Yet another [cnodejs.org](http://cnodejs.org) React-Native App
 
 ## Install
-For [Android](https://www.pgyer.com/Q98i)
+For [Android](https://www.pgyer.com/Q98i) For [ios](https://www.pgyer.com/GhwY)
 
-![CNodeRN](https://o1wjx1evz.qnssl.com/app/qrcode/Q98i)
+![CNodeRN](https://o1wjx1evz.qnssl.com/app/qrcode/Q98i) ![CNodeRN](https://o1wjx1evz.qnssl.com/app/qrcode/GhwY)
 
 ## Develop
 1. clone this repo
