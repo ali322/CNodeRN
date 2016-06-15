@@ -2,6 +2,9 @@
 
 > Yet another [cnodejs.org](http://cnodejs.org) React-Native App
 
+## Install
+[Android](https://www.pgyer.com/Q98i)
+
 ## Develop
 1. clone this repo
 `git clone https://github.com/ali322/CNodeRN`

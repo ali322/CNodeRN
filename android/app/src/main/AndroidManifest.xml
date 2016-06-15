@@ -14,7 +14,7 @@
     <application
       android:allowBackup="true"
       android:label="@string/app_name"
-      android:icon="@mipmap/cnode"
+      android:icon="@mipmap/appicon"
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"
