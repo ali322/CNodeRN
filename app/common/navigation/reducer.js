@@ -38,28 +38,36 @@ function navigationReducer(state={},action) {
 
 let initialState = Immutable({
     index:0,
+    current:{},
     key:"root",
     children:[]
 })
     
 export default function routerReducer(navigationState=initialState,action){
-    const {scene,path} = locateScene(action.scenes,action.key) || {}
-    if(!scene){
-        return navigationState
-    }
-    if(navigationState.children.length === 0){
-        let initialScene = scene
-        if(scene.tabbar){
-            initialScene = scene.set("children",scene.children.map((item,i)=>{
-                return {
-                    index:0,
-                    ...item,
-                    children:[item.children[0]]
-                }
-            }))
+    let scene,path
+    if(action.type === constants.PUSH_SCENE || action.type === constants.JUMPTO_SCENE){
+        const locatedScene = locateScene(action.scenes,action.key) || {}
+        scene = locatedScene.scene;path = locatedScene.path
+        if(!scene){
+            return navigationState
         }
-        navigationState = navigationState.setIn(["children",0],initialScene)
-        return navigationState
+        if(navigationState.children.length === 0){
+            let initialScene = scene
+            if(scene.tabbar){
+                initialScene = scene.set("children",scene.children.map((item,i)=>{
+                    return {
+                        index:0,
+                        ...item,
+                        children:[item.children[0]]
+                    }
+                }))
+            }
+            navigationState = navigationState.setIn(["children",0],initialScene)
+            return navigationState
+        }
+    }
+    if(action.type === constants.POP_SCENE){
+        scene = navigationState.current.scene;path = navigationState.current.path
     }
     function nestReducer(navState,navAction,scenePath){
         return scenePath.length > 0?navState.updateIn(scenePath,nestNavState=>navigationReducer(nestNavState,navAction)):
@@ -67,6 +75,9 @@ export default function routerReducer(navigationState=initialState,action){
     }
     switch(action.type){
         case constants.PUSH_SCENE:
+            navigationState = navigationState.set("current",{
+                scene,path
+            })
             const nextScene = scene.tabbar?scene.set("children",children=>children.map((item,i)=>{
                 return {
                     index:0,

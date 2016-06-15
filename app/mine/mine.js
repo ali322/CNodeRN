@@ -80,19 +80,19 @@ class Mine extends Component {
         const {user,navigationActions} = this.props
         return (
             <TouchableOpacity onPress={()=>navigationActions.pushScene("topic",{ id: topic.id }) }>
-                <Animated.View style={[styles.listCell,this._preferredTheme["topicCell"],{
+                <Animated.View style={[styles.listCell,{
                     // opacity: this.state.rowScale,
                     // transform: [{ scaleX: this.state.rowScale }]
                 }]}>
                     <View style={styles.topicBreif}>
                         <Image source={{ uri: user.avatar_url }} style={styles.topicImage}/>
                         <View style={styles.topicSubtitle}>
-                            <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{user.loginname}</Text>
+                            <Text style={[styles.topicSubtitleText]}>{user.loginname}</Text>
                             <Text style={styles.topicMintitleText}>{topic.last_reply_at}</Text>
                         </View>
                     </View>
                     <View style={styles.topicTitle}>
-                        <Text style={[styles.topicTitleText,this._preferredTheme["topicSubtitleText"]]} numberOfLines={2}>{topic.title}</Text>
+                        <Text style={[styles.topicTitleText]} numberOfLines={2}>{topic.title}</Text>
                     </View>
                 </Animated.View>
             </TouchableOpacity>

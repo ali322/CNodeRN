@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,View,StyleSheet,Text,ListView,Image,Alert} from "react-native"
+import React,{Component,View,StyleSheet,Text,ListView,Image,Alert,TouchableOpacity} from "react-native"
 import ScrollableTabView from "react-native-scrollable-tab-view"
 
 import containerByComponent from "../lib/redux-helper"
@@ -50,17 +50,20 @@ class Message extends Component{
     }
     _renderMessage(message){
         return (
-            <View style={[styles.listCell,this._preferredTheme["topicCell"]]}>
+            <View style={[styles.listCell]}>
                 <View style={styles.cellRow}>
                     <Image source={{uri:message.author.avatar_url}} style={styles.cellImage}/>
                     <View style={styles.cellSubtitle}>
-                        <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubTitleText"]]}>{message.author.loginname}</Text>
+                        <Text style={[styles.cellSubtitleText]}>{message.author.loginname}</Text>
                         <Text style={styles.cellMintitleText}>{message.reply.create_at}</Text>
                     </View>
-                    <View style={styles.cellAccessory}><Text style={styles.cellAccessoryText}>回复</Text></View>
+                    <TouchableOpacity style={styles.cellAccessory} 
+                    onPress={()=>this.props.navigationActions.pushScene("reply2reply",{id:message.topic.id,replyTo:{...message.reply,author:message.author}})}>
+                    <Text style={styles.cellAccessoryText}>回复</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.cellTitle}>
-                    <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubTitleText"]]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
+                    <Text style={[styles.cellSubtitleText]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
                 </View>
                 <View style={styles.cellTitle}>
                     <HTMLView value={message.reply.content.replace(/(\n|\r)+$/g,"")}/>

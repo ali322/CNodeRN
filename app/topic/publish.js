@@ -38,8 +38,9 @@ class Publish extends Component{
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.topicSaving && this.props.topicSaving){
+            const {popScene} = this.props.navigationActions
             if(nextProps.topicSaved){
-                Alert.alert("发布成功","",[{text:"确定",onPress:()=>Actions.pop()}])
+                Alert.alert("发布成功","",[{text:"确定",onPress:popScene}])
             }else{
                 Alert.alert(nextProps.errMsg,"",[{text:"确定",style:"cancel"}])
             }
@@ -53,7 +54,7 @@ class Publish extends Component{
             </TouchableOpacity>
         )
 
-        return <NavBar title="发布主题" rightButton={()=>rightButton} onLeftButtonClick={()=>popScene("publish")} userPrefs={this.props.userPrefs}/>
+        return <NavBar title="发布主题" rightButton={()=>rightButton} onLeftButtonClick={popScene} userPrefs={this.props.userPrefs}/>
     }
     renderModal(){
         return (

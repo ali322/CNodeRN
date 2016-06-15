@@ -23,8 +23,9 @@ class Reply extends Component{
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.replySaving && this.props.replySaving){
+            const {popScene} = this.props.navigationActions
             if(nextProps.replySaved){
-                Alert.alert("保存成功","",[{text:"确定",onPress:()=>Actions.pop()}])
+                Alert.alert("保存成功","",[{text:"确定",onPress:popScene}])
             }else{
                 Alert.alert(nextProps.errMsg,"",[{text:"确定",style:"cancel"}])
             }
@@ -36,7 +37,7 @@ class Reply extends Component{
             const user = await global.storage.getItem("user")
             const reply = {
                 content:this.state.content,
-                reply_id:"",
+                reply_id:this.props.replyTo?this.props.replyTo.id:"",
                 accesstoken:user.accessToken
             }
             this.props.actions.saveReply(this.props.id,reply)
@@ -48,7 +49,7 @@ class Reply extends Component{
             </TouchableOpacity>
         )
 
-        return <NavBar title="回复" rightButton={()=>rightButton} onLeftButtonClick={()=>navigationActions.popScene("reply")} userPrefs={this.props.userPrefs}/>
+        return <NavBar title="回复" rightButton={()=>rightButton} onLeftButtonClick={navigationActions.popScene} userPrefs={this.props.userPrefs}/>
     }
     render(){
         return (

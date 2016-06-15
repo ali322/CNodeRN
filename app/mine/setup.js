@@ -17,6 +17,11 @@ class Setup extends Component{
         super(props)
         this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
+            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
+        }
+    }
     _handleLogout(){
         this._alert.alert("确定退出?","",[
             {text:"取消",style:"cancel"},
@@ -42,7 +47,7 @@ class Setup extends Component{
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
             <NavBar title="设置" 
-            onLeftButtonClick={()=>navigationActions.popScene("setup")} 
+            onLeftButtonClick={navigationActions.popScene} 
             userPrefs={this.props.userPrefs}/>
             <View style={[styles.setupPanel,this._preferredTheme["setupPanel"]]}>
                 <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5},this._preferredTheme["setupRow"]]}>

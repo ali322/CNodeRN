@@ -41,7 +41,7 @@ class QrCode extends Component {
         const {navigationActions} = this.props
         return (
             <View style={styles.container}>
-                <NavBar leftButton="取消" onLeftButtonClick={()=>navigationActions.popScene("qrcode")} userPrefs={this.props.userPrefs}/>
+                <NavBar leftButton="取消" onLeftButtonClick={navigationActions.popScene} userPrefs={this.props.userPrefs}/>
                 <Scanner handleBarCodeRead={this.handleBarCodeRead.bind(this)}/>
                 <Toast ref={(view)=>this.toast=view}/>
             </View>

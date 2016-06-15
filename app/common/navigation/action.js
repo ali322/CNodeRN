@@ -10,11 +10,10 @@ export function pushScene(scenes,key,params){
     }
 }
 
-export function popScene(scenes,key){
+export function popScene(scenes){
     return {
         type:constants.POP_SCENE,
-        scenes,
-        key
+        scenes
     }
 }
 

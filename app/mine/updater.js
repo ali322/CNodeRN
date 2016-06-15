@@ -91,7 +91,7 @@ class Updater extends Component{
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
             <NavBar title="设置" 
-            onLeftButtonClick={()=>navigationActions.popScene("setup")} 
+            onLeftButtonClick={navigationActions.popScene} 
             userPrefs={this.props.userPrefs}/>
             <View style={[styles.updaterContainer,this._preferredTheme["updaterContainer"]]}>
                 <View style={styles.updaterBreif}>{this.state.progress?this.renderProgress():<Text style={styles.updaterBreifText}>{this.state.syncMessage}</Text>}</View>
@@ -101,7 +101,6 @@ class Updater extends Component{
                     </TouchableOpacity>
                 </View>
             </View>
-                {this.renderProgress()}
             <Toast ref={view=>this._toast=view}/>
             </View>
         )
