@@ -1,7 +1,9 @@
 machine:
   node:
-    version: v4.1.2
+    version: v5.11.0
 dependencies:
+  pre:
+    - npm install npm@3.x -g
   override:
     - npm install
 test:
