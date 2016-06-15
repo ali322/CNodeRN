@@ -1,4 +1,5 @@
 # CNodeRN
+[![CircleCI](https://circleci.com/gh/ali322/CNodeRN.svg?style=svg)](https://circleci.com/gh/ali322/CNodeRN)
 
 > Yet another [cnodejs.org](http://cnodejs.org) React-Native App
 
