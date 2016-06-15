@@ -2,6 +2,8 @@
 
 > Yet another [cnodejs.org](http://cnodejs.org) React-Native App
 
+[![CircleCI](https://circleci.com/gh/ali322/CNodeRN.svg?style=svg)](https://circleci.com/gh/ali322/CNodeRN)
+
 ## Install
 For [Android](https://www.pgyer.com/Q98i) 
 
