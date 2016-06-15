@@ -1,5 +1,6 @@
 # CNodeRN
 [![CircleCI](https://circleci.com/gh/ali322/CNodeRN.svg?style=svg)](https://circleci.com/gh/ali322/CNodeRN)
+[![Dependency Status](https://gemnasium.com/badges/github.com/ali322/CNodeRN.svg)](https://gemnasium.com/github.com/ali322/CNodeRN)
 
 > Yet another [cnodejs.org](http://cnodejs.org) React-Native App
 
