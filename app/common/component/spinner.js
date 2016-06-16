@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,Animated,Easing,View,InteractionManager} from "react-native"
+import React,{Component} from "react"
+import {Animated,Easing,View,InteractionManager} from "react-native"
 import Icon from "react-native-vector-icons/Ionicons"
 
 class Spinner extends Component{

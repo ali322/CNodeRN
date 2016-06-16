@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View,Text,TouchableOpacity,StatusBar,StyleSheet,Platform,Dimensions} from "react-native"
+import React,{Component} from "react"
+import {View,Text,TouchableOpacity,StatusBar,StyleSheet,Platform,Dimensions} from "react-native"
 import _ from "lodash"
 import {preferredStyles,preferredThemeDefines} from "../../lib/helper"
 
@@ -17,12 +18,16 @@ class NavBar extends Component{
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
-            StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+            if(Platform.OS === "ios"){
+                StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+            }
             this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
         }
     }
     componentDidMount(){
-        StatusBar.setBarStyle((this.props.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+        if(Platform.OS === "ios"){
+            StatusBar.setBarStyle((this.props.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+        }
     }
     _renderNavBar(){
         const {title,leftButton,rightButton,onLeftButtonClick,onRightButtonClick} = this.props
@@ -65,7 +70,7 @@ class NavBar extends Component{
     render(){
         return (
             <View style={[styles.header,this._preferredTheme["header"]]}>
-            <StatusBar />
+            {Platform.OS === "ios"?<StatusBar />:null}
             {this._renderNavBar()}
             </View>
         )

@@ -10,14 +10,13 @@
 #import "AppDelegate.h"
 
 #import "RCTRootView.h"
-#import "CodePush.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-  
+
   /**
    * Loading JavaScript code - uncomment the one you want.
    *
@@ -31,10 +30,9 @@
    * `inet` value under `en0:`) and make sure your computer and iOS device are
    * on the same Wi-Fi network.
    */
-  
-  
-  //   jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-  
+
+  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+
   /**
    * OPTION 2
    * Load from pre-bundled file on disk. The static bundle is automatically
@@ -42,19 +40,15 @@
    * running the project on an actual device or running the project on the
    * simulator in the "Release" build configuration.
    */
-  
-  //#ifdef DEBUG
-  //#else
-  //  jsCodeLocation = [CodePush bundleURL];
-  //#endif
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-  
-  
+
+//   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"CNodeRN"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-  
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;

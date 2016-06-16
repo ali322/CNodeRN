@@ -1,6 +1,7 @@
 'use strict'
 
-import React, {Component, View, Text, TouchableOpacity, Image, ListView,ScrollView, Animated,Alert} from "react-native"
+import React,{Component} from "react"
+import {View, Text, TouchableOpacity, Image, ListView,ScrollView, Animated,Alert} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import ScrollableTabView from "react-native-scrollable-tab-view"
 

@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Component,PropTypes} from "react-native"
+import React,{Component,PropTypes} from "react"
 import Navigation from "./navigation"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
@@ -9,9 +9,6 @@ import * as actions from "./action"
 import Immutable from "seamless-immutable"
 
 class Router extends Component{
-    static propTypes = {
-        initialSceneKey:PropTypes.string
-    }
     constructor(props){
         super(props)
         this._scenes = this._scenesListByChilren(props.children)

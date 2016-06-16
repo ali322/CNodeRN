@@ -1,6 +1,6 @@
 'use strict'
-import React from "react-native"
+
+import {AppRegistry} from 'react-native'
 import App from "./app/bootstrap"
 
-
-React.AppRegistry.registerComponent("CNodeRN", () => App)
+AppRegistry.registerComponent('CNodeRN', () => App)

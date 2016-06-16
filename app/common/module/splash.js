@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,StyleSheet,View,Image} from "react-native"
+import React,{Component} from "react"
+import {StyleSheet,View,Image} from "react-native"
 
 class Splash extends Component{
     render(){

@@ -1,5 +1,6 @@
 'use strict'
-import React,{Component,StyleSheet,View,Text,PropTypes} from "react-native"
+import React,{Component,PropTypes} from "react"
+import {StyleSheet,View,Text} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import TabBar from "../component/tabbar"
 import Navigation from "./navigation"

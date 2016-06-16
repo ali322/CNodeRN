@@ -1,5 +1,6 @@
 'use strict'
-import React,{Component,View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image} from "react-native"
+import React,{Component} from "react"
+import {View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image} from "react-native"
 
 import NavBar from "../common/component/navbar"
 import Loading from "../common/component/loading"

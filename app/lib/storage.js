@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{AsyncStorage} from "react-native"
+import {AsyncStorage} from "react-native"
 
 class Storge{
     constructor(){

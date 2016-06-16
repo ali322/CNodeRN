@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ListView,Platform,Modal,TouchableOpacity,Animated,RefreshControl,TextInput,LayoutAnimation} from "react-native"
+import React,{Component} from "react"
+import {View,Text,Image,ListView,Platform,Modal,TouchableOpacity,Animated,RefreshControl,TextInput,LayoutAnimation} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import containerByComponent from "../lib/redux-helper"
 import pureRender from "../lib/pure-render"
@@ -100,7 +101,7 @@ class Topics extends Component{
     renderModal(){
         const {categories,selectedCategory} = this.props
         return (
-            <Modal animated={false} visible={this.state.modalActive} transparent={true} 
+            <Modal animationType="none" visible={this.state.modalActive} transparent={true} 
             onRequestClose={this.toggleModalActive.bind(this)}>
             <View style={styles.modalContainer}>
             <View style={styles.modalContent}>

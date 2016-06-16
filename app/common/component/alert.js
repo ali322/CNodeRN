@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,Modal,View,Text,TouchableOpacity,StyleSheet,Dimensions,Platform,Alert as NativeAlert} from "react-native"
+import React,{Component} from "react"
+import {Modal,View,Text,TouchableOpacity,StyleSheet,Dimensions,Platform,Alert as NativeAlert} from "react-native"
 
 class Alert extends Component{
     constructor(props){
@@ -50,7 +51,7 @@ class Alert extends Component{
             return null
         }
         return (
-            <Modal animated={false} visible={this.state.modalActive} transparent={true} 
+            <Modal animationType="none" visible={this.state.modalActive} transparent={true} 
             onRequestClose={()=>this.setState({active:false})}>
             <View style={styles.alertContainer}>
                 <View style={styles.alertWrap}>

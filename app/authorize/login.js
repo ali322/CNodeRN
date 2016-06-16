@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View} from "react-native"
+import React,{Component} from "react"
+import {View} from "react-native"
 import Anonymous from "../common/module/anonymous"
 import NavBar from "../common/component/navbar"
 

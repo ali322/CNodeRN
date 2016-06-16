@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,StyleSheet,Dimensions,View,Text} from "react-native"
+import React,{Component} from "react"
+import {StyleSheet,Dimensions,View,Text} from "react-native"
 import Camera from "react-native-camera"
 
 class Scanner extends Component{

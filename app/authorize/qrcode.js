@@ -1,6 +1,7 @@
 'use strict'
 
-import React, {Component, View, StyleSheet, Dimensions, Text, TouchableOpacity,Platform} from "react-native"
+import React,{Component} from "react"
+import {View, StyleSheet, Dimensions, Text, TouchableOpacity,Platform} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import Scanner from "../common/component/scanner"

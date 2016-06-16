@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
+import React,{Component} from "react"
+import {View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,Dimensions} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import HTMLView from "../common/component/htmlview"
@@ -84,7 +85,7 @@ class Topic extends Component{
         if(!user){
             this._alert.alert("请先登录","",[
                 {text:"取消",style:"cancel"},
-                {text:"确定",onPress:()=>Actions.login()}
+                {text:"确定",onPress:()=>navigationActions.pushScene("login")}
             ])
         }else{
             navigationActions.pushScene("reply",param)
@@ -185,7 +186,7 @@ class Topic extends Component{
     }
 }
 
-export default containerByComponent(pureRender(Topic),topicReducer,{fetchTopic,toggleAgree,toggleCollect},{...this.props})
+export default containerByComponent(Topic,topicReducer,{fetchTopic,toggleAgree,toggleCollect})
 
 
 

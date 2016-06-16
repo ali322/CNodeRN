@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,WebView} from "react-native"
+import React,{Component} from "react"
+import {WebView} from "react-native"
 
 class WebContainer extends Component{
     constructor(props){

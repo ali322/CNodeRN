@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,PropTypes,View,StyleSheet} from "react-native"
+import React,{Component} from "react"
+import {PropTypes,View,StyleSheet} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "./lib/redux-helper"
 import Router,{Scene} from "./common/navigation/router"
@@ -50,7 +51,7 @@ class App extends Component{
     }
     render(){
         const sceneProps = {userPrefs:this.props.userPrefs,saveUserPrefs:this.props.actions.saveUserPrefs}
-        if(!this.props.user || !this.props.userPrefs){
+        if(this.props.userPrefsFetching || this.props.userFetching){
             return <Splash />
         }
         return (

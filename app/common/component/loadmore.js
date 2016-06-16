@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View,Text,StyleSheet} from "react-native"
+import React,{Component} from "react"
+import {View,Text,StyleSheet} from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
 import Spinner from "react-native-spinkit"
 

@@ -1,6 +1,6 @@
 'use strict'
 
-import React,{Navigator} from "react-native"
+import React from "react"
 import {Scene} from "../common/navigation/router"
 import Mine from "./mine"
 import Setup from "./setup"

@@ -1,11 +1,11 @@
 package com.cnodern;
 
 import com.facebook.react.ReactActivity;
-import com.microsoft.codepush.react.CodePush;
-import com.react.rnspinkit.RNSpinkitPackage;
-import com.eguma.barcodescanner.BarcodeScanner;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.microsoft.codepush.react.CodePush;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -42,15 +42,13 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected List<ReactPackage> getPackages() {
-        // this._codePush = new CodePush("a8vtYCfdT1vCdpFNEQLcJm8QoXUB4JhlxojfW", this, BuildConfig.DEBUG);
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new BarcodeScannerPackage(),
             new CodePush("a8vtYCfdT1vCdpFNEQLcJm8QoXUB4JhlxojfW", this, BuildConfig.DEBUG),
-            // new CodePush(this.getResources().getString(R.strings.reactNativeCodePush_androidDeploymentKey), this, BuildConfig.DEBUG),
+            new VectorIconsPackage(),
             new RNSpinkitPackage(),
-            new BarcodeScanner(),
-            new RCTCameraPackage(),
-            new VectorIconsPackage()
+            new RCTCameraPackage()
         );
     }
 }

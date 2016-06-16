@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View,StyleSheet,ActivityIndicatorIOS,ProgressBarAndroid,Platform} from "react-native"
+import React,{Component} from "react"
+import {View,StyleSheet,ActivityIndicatorIOS,ProgressBarAndroid,Platform} from "react-native"
 import Spinner from "react-native-spinkit"
 
 export default class Loading extends Component{

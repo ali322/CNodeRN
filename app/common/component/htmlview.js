@@ -1,6 +1,7 @@
 'use strict'
 
-import React, {Component,Text,StyleSheet,Image,Dimensions,Platform} from "react-native"
+import React,{Component} from "react"
+import {Text,StyleSheet,Image,Dimensions,Platform} from "react-native"
 import HtmlView from "react-native-htmlview"
 
 class ResizableImage extends Component{

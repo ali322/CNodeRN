@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,Text,View,TextInput,TouchableOpacity,StyleSheet,Platform} from "react-native"
+import React,{Component} from "react"
+import {Text,View,TextInput,TouchableOpacity,StyleSheet,Platform} from "react-native"
 
 export default class SearchBar extends Component{
     static defaultProps = {

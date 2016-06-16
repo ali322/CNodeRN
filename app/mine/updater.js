@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,StyleSheet,View,Text,TouchableOpacity,Dimensions} from "react-native"
+import React,{Component} from "react"
+import {StyleSheet,View,Text,TouchableOpacity,Dimensions} from "react-native"
 import CodePush from "react-native-code-push"
 import * as Progress from 'react-native-progress'
 import Toast from "../common/component/toast"

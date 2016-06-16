@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,StyleSheet,Dimensions} from "react-native"
+import React,{Component} from "react"
+import {StyleSheet,Dimensions} from "react-native"
 import BarcodeScanner from "react-native-barcodescanner"
 
 class Scanner extends Component{

@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View,Animated,StyleSheet,Dimensions,PropTypes,Text} from "react-native"
+import React,{Component,PropTypes} from "react"
+import {View,Animated,StyleSheet,Dimensions,Text} from "react-native"
 
 class Toast extends Component{
     static defaultProps = {

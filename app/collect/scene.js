@@ -1,5 +1,5 @@
 'use strict'
-import React from "react-native"
+import React from "react"
 import {Scene} from "../common/navigation/router"
 import UserCollect from "./collect"
 

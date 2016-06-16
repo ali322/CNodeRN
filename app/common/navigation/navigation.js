@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,NavigationExperimental,StyleSheet,Animated,PropTypes,View,Text} from "react-native"
+import React,{Component,PropTypes} from "react"
+import {NavigationExperimental,StyleSheet,Animated,View,Text} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import TabNavigation from "./tabnavigation"
@@ -30,10 +31,10 @@ class Navigation extends Component{
         const {sceneProps,navigationActions,scenes} = this.props
         const {navigationState} = NavigationSceneRendererProps.scene
         const isVertical = navigationState.direction === "vertical"
-        const panHandlers = isVertical?NavigationCardStackPanResponder.forVertical(NavigationSceneRendererProps):
-            NavigationCardStackPanResponder.forHorizontal(NavigationSceneRendererProps)
-        const animationStyle = isVertical?NavigationCardStackStyleInterpolator.forVertical(NavigationSceneRendererProps):
-            NavigationCardStackStyleInterpolator.forHorizontal(NavigationSceneRendererProps)
+        // const panHandlers = isVertical?NavigationCardStackPanResponder.forVertical(NavigationSceneRendererProps):
+        //     NavigationCardStackPanResponder.forHorizontal(NavigationSceneRendererProps)
+        // const animationStyle = isVertical?NavigationCardStackStyleInterpolator.forVertical(NavigationSceneRendererProps):
+        //     NavigationCardStackStyleInterpolator.forHorizontal(NavigationSceneRendererProps)
         return <NavigationCard {...NavigationSceneRendererProps} renderScene={(props/*NavigationSceneRendererProps*/ )=>{
             const params = navigationState.params
             if(navigationState.tabbar){
@@ -42,15 +43,10 @@ class Navigation extends Component{
             }
             if(navigationState.component){
                 const SceneComponent = navigationState.component
-                return <SceneComponent navigationActions={navigationActions} {...sceneProps} {...params}/>
-                // return React.createElement(navigationState.component,{
-                //     ...sceneProps,
-                //     navigationActions,
-                //     ...params
-                // })
+                return <SceneComponent navigationActions={navigationActions} isRequired={true} {...sceneProps} {...params}/>
             }
             return null
-        }} panHandlers={panHandlers} style={animationStyle} 
+        }}  
         key={NavigationSceneRendererProps.scene.navigationState.key}/>
     }
     render(){

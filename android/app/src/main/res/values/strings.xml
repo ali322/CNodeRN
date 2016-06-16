@@ -1,8 +1,8 @@
 <resources>
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">L1jnpcaxxrs0bxi_LWkQbZfcNdA34JhlxojfW</string>
 
 
 
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
 
     <string name="app_name">CNodeRN</string>
 </resources>

@@ -47,7 +47,9 @@ export function userPrefsReducer(state={
                 ...state,
                 userPrefsFetching:false,
                 userPrefsFetched:true,
-                userPrefs:action.ret
+                userPrefs:action.ret?action.ret:{
+                    preferredTheme:"light"
+                }
             }
         default:
             return state

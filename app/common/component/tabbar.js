@@ -1,6 +1,7 @@
 'use strict'
 
-import React,{Component,View,TouchableOpacity,StyleSheet,Text,Dimensions,PropTypes} from "react-native"
+import React,{Component,PropTypes} from "react"
+import {View,TouchableOpacity,StyleSheet,Text,Dimensions} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import preferredThemeByName,{theme} from "../stylesheet/theme"
 
