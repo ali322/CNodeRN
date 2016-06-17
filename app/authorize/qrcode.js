@@ -30,7 +30,7 @@ class QrCode extends Component {
             if(nextProps.isAuthorized){
                 this.toast.show("登录成功",()=>{
                     global.storage.setItem("user",nextProps.user).then((err)=>{
-                        navigationActions.popScene("qrcode")
+                        navigationActions.popScene()
                     })
                 })
             }else{

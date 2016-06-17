@@ -9,7 +9,7 @@ import routerReducer from "./common/navigation/reducer"
 import Alert from "./common/component/alert"
 import Splash from "./common/module/splash"
 
-import {fetchUserPrefs,saveUserPrefs,fetchAuthentication} from "./common/action"
+import {fetchUserPrefs,saveUserPrefs,fetchAuthentication,saveAuthentication} from "./common/action"
 import {userPrefsReducer,authenticationReducer} from "./common/reducer"
 import Storage from "./lib/storage"
 global.storage = new Storage()
@@ -93,7 +93,7 @@ const rootReducer = combineReducers({
 
 export default containerByComponent(App,rootReducer,dispatch=>({
     dispatch,
-    actions:bindActionCreators({fetchUserPrefs,saveUserPrefs,fetchAuthentication},dispatch)
+    actions:bindActionCreators({fetchUserPrefs,saveUserPrefs,fetchAuthentication,saveAuthentication},dispatch)
 }),null,state=>({
     ...state.authenticationReducer,
     ...state.userPrefsReducer,

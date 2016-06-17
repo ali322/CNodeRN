@@ -27,7 +27,10 @@ class Alert extends Component{
         return (
             <View style={buttons.length <= 2?styles.alertHorizontalButtons:styles.alertVerticalButtons}>
                 {buttons.map((btn,i)=>{
-                    let handlePress = btn.onPress
+                    let handlePress = ()=>{
+                        this.setState({active:false})
+                        btn.onPress()
+                    }
                     if(btn.style === "cancel"){
                         handlePress = ()=>this.setState({active:false})
                     }

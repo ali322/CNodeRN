@@ -95,3 +95,26 @@ export function fetchAuthentication(){
         })
     }
 }
+
+function startSaveAuthentication() {
+    return {
+        type:constants.START_SAVEAUTHENTICATION
+    }
+}
+
+function finishSaveAuthentication(ret){
+    return {
+        type:constants.FINISH_SAVEAUTHENTICATION,
+        ret,
+        finishAt:Date.now
+    }
+}
+
+export function saveAuthentication(user){
+    return dispatch=>{
+        dispatch(startSaveAuthentication())
+        global.storage.saveItem("user",user).then(ret=>{
+            dispatch(finishSaveAuthentication(user))
+        })
+    }
+}

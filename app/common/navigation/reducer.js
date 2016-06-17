@@ -44,6 +44,9 @@ let initialState = Immutable({
 })
     
 export default function routerReducer(navigationState=initialState,action){
+    if(!Immutable.isImmutable(navigationState)){
+        navigationState = Immutable.from(navigationState)
+    }
     let scene,path
     if(action.type === constants.PUSH_SCENE || action.type === constants.JUMPTO_SCENE){
         const locatedScene = locateScene(action.scenes,action.key) || {}
