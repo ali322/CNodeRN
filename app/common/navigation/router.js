@@ -36,6 +36,12 @@ class Router extends Component{
     componentDidMount(){
         this._navigationActions.pushScene(this.props.initialSceneKey)
     }
+    componentWillReceiveProps(nextProps){
+        if(this.props.sceneProps.user !== nextProps.sceneProps.user){
+            this._navigationActions.resetScene()
+            this._navigationActions.pushScene(this.props.initialSceneKey)
+        }
+    }
     render(){
         if(!this.props.initialSceneKey){
             throw new Error("missing initialSceneKey")

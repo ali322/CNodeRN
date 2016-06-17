@@ -28,8 +28,8 @@ function navigationReducer(state={},action) {
         case constants.RESET_SCENE:
             return {
                 ...state,
-                index:action.index,
-                children:action.children
+                index:0,
+                children:[]
             }
         default:
             return state
@@ -100,8 +100,11 @@ export default function routerReducer(navigationState=initialState,action){
             break
         case constants.POP_SCENE:
         case constants.JUMPTO_SCENE:
-        case constants.RESET_SCENE:
             navigationState = nestReducer(navigationState,action,path)
+            break
+        case constants.RESET_SCENE:
+            navigationState = navigationReducer(navigationState,action)
+            console.log("navigationState",navigationState)
             break
     }
     return navigationState

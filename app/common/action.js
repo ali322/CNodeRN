@@ -113,7 +113,7 @@ function finishSaveAuthentication(ret){
 export function saveAuthentication(user){
     return dispatch=>{
         dispatch(startSaveAuthentication())
-        global.storage.saveItem("user",user).then(ret=>{
+        global.storage.setItem("user",user).then(ret=>{
             dispatch(finishSaveAuthentication(user))
         })
     }

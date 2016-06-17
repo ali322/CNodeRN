@@ -74,14 +74,14 @@ export function authenticationReducer(state={},action){
         case constants.START_SAVEAUTHENTICATION:
             return {
                 ...state,
-                userSaving:true
+                authenticationSaving:true
             }
         case constants.FINISH_SAVEAUTHENTICATION:
             return {
                 ...state,
                 user:action.ret,
-                userSaving:false,
-                userSaved:true
+                authenticationSaving:false,
+                authenticationSaved:true
             }
         default:
             return state

@@ -28,29 +28,32 @@ class Navigation extends Component{
         this._renderCard = this._renderCard.bind(this)
     }
     _renderCard(NavigationSceneRendererProps){
-        const {sceneProps,navigationActions,scenes} = this.props
+        const {sceneProps,navigationActions} = this.props
         const {navigationState} = NavigationSceneRendererProps.scene
         const isVertical = navigationState.direction === "vertical"
         // const panHandlers = isVertical?NavigationCardStackPanResponder.forVertical(NavigationSceneRendererProps):
         //     NavigationCardStackPanResponder.forHorizontal(NavigationSceneRendererProps)
         // const animationStyle = isVertical?NavigationCardStackStyleInterpolator.forVertical(NavigationSceneRendererProps):
         //     NavigationCardStackStyleInterpolator.forHorizontal(NavigationSceneRendererProps)
-        return <NavigationCard {...NavigationSceneRendererProps} renderScene={(props/*NavigationSceneRendererProps*/ )=>{
-            const params = navigationState.params
-            if(navigationState.tabbar){
-                return <TabNavigation navigationState={navigationState} navigationActions={this.props.navigationActions}
-                 sceneProps={sceneProps}/>
-            }
-            if(navigationState.component){
-                const SceneComponent = navigationState.component
-                return <SceneComponent navigationActions={navigationActions} isRequired={true} {...sceneProps} {...params}/>
-            }
-            return null
-        }}  
+        return <NavigationCard {...NavigationSceneRendererProps} renderScene={this._renderScene.bind(this)}  
         key={NavigationSceneRendererProps.scene.navigationState.key}/>
     }
+    _renderScene(props){
+        const {sceneProps,navigationActions} = this.props
+        const {navigationState} = props.scene
+        return <Navigation sceneProps={sceneProps} navigationActions={navigationActions} navigationState={navigationState}/>
+    }
     render(){
-        const {navigationState} = this.props
+        const {navigationState,sceneProps,navigationActions} = this.props
+        if(navigationState.tabbar){
+            return <TabNavigation navigationState={navigationState} navigationActions={this.props.navigationActions}
+                sceneProps={sceneProps}/>
+        }
+        if(navigationState.component){
+            const params = navigationState.params
+            const SceneComponent = navigationState.component
+            return <SceneComponent navigationActions={navigationActions} isRequired={true} {...sceneProps} {...params}/>
+        }
         const options = {}
         options.applyAnimation = (pos,navState)=>{
             Animated.timing(pos,{toValue:navState.index,duration:300}).start()

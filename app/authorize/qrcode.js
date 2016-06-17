@@ -29,14 +29,18 @@ class QrCode extends Component {
         if(!nextProps.isAuthorizing && this.props.isAuthorizing){
             if(nextProps.isAuthorized){
                 this.toast.show("登录成功",()=>{
-                    global.storage.setItem("user",nextProps.user).then((err)=>{
-                        navigationActions.popScene()
-                    })
+                    this.props.saveAuthentication(nextProps.user)
                 })
             }else{
                 this.toast.show("登录失败")
             }
         }
+    }
+    componentDidMount(){
+        this.props.saveAuthentication({
+            username:"ali322",
+            accessToken:"01206bae-f6ed-42de-bd0e-3775776deaf9"
+        })
     }
     render() {
         const {navigationActions} = this.props

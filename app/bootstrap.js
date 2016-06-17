@@ -50,7 +50,11 @@ class App extends Component{
         )
     }
     render(){
-        const sceneProps = {userPrefs:this.props.userPrefs,saveUserPrefs:this.props.actions.saveUserPrefs}
+        const sceneProps = {userPrefs:this.props.userPrefs,
+            saveUserPrefs:this.props.actions.saveUserPrefs,
+            user:this.props.user,
+            saveAuthentication:this.props.actions.saveAuthentication
+        }
         if(this.props.userPrefsFetching || this.props.userFetching){
             return <Splash />
         }
