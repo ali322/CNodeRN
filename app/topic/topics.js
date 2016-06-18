@@ -13,6 +13,7 @@ import LoadMore from "../common/component/loadmore"
 import Loading from "../common/component/loading"
 import SearchBar from "../common/module/searchbar"
 import NavBar from "../common/component/navbar"
+import Alert from "../common/component/alert"
 
 import styles from "./stylesheet/topics"
 import preferredThemeByName,{theme} from "../common/stylesheet/theme"
@@ -94,7 +95,16 @@ class Topics extends Component{
             </View>
         )
         return <NavBar leftButton={leftButton} rightButton={rightButton} title={title} 
-        onLeftButtonClick={()=>navigationActions.pushScene("publish")} 
+        onLeftButtonClick={()=>{
+            if(!this.props.user){
+                this._alert.alert("请先登录","登录",[
+                    {text:"取消",style:"cancel"},
+                    {text:"确定",onPress:()=>navigationActions.pushScene("login")}
+                ])
+            }else{
+                navigationActions.pushScene("publish")
+            }
+        }} 
         onRightButtonClick={this.toggleSearchActive.bind(this)}
         userPrefs={this.props.userPrefs}/>
     }
@@ -168,6 +178,7 @@ class Topics extends Component{
             renderFooter={()=>categories[selectedCategory].list.length > 0?<LoadMore active={this.props.topicsFetching}/>:null}/>
             )}
             {this.renderModal()}
+            <Alert ref={view=>this._alert=view}/>
             </View>
         )
     }

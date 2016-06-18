@@ -54,7 +54,7 @@ class Topic extends Component{
         }
     }
     async _toggleCollect(){
-        const {id,topic} = this.props
+        const {id,topic,navigationActions} = this.props
         if(!topic){
             return
         }
@@ -62,26 +62,25 @@ class Topic extends Component{
         if(!user){
             this._alert.alert("请先登录","登录",[
                 {text:"取消",style:"cancel"},
-                {text:"确定",onPress:()=>Actions.login()}
+                {text:"确定",onPress:()=>navigationActions.pushScene("login")}
             ])
         }else{
             this.props.actions.toggleCollect(id,user.accessToken,topic.is_collect)
         }
     }
-    async _toggleAgree(replyID){
-        const user = await global.storage.getItem("user")
+    _toggleAgree(replyID){
+        const {navigationActions,user} = this.props
         if(!user){
             this._alert.alert("请先登录","",[
                 {text:"取消",style:"cancel"},
-                {text:"确定",onPress:()=>Actions.login()}
+                {text:"确定",onPress:()=>navigationActions.pushScene("login")}
             ])
         }else{
             this.props.actions.toggleAgree(replyID,user.accessToken)
         }
     }
-    async _toReply(param){
-        const {navigationActions} = this.props
-        const user = await global.storage.getItem("user")
+    _toReply(param){
+        const {navigationActions,user} = this.props
         if(!user){
             this._alert.alert("请先登录","",[
                 {text:"取消",style:"cancel"},
