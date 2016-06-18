@@ -31,3 +31,9 @@ export function resetScene(scenes){
         type:constants.RESET_SCENE
     }
 }
+
+export function reloadScene(scenes) {
+    return {
+        type:constants.RELOAD_SCENE
+    }
+}

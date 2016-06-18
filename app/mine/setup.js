@@ -30,6 +30,7 @@ class Setup extends Component{
             {text:"取消",style:"cancel"},
             {text:"确定",onPress:()=>{
                 this.props.saveAuthentication(null)
+                navigationActions.resetScene()
             }}
         ])
     }

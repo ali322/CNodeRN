@@ -26,6 +26,12 @@ function navigationReducer(state={},action) {
             }
             return NavigationStateUtils.jumpToIndex(state,action.key)
         case constants.RESET_SCENE:
+            return {
+                ...state,
+                index:0,
+                children:[]
+            }
+        case constants.RELOAD_SCENE:
             return state.update("children",children=>{
                 return children.map((child,i)=>{
                     return {
@@ -72,7 +78,7 @@ export default function routerReducer(navigationState=initialState,action){
             return navigationState
         }
     }
-    if(action.type === constants.POP_SCENE || action.type === constants.RESET_SCENE){
+    if(action.type === constants.POP_SCENE || action.type === constants.RELOAD_SCENE || action.type === constants.RESET_SCENE){
         scene = navigationState.current.scene;path = navigationState.current.path
     }
     function nestReducer(navState,navAction,scenePath){
@@ -103,10 +109,11 @@ export default function routerReducer(navigationState=initialState,action){
             break
         case constants.POP_SCENE:
         case constants.JUMPTO_SCENE:
+        case constants.RELOAD_SCENE:
             navigationState = nestReducer(navigationState,action,path)
             break
         case constants.RESET_SCENE:
-            navigationState = nestReducer(navigationState,action,path)
+            navigationState = navigationReducer(navigationState,action)
             break
     }
     return navigationState

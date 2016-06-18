@@ -42,7 +42,10 @@ class Router extends Component{
         const sceneProps = this.props.sceneProps
         const nextSceneProps = nextProps.sceneProps
         if(_.isEqual(sceneProps,nextSceneProps) === false){
-            this._navigationActions.resetScene()
+            this._navigationActions.reloadScene()
+        }
+        if(nextProps.navigationState.children.length === 0){
+            this._navigationActions.pushScene(this.props.initialSceneKey)
         }
     }
     render(){
