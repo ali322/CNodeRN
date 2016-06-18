@@ -28,7 +28,6 @@ export function jumpToScene(scenes,key,params){
 
 export function resetScene(scenes){
     return {
-        type:constants.RESET_SCENE,
-        scenes
+        type:constants.RESET_SCENE
     }
 }

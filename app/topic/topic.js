@@ -88,7 +88,11 @@ class Topic extends Component{
                 {text:"确定",onPress:()=>navigationActions.pushScene("login")}
             ])
         }else{
-            navigationActions.pushScene("reply",param)
+            if(this.props.collect){
+                navigationActions.pushScene("collect2reply",param)
+            }else{
+                navigationActions.pushScene("reply",param)
+            }
         }
     }
     renderNavigationBar(){

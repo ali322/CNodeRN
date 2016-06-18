@@ -37,7 +37,9 @@ class Router extends Component{
         this._navigationActions.pushScene(this.props.initialSceneKey)
     }
     componentWillReceiveProps(nextProps){
-        if(this.props.sceneProps.user !== nextProps.sceneProps.user){
+        if((this.props.sceneProps.userPrefs !== nextProps.sceneProps.userPrefs) || (
+            this.props.sceneProps.user !== nextProps.sceneProps.user
+        )){
             this._navigationActions.resetScene()
             this._navigationActions.pushScene(this.props.initialSceneKey)
         }

@@ -30,21 +30,12 @@ class Navigation extends Component{
     _renderCard(NavigationSceneRendererProps){
         const {sceneProps,navigationActions} = this.props
         const {navigationState} = NavigationSceneRendererProps.scene
-        const isVertical = navigationState.direction === "vertical"
-        // const panHandlers = isVertical?NavigationCardStackPanResponder.forVertical(NavigationSceneRendererProps):
-        //     NavigationCardStackPanResponder.forHorizontal(NavigationSceneRendererProps)
-        // const animationStyle = isVertical?NavigationCardStackStyleInterpolator.forVertical(NavigationSceneRendererProps):
-        //     NavigationCardStackStyleInterpolator.forHorizontal(NavigationSceneRendererProps)
         return <NavigationCard {...NavigationSceneRendererProps} renderScene={this._renderScene.bind(this)}  
         key={NavigationSceneRendererProps.scene.navigationState.key}/>
     }
     _renderScene(props){
         const {sceneProps,navigationActions} = this.props
         const {navigationState} = props.scene
-        return <Navigation sceneProps={sceneProps} navigationActions={navigationActions} navigationState={navigationState}/>
-    }
-    render(){
-        const {navigationState,sceneProps,navigationActions} = this.props
         if(navigationState.tabbar){
             return <TabNavigation navigationState={navigationState} navigationActions={this.props.navigationActions}
                 sceneProps={sceneProps}/>
@@ -54,6 +45,9 @@ class Navigation extends Component{
             const SceneComponent = navigationState.component
             return <SceneComponent navigationActions={navigationActions} isRequired={true} {...sceneProps} {...params}/>
         }
+    }
+    render(){
+        const {navigationState,sceneProps,navigationActions} = this.props
         const options = {}
         options.applyAnimation = (pos,navState)=>{
             Animated.timing(pos,{toValue:navState.index,duration:300}).start()

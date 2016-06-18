@@ -118,6 +118,7 @@ export function saveTopic(topic){
     return dispatch=>{
         dispatch(startSaveTopic())
         request.post(`${api.topics}`,topic).then((ret)=>{
+            console.log('ret',ret)
             dispatch(finishSaveTopic(ret))
         })
     }

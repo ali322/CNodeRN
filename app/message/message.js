@@ -92,11 +92,12 @@ class Message extends Component{
         )
     }
     render(){
+        const {navigationActions}= this.props
         const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
             <NavBar title="消息" leftButton={false} userPrefs={this.props.userPrefs}/>
-            {!this.state.isLogined?<Anonymous />:this.props.messagesFetching?<Loading color={loadingColor}/>:this._renderTimeline()}
+            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.messagesFetching?<Loading color={loadingColor}/>:this._renderTimeline()}
             </View>
         )
     }

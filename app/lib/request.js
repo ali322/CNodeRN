@@ -21,7 +21,7 @@ export default {
             if(ret.ok){
                 return ret.json()
             }else{
-                throw new Error(`post failed,err stack:${ret.error()}`)
+                throw new Error(`post failed,err stack:${ret.error()?ret.error():""}`)
             }
         })
     }

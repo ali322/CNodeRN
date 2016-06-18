@@ -28,8 +28,8 @@ function navigationReducer(state={},action) {
         case constants.RESET_SCENE:
             return {
                 ...state,
-                index:0,
-                children:[]
+                // index:0,
+                // children:[]
             }
         default:
             return state
@@ -69,7 +69,7 @@ export default function routerReducer(navigationState=initialState,action){
             return navigationState
         }
     }
-    if(action.type === constants.POP_SCENE){
+    if(action.type === constants.POP_SCENE || action.type === constants.RESET_SCENE){
         scene = navigationState.current.scene;path = navigationState.current.path
     }
     function nestReducer(navState,navAction,scenePath){
@@ -91,9 +91,9 @@ export default function routerReducer(navigationState=initialState,action){
             const injectedAction = {
                 type:action.type,
                 state:{
-                    key:action.key,
                     params:action.params,
-                    ...nextScene
+                    ...nextScene,
+                    key:action.key
                 }
             }
             navigationState = nestReducer(navigationState,injectedAction,path)
@@ -104,7 +104,6 @@ export default function routerReducer(navigationState=initialState,action){
             break
         case constants.RESET_SCENE:
             navigationState = navigationReducer(navigationState,action)
-            console.log("navigationState",navigationState)
             break
     }
     return navigationState

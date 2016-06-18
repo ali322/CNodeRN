@@ -132,10 +132,11 @@ class Mine extends Component {
     }
     render() {
         const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
+        const {navigationActions} = this.props
         return (
             <View style={[styles.container,this._preferredTheme["container"]]}>
                 {this.renderNavigationBar() }
-                {!this.state.isLogined?<Anonymous />:this.props.userFetching?<Loading color={loadingColor}/>:(
+                {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.userFetching?<Loading color={loadingColor}/>:(
                     <ScrollView>
                     {this.renderBreif() }
                     {this.renderTrends() }
