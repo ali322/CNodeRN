@@ -1,12 +1,14 @@
 'use strict'
 
 import React,{Component,PropTypes} from "react"
+import TabNavigation from "./tabnavigation"
 import Navigation from "./navigation"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import routerReducer from "./reducer"
 import * as actions from "./action"
 import Immutable from "seamless-immutable"
+import _ from "lodash"
 
 class Router extends Component{
     constructor(props){
@@ -37,19 +39,21 @@ class Router extends Component{
         this._navigationActions.pushScene(this.props.initialSceneKey)
     }
     componentWillReceiveProps(nextProps){
-        if((this.props.sceneProps.userPrefs !== nextProps.sceneProps.userPrefs) || (
-            this.props.sceneProps.user !== nextProps.sceneProps.user
-        )){
+        const sceneProps = this.props.sceneProps
+        const nextSceneProps = nextProps.sceneProps
+        if(_.isEqual(sceneProps,nextSceneProps) === false){
             this._navigationActions.resetScene()
-            this._navigationActions.pushScene(this.props.initialSceneKey)
         }
     }
     render(){
-        if(!this.props.initialSceneKey){
+        const {navigationState,sceneProps,initialSceneKey} = this.props
+        if(!initialSceneKey){
             throw new Error("missing initialSceneKey")
         }
-        return <Navigation navigationActions={this._navigationActions} navigationState={this.props.navigationState} 
-        sceneProps={this.props.sceneProps}/>
+        if(navigationState.children.length === 0){
+            return null
+        }
+        return <Navigation navigationState={navigationState} navigationActions={this._navigationActions} sceneProps={sceneProps}/>
     }
 }
 

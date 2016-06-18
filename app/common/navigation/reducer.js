@@ -26,11 +26,14 @@ function navigationReducer(state={},action) {
             }
             return NavigationStateUtils.jumpToIndex(state,action.key)
         case constants.RESET_SCENE:
-            return {
-                ...state,
-                // index:0,
-                // children:[]
-            }
+            return state.update("children",children=>{
+                return children.map((child,i)=>{
+                    return {
+                        ...child,
+                        _mark:Date.now()
+                    }
+                })
+            })
         default:
             return state
     }
@@ -103,7 +106,7 @@ export default function routerReducer(navigationState=initialState,action){
             navigationState = nestReducer(navigationState,action,path)
             break
         case constants.RESET_SCENE:
-            navigationState = navigationReducer(navigationState,action)
+            navigationState = nestReducer(navigationState,action,path)
             break
     }
     return navigationState

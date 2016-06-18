@@ -5,6 +5,7 @@ import {View,Text,TouchableHighlight,TouchableOpacity,Switch,Slider} from "react
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavBar from "../common/component/navbar"
 import Alert from "../common/component/alert"
+import Toast from "../common/component/toast"
 
 import containerByComponent from "../lib/redux-helper"
 import {clearUser} from "./action"
@@ -24,17 +25,11 @@ class Setup extends Component{
         }
     }
     _handleLogout(){
+        const {navigationActions} = this.props
         this._alert.alert("确定退出?","",[
             {text:"取消",style:"cancel"},
             {text:"确定",onPress:()=>{
-                global.storage.removeItem("user").then((err)=>{
-                    if(err){
-                        this._alert.alert(err,"")
-                    }else{
-                        this.props.actions.clearUser()
-                    }
-                })
-                
+                this.props.saveAuthentication(null)
             }}
         ])
     }
@@ -91,6 +86,7 @@ class Setup extends Component{
                 </TouchableHighlight>
             </View>
             <Alert ref={view=>this._alert=view}/>
+            <Toast ref={view=>this._toast=view}/>
             </View>
         )
     }

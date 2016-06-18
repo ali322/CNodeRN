@@ -31,7 +31,7 @@ class Navigation extends Component{
         const {sceneProps,navigationActions} = this.props
         const {navigationState} = NavigationSceneRendererProps.scene
         return <NavigationCard {...NavigationSceneRendererProps} renderScene={this._renderScene.bind(this)}  
-        key={NavigationSceneRendererProps.scene.navigationState.key}/>
+        key={NavigationSceneRendererProps.scene.navigationState.key} sceneProps={sceneProps}/>
     }
     _renderScene(props){
         const {sceneProps,navigationActions} = this.props
