@@ -53,12 +53,12 @@ class Topic extends Component{
             })
         }
     }
-    async _toggleCollect(){
+    _toggleCollect(){
         const {id,topic,navigationActions} = this.props
         if(!topic){
             return
         }
-        const user = await global.storage.getItem("user")
+        const {user} = this.props
         if(!user){
             this._alert.alert("请先登录","登录",[
                 {text:"取消",style:"cancel"},

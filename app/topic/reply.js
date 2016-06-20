@@ -8,7 +8,7 @@ import NavBar from "../common/component/navbar"
 import containerByComponent from "../lib/redux-helper"
 
 import {topicReducer} from "./reducer"
-import {saveReply} from "./action"
+import {saveReply,fetchTopic} from "./action"
 
 import styles from "./stylesheet/topic"
 import preferredThemeByName,{theme} from "../common/stylesheet/theme"
@@ -27,6 +27,7 @@ class Reply extends Component{
             const {popScene} = this.props.navigationActions
             if(nextProps.replySaved){
                 Alert.alert("保存成功","",[{text:"确定",onPress:popScene}])
+                this.props.actions.fetchTopic(this.props.id)
             }else{
                 Alert.alert(nextProps.errMsg,"",[{text:"确定",style:"cancel"}])
             }
@@ -68,4 +69,4 @@ class Reply extends Component{
     }
 }
 
-export default containerByComponent(Reply,topicReducer,{saveReply})
+export default containerByComponent(Reply,topicReducer,{saveReply,fetchTopic})

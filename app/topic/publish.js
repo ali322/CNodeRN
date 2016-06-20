@@ -9,7 +9,7 @@ import Alert from "../common/component/alert"
 
 import containerByComponent from "../lib/redux-helper"
 import {topicReducer} from "./reducer"
-import {saveTopic,changeField} from "./action"
+import {saveTopic,changeField,fetchTopics} from "./action"
 
 import styles from "./stylesheet/publish"
 import preferredThemeByName,{theme} from "../common/stylesheet/theme"
@@ -41,11 +41,12 @@ class Publish extends Component{
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.topicSaving && this.props.topicSaving){
-            const {popScene} = this.props.navigationActions
+            const {popScene,reloadScene} = this.props.navigationActions
             if(nextProps.topicSaved){
                 this._alert.alert("发布成功","",[
                     {text:"确定",onPress:popScene}
                 ])
+                this.props.actions.fetchTopics()
             }else{
                 this._alert.alert("发布失败","",[
                     {text:"确定",style:"cancel"}
@@ -119,4 +120,4 @@ class Publish extends Component{
     }
 }
 
-export default containerByComponent(Publish,topicReducer,{saveTopic,changeField})
+export default containerByComponent(Publish,topicReducer,{saveTopic,changeField,fetchTopics})
