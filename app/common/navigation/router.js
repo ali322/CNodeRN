@@ -1,6 +1,7 @@
 'use strict'
 
 import React,{Component,PropTypes} from "react"
+import {BackAndroid} from "react-native"
 import TabNavigation from "./tabnavigation"
 import Navigation from "./navigation"
 import {combineReducers,bindActionCreators} from "redux"
@@ -39,6 +40,11 @@ class Router extends Component{
         if(this.props.navigationState.children.length === 0){
             this._navigationActions.pushScene(this.props.initialSceneKey)
         }
+        let poping = false
+        BackAndroid.addEventListener("hardwareBackPress",()=>{
+            this._navigationActions.popScene()
+            return true
+        })
     }
     componentWillReceiveProps(nextProps){
         const sceneProps = this.props.sceneProps

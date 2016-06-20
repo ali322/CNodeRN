@@ -1,9 +1,11 @@
 'use strict'
 
 import React,{Component} from "react"
-import {View,Text,TouchableHighlight,TouchableOpacity,TextInput,Picker,Alert} from "react-native"
+import {View,Text,TouchableHighlight,TouchableOpacity,TextInput} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavBar from "../common/component/navbar"
+import Picker from "../common/component/picker"
+import Alert from "../common/component/alert"
 
 import containerByComponent from "../lib/redux-helper"
 import {topicReducer} from "./reducer"
@@ -32,8 +34,8 @@ class Publish extends Component{
             pickerActive:!this.state.pickerActive
         })
     }
-    async _handleSave(){
-        const user = await global.storage.getItem("user")
+    _handleSave(){
+        const {user} = this.props
         const {topic} = this.props
         this.props.actions.saveTopic({...topic,accesstoken:user.accessToken})
     }
@@ -41,9 +43,13 @@ class Publish extends Component{
         if(!nextProps.topicSaving && this.props.topicSaving){
             const {popScene} = this.props.navigationActions
             if(nextProps.topicSaved){
-                Alert.alert("发布成功","",[{text:"确定",onPress:popScene}])
+                this._alert.alert("发布成功","",[
+                    {text:"确定",onPress:popScene}
+                ])
             }else{
-                Alert.alert(nextProps.errMsg,"",[{text:"确定",style:"cancel"}])
+                this._alert.alert("发布失败","",[
+                    {text:"确定",style:"cancel"}
+                ])
             }
         }
     }
@@ -51,7 +57,7 @@ class Publish extends Component{
         const {popScene} = this.props.navigationActions
         const rightButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={this._handleSave.bind(this)}>
-                <Text style={styles.navigationBarButtonText}>确定</Text>
+                <Text style={[styles.navigationBarButtonText,this._preferredTheme["publishTextArea"]]}>确定</Text>
             </TouchableOpacity>
         )
 
@@ -60,9 +66,10 @@ class Publish extends Component{
     renderModal(){
         return (
             <View style={styles.pickerWrap}>
-            <Picker selectedValue={this.props.topic.tab} enabled={true} mode="dropdown"
+            <Picker selectedValue={this.props.topic.tab} visible={this.state.pickerActive} 
             onValueChange={(value)=>{
                 this.props.actions.changeField("tab",value)
+                this._togglePicker()
             }}>
             {Object.keys(topicTabs).map((tab,i)=>{
                 return <Picker.Item label={topicTabs[tab]} value={tab} key={i}/>
@@ -79,7 +86,7 @@ class Publish extends Component{
                     <Text style={[styles.publishLabel,this._preferredTheme["publishLabel"]]}>标题</Text>
                     <View style={styles.publishInput}>
                         <TextInput placeholder="请输入标题" placeholderTextColor={this._preferredThemeDefines["publishLabel"].color} 
-                        style={styles.publishTextInput} 
+                        style={[styles.publishTextInput,this._preferredTheme["publishTextArea"]]} 
                         onChangeText={value=>this.props.actions.changeField("title",value)}/>
                     </View>
                 </View>
@@ -105,7 +112,8 @@ class Publish extends Component{
             <View style={[styles.container,this._preferredTheme["container"]]}>
             {this.renderNavigationBar()}
             {this.renderForm()}
-            {this.state.pickerActive?this.renderModal():null}
+            {this.renderModal()}
+            <Alert ref={view=>this._alert=view}/>
             </View>
         )
     }

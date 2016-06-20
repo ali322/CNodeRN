@@ -89,10 +89,10 @@ class Topics extends Component{
             <Icon name="search" size={20} color="#999"/>
         )
         const title = (            
-            <View style={styles.navigationBarTitle}>
+            <TouchableOpacity style={styles.navigationBarTitle} onPress={this.toggleModalActive.bind(this)}>
                 <Text style={[styles.navigationBarTitleText,this._preferredTheme["navigationBarButtonText"]]}>{categories[selectedCategory].name}</Text>
                 <Icon name="angle-down" size={16} color="#999"/>
-            </View>
+            </TouchableOpacity>
         )
         return <NavBar leftButton={leftButton} rightButton={rightButton} title={title} 
         onLeftButtonClick={()=>{

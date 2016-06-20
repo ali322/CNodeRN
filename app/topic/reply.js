@@ -34,8 +34,8 @@ class Reply extends Component{
     }
     renderNavigationBar(){
         const {navigationActions} = this.props
-        const handleSave = async ()=>{
-            const user = await global.storage.getItem("user")
+        const handleSave = ()=>{
+            const {user} = this.props
             const reply = {
                 content:this.state.content,
                 reply_id:this.props.replyTo?this.props.replyTo.id:"",
@@ -46,7 +46,7 @@ class Reply extends Component{
 
         const rightButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={handleSave}>
-                <Text style={styles.navigationBarButtonText}>发布</Text>
+                <Text style={[styles.navigationBarButtonText,this._preferredTheme["replyInput"]]}>发布</Text>
             </TouchableOpacity>
         )
 

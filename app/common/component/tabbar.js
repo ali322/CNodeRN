@@ -19,8 +19,8 @@ class TabBar extends Component{
             activeIndex:props.activeIndex
         }
         this._handleClick = this._handleClick.bind(this)
-        this._preferredTheme = {}
-        this._preferredThemeDefines = null
+        this._preferredTheme = preferredThemeByName(props.sceneProps.userPrefs["preferredTheme"])
+        this._preferredThemeDefines = theme[props.sceneProps.userPrefs["preferredTheme"]]
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.activeIndex !== this.props.activeIndex){

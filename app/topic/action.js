@@ -118,8 +118,12 @@ export function saveTopic(topic){
     return dispatch=>{
         dispatch(startSaveTopic())
         request.post(`${api.topics}`,topic).then((ret)=>{
-            console.log('ret',ret)
             dispatch(finishSaveTopic(ret))
+        }).catch((err)=>{
+            dispatch(finishSaveTopic({
+                success:false,
+                err_msg:"发布失败"
+            }))
         })
     }
 }
