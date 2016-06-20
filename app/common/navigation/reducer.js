@@ -48,6 +48,7 @@ function navigationReducer(state={},action) {
 let initialState = Immutable({
     index:0,
     current:{},
+    path:[],
     key:"root",
     children:[]
 })
@@ -56,30 +57,30 @@ export default function routerReducer(navigationState=initialState,action){
     if(!Immutable.isImmutable(navigationState)){
         navigationState = Immutable.from(navigationState)
     }
-    let scene,path
-    if(action.type === constants.PUSH_SCENE || action.type === constants.JUMPTO_SCENE){
-        const locatedScene = locateScene(action.scenes,action.key) || {}
-        scene = locatedScene.scene;path = locatedScene.path
+    let scene,path,nextScene
+    path = resolvePath(navigationState)
+    if(action.type === constants.PUSH_SCENE){
+        scene = locateScene(action.scenes,action.key) || {}
         if(!scene){
             return navigationState
         }
+        nextScene = scene
+        if(scene.tabbar){
+            nextScene = scene.set("children",scene.children.map((item,i)=>{
+                return {
+                    index:0,
+                    ...item,
+                    children:[item.children[0]]
+                }
+            })).set("index",0)
+        }
         if(navigationState.children.length === 0){
-            let initialScene = scene
-            if(scene.tabbar){
-                initialScene = scene.set("children",scene.children.map((item,i)=>{
-                    return {
-                        index:0,
-                        ...item,
-                        children:[item.children[0]]
-                    }
-                }))
-            }
-            navigationState = navigationState.setIn(["children",0],initialScene)
+            navigationState = navigationState.setIn(["children",0],nextScene)
             return navigationState
         }
     }
-    if(action.type === constants.POP_SCENE || action.type === constants.RELOAD_SCENE || action.type === constants.RESET_SCENE){
-        scene = navigationState.current.scene;path = navigationState.current.path
+    if(action.type === constants.FOCUS_SCENE){
+        return focusScene(navigationState,action.key)
     }
     function nestReducer(navState,navAction,scenePath){
         return scenePath.length > 0?navState.updateIn(scenePath,nestNavState=>navigationReducer(nestNavState,navAction)):
@@ -87,16 +88,6 @@ export default function routerReducer(navigationState=initialState,action){
     }
     switch(action.type){
         case constants.PUSH_SCENE:
-            navigationState = navigationState.set("current",{
-                scene,path
-            })
-            const nextScene = scene.tabbar?scene.set("children",children=>children.map((item,i)=>{
-                return {
-                    index:0,
-                    ...item,
-                    children:[item.children[0]]
-                }
-            })):scene
             const injectedAction = {
                 type:action.type,
                 state:{
@@ -119,13 +110,46 @@ export default function routerReducer(navigationState=initialState,action){
     return navigationState
 }
 
+function resolvePath(navigationState,path=[]){
+    if(navigationState.children.length > 0){
+        const scene = navigationState.children[navigationState.index]
+        if(scene.tabbar && scene.children.length > 0){
+            path = resolvePath(scene.children[scene.index],
+                [...path,"children",navigationState.index,"children",scene.index]
+            )
+        }
+    }
+    return path
+}
+
+function focusScene(navigationState,key){
+    return navigationState.set("children",navigationState.children.map((scene,i)=>{
+        if(scene.tabbar){
+            for(let j in scene.children){
+                const subScene = scene.children[j]
+                if(subScene.key === key){
+                    scene = scene.set("index",Number(j))
+                    break
+                }
+                for(let k in subScene.children){
+                    const innerScene = subScene.children[k]
+                    if(innerScene.children && innerScene.children.length > 0){
+                        scene = scene.updateIn(["chilren",j,"children",k],nestScene=>focusScene(nestScene,key))
+                    }
+                }
+            }
+        }
+        return scene
+    }))
+}
+
 function locateScene(scenes,key,path=[]) {
     let _scene = null
     if(key){
         for(let i in scenes){
             const scene = scenes[i]
             if(scene.key === key){
-                _scene = {scene,path}
+                _scene = scene
                 break
             }
             if(scene.tabbar){

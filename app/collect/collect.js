@@ -49,7 +49,7 @@ class UserCollect extends Component{
     renderRow(topic){
         const {navigationActions} = this.props
         return (
-            <TouchableOpacity onPress={()=>navigationActions.pushScene("collect2topic",{id:topic.id,collect:true})}>
+            <TouchableOpacity onPress={()=>navigationActions.pushScene("topic",{id:topic.id,collect:true})}>
             <Animated.View style={[styles.topicCell,this._preferredTheme["topicCell"],{
                 // opacity: this.state.rowScale,
                 // transform: [{ scaleX: this.state.rowScale }]

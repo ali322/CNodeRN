@@ -36,7 +36,9 @@ class Router extends Component{
         return Immutable(_scenes)
     }
     componentDidMount(){
-        this._navigationActions.pushScene(this.props.initialSceneKey)
+        if(this.props.navigationState.children.length === 0){
+            this._navigationActions.pushScene(this.props.initialSceneKey)
+        }
     }
     componentWillReceiveProps(nextProps){
         const sceneProps = this.props.sceneProps

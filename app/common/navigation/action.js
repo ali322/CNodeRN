@@ -26,6 +26,14 @@ export function jumpToScene(scenes,key,params){
     }
 }
 
+export function focusScene(scenes,key){
+    return {
+        type:constants.FOCUS_SCENE,
+        scenes,
+        key
+    }
+}
+
 export function resetScene(scenes){
     return {
         type:constants.RESET_SCENE
