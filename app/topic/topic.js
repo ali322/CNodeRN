@@ -166,9 +166,8 @@ class Topic extends Component{
                                 <Text style={[styles.topicBadgeText,this._preferredTheme["topicTagText"]]}>{topic.tab}</Text>
                             </View>
                         </View>
-                        <View style={[styles.topicDesc]}>
-                            <WebContainer source={{html:topic.content.replace(/(\n|\r)+$/g,"")}} style={[this._preferredTheme["topicDesc"]]}
-                            innerCSS={topicCSS}/>
+                        <View style={[styles.topicDesc,this._preferredTheme["topicDesc"]]}>
+                            <HTMLView value={topic.content.replace(/(\n|\r)+$/g,"")}/>
                         </View>
                         <View style={[styles.topicComments,this._preferredTheme["topicComments"]]}>
                             <Text style={[styles.topicCommentsStatus,this._preferredTheme["topicSubtitleText"]]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>

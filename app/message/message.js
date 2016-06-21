@@ -51,11 +51,11 @@ class Message extends Component{
     }
     _renderMessage(message){
         return (
-            <View style={[styles.listCell]}>
+            <View style={[styles.listCell,this._preferredTheme["topicCell"]]}>
                 <View style={styles.cellRow}>
                     <Image source={{uri:message.author.avatar_url}} style={styles.cellImage}/>
                     <View style={styles.cellSubtitle}>
-                        <Text style={[styles.cellSubtitleText]}>{message.author.loginname}</Text>
+                        <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{message.author.loginname}</Text>
                         <Text style={styles.cellMintitleText}>{message.reply.create_at}</Text>
                     </View>
                     <TouchableOpacity style={styles.cellAccessory} 
@@ -64,9 +64,9 @@ class Message extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style={styles.cellTitle}>
-                    <Text style={[styles.cellSubtitleText]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
+                    <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubtitleText"]]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
                 </View>
-                <View style={styles.cellTitle}>
+                <View style={[styles.cellTitle,this._preferredTheme["topicDesc"]]}>
                     <HTMLView value={message.reply.content.replace(/(\n|\r)+$/g,"")}/>
                 </View>
             </View>
