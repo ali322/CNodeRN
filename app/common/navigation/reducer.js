@@ -47,8 +47,6 @@ function navigationReducer(state={},action) {
 
 let initialState = Immutable({
     index:0,
-    current:{},
-    path:[],
     key:"root",
     children:[]
 })
@@ -60,11 +58,20 @@ export default function routerReducer(navigationState=initialState,action){
     let scene,path,nextScene
     path = resolvePath(navigationState)
     if(action.type === constants.PUSH_SCENE){
-        scene = locateScene(action.scenes,action.key) || {}
+        scene = locateScene(action.scenes,action.key)
         if(!scene){
             return navigationState
         }
         nextScene = scene
+        if(path.length > 2){
+            const tabbarPath = path.slice(0,-2)
+            const tabbarScene = getInPath(navigationState,tabbarPath)
+            if(tabbarScene){
+                navigationState = navigationState.updateIn(tabbarPath,
+                    tabbarState=>tabbarState.set("visible",typeof scene.hideTabBar === "boolean"?!scene.hideTabBar:true)
+                )
+            }
+        }
         if(scene.tabbar){
             nextScene = scene.set("children",scene.children.map((item,i)=>{
                 return {
@@ -77,6 +84,18 @@ export default function routerReducer(navigationState=initialState,action){
         if(navigationState.children.length === 0){
             navigationState = navigationState.setIn(["children",0],nextScene)
             return navigationState
+        }
+    }
+    if(action.type === constants.POP_SCENE){
+        if(path.length > 2){
+            const prevScene = getInPath(navigationState,path).children.slice(-2,-1)
+            const tabbarPath = path.slice(0,-2)
+            const tabbarScene = getInPath(navigationState,tabbarPath)
+            if(tabbarScene){
+                navigationState = navigationState.updateIn(tabbarPath,
+                    tabbarState=>tabbarState.set("visible",typeof prevScene.hideTabBar === "boolean"?!prevScene.hideTabBar:true)
+                )
+            }
         }
     }
     if(action.type === constants.FOCUS_SCENE){
@@ -164,4 +183,11 @@ function locateScene(scenes,key,path=[]) {
         }
     }
     return _scene
+}
+
+function getInPath(obj,path=[]){
+    for(var i =0,l = path.length;obj!== null && i < l;i++){
+        obj = obj[path[i]]
+    }
+    return (i && i === l)?obj:null
 }

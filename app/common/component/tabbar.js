@@ -7,7 +7,8 @@ import preferredThemeByName,{theme} from "../stylesheet/theme"
 
 class TabBar extends Component{
     static defaultProps = {
-        activeIndex:0
+        activeIndex:0,
+        visible:true
     }
     static propTypes = {
         activeIndex:PropTypes.number,
@@ -73,9 +74,11 @@ class TabBar extends Component{
             <View style={styles.tabContent}>
                 {this._renderTabContent()}
             </View>
-            <View style={[styles.tabs,this._preferredTheme["tabBar"]]}>
-                {this._renderTabBar()}
-            </View>
+            {this.props.visible?(
+                <View style={[styles.tabs,this._preferredTheme["tabBar"]]}>
+                    {this._renderTabBar()}
+                </View>
+            ):null}
             </View>
         )
     }

@@ -14,7 +14,7 @@ class TabNavigation extends Component{
     render(){
         const {navigationState,navigationActions,sceneProps} = this.props
         return (
-            <TabBar sceneProps={sceneProps} activeIndex={navigationState.index}>
+            <TabBar sceneProps={sceneProps} activeIndex={navigationState.index} visible={navigationState.visible}>
                 {navigationState.children.map((item,i)=>{
                     return (
                         <TabBar.Item key={i} beforeSelect={()=>{
