@@ -1,7 +1,7 @@
 'use strict'
 
 import React,{Component} from "react"
-import {WebView} from "react-native"
+import {WebView,Dimensions} from "react-native"
 
 class WebContainer extends Component{
     constructor(props){
@@ -19,15 +19,17 @@ class WebContainer extends Component{
         this.props.onNavigationStateChange()
     }
     render(){
-        let {source,autoHeight,style} = this.props
+        let {source,autoHeight,style,innerCSS} = this.props
         
         if(!source){
             return null
         }
-        const script = '<script>window.location.hash = 1;document.title = document.height;</script>'
+        const screenWidth = Dimensions.get("window").width
+        const scriptText = `<script>window.location.hash = 1;document.title = document.body.clientHeight;</script>`
+        const styleText = `<style>${innerCSS}</style>`
         if(source.html && autoHeight){
             source = Object.assign({},source,{
-                html:source.html + script
+                html: source.html + scriptText+styleText
             })
         }
         return <WebView source={source} 
@@ -38,6 +40,7 @@ class WebContainer extends Component{
 }
 
 WebContainer.defaultProps = {
+    innerCSS:"",
     autoHeight:true,
     onNavigationStateChange:()=>{}
 }

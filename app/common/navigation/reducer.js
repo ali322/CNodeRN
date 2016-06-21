@@ -63,15 +63,7 @@ export default function routerReducer(navigationState=initialState,action){
             return navigationState
         }
         nextScene = scene
-        if(path.length > 2){
-            const tabbarPath = path.slice(0,-2)
-            const tabbarScene = getInPath(navigationState,tabbarPath)
-            if(tabbarScene){
-                navigationState = navigationState.updateIn(tabbarPath,
-                    tabbarState=>tabbarState.set("visible",typeof scene.hideTabBar === "boolean"?!scene.hideTabBar:true)
-                )
-            }
-        }
+        //initialize tabbar scene state
         if(scene.tabbar){
             nextScene = scene.set("children",scene.children.map((item,i)=>{
                 return {
@@ -87,17 +79,19 @@ export default function routerReducer(navigationState=initialState,action){
         }
     }
     if(action.type === constants.POP_SCENE){
-        if(path.length > 2){
-            const prevScene = getInPath(navigationState,path).children.slice(-2,-1)
-            const tabbarPath = path.slice(0,-2)
-            const tabbarScene = getInPath(navigationState,tabbarPath)
-            if(tabbarScene){
-                navigationState = navigationState.updateIn(tabbarPath,
-                    tabbarState=>tabbarState.set("visible",typeof prevScene.hideTabBar === "boolean"?!prevScene.hideTabBar:true)
-                )
-            }
+        nextScene = getInPath(navigationState,path).children.slice(-2,-1)[0]
+    }
+    //toggle tabbar visible
+    if(path.length > 2 && (action.type === constants.POP_SCENE || action.type === constants.PUSH_SCENE)){
+        const tabbarPath = path.slice(0,-2)
+        const tabbarScene = getInPath(navigationState,tabbarPath)
+        if(tabbarScene){
+            navigationState = navigationState.updateIn(tabbarPath,
+                tabbarState=>tabbarState.set("visible",typeof nextScene.hideTabBar === "boolean"?!nextScene.hideTabBar:true)
+            )
         }
     }
+    //switch scene between tabs
     if(action.type === constants.FOCUS_SCENE){
         return focusScene(navigationState,action.key)
     }
@@ -129,6 +123,12 @@ export default function routerReducer(navigationState=initialState,action){
     return navigationState
 }
 
+/**
+ * resolve current scene path
+ * @param {Object} navigationState
+ * @param {Array<String>} [path=[]]
+ * @returns Array<String>
+ */
 function resolvePath(navigationState,path=[]){
     if(navigationState.children.length > 0){
         const scene = navigationState.children[navigationState.index]
@@ -141,6 +141,13 @@ function resolvePath(navigationState,path=[]){
     return path
 }
 
+
+/**
+ * focus scene in tabbar
+ * @param {Object} navigationState
+ * @param {String} key
+ * @returns Object
+ */
 function focusScene(navigationState,key){
     return navigationState.set("children",navigationState.children.map((scene,i)=>{
         if(scene.tabbar){
@@ -162,6 +169,14 @@ function focusScene(navigationState,key){
     }))
 }
 
+
+/**
+ * get scene from sceneMap by key
+ * @param {Array<Object>} scenes
+ * @param {String} key
+ * @param {Array<String>} [path=[]]
+ * @returns Object
+ */
 function locateScene(scenes,key,path=[]) {
     let _scene = null
     if(key){
@@ -185,6 +200,12 @@ function locateScene(scenes,key,path=[]) {
     return _scene
 }
 
+/**
+ * get scene by path
+ * @param {Object} obj
+ * @param {Array<String>} [path=[]]
+ * @returns Object
+ */
 function getInPath(obj,path=[]){
     for(var i =0,l = path.length;obj!== null && i < l;i++){
         obj = obj[path[i]]

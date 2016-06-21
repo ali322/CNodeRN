@@ -149,7 +149,6 @@ class Topic extends Component{
                 </View>            
             )
         }
-        
         return (
             <ListView dataSource={this.state.dataSource}  style={styles.topicContent} 
             scrollRenderAheadDistance={20} 
@@ -167,8 +166,9 @@ class Topic extends Component{
                                 <Text style={[styles.topicBadgeText,this._preferredTheme["topicTagText"]]}>{topic.tab}</Text>
                             </View>
                         </View>
-                        <View style={[styles.topicDesc,this._preferredTheme["topicDesc"]]}>
-                            <HTMLView value={topic.content.replace(/(\n|\r)+$/g,"")} maxImageWidth={Dimensions.get("window").width - 16}/>
+                        <View style={[styles.topicDesc]}>
+                            <WebContainer source={{html:topic.content.replace(/(\n|\r)+$/g,"")}} style={[this._preferredTheme["topicDesc"]]}
+                            innerCSS={topicCSS}/>
                         </View>
                         <View style={[styles.topicComments,this._preferredTheme["topicComments"]]}>
                             <Text style={[styles.topicCommentsStatus,this._preferredTheme["topicSubtitleText"]]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
@@ -191,5 +191,19 @@ class Topic extends Component{
 
 export default containerByComponent(Topic,topicReducer,{fetchTopic,toggleAgree,toggleCollect})
 
-
-
+const screenWidth = Dimensions.get("window").width
+const topicCSS = `
+    html,body{
+        height:100%
+    }
+    body{
+        font-size:14px;
+        position:absolute;
+    }
+    .markdown-text{
+        width:${screenWidth - 20}px;
+    }
+    img{
+        max-width:100%;
+    }
+`

@@ -92,7 +92,7 @@ export const theme = {
             color:"dodgerblue"
         },
         topicDesc:{
-            backgroundColor:"#CCC"
+            backgroundColor:"#FFF"
         },
         replyInput:{
             color:"#FFF"
