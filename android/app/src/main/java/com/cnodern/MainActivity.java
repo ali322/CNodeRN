@@ -2,10 +2,10 @@ package com.cnodern;
 
 import com.facebook.react.ReactActivity;
 import com.eguma.barcodescanner.BarcodeScannerPackage;
+import com.lwansbrough.ReactCamera.ReactCamera;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.microsoft.codepush.react.CodePush;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends ReactActivity {
-    private CodePush _codePush;
+
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -32,10 +32,6 @@ public class MainActivity extends ReactActivity {
         return BuildConfig.DEBUG;
     }
 
-    @Override
-    protected String getJSBundleFile() {
-        return CodePush.getBundleUrl();
-    }
     /**
      * A list of packages used by the app. If the app uses additional views
      * or modules besides the default ones, add more packages here.
@@ -45,10 +41,10 @@ public class MainActivity extends ReactActivity {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
             new BarcodeScannerPackage(),
-            new CodePush("a8vtYCfdT1vCdpFNEQLcJm8QoXUB4JhlxojfW", this, BuildConfig.DEBUG),
+            new ReactCamera(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),
-            new RCTCameraPackage()
+            new CodePush(this.getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), this, BuildConfig.DEBUG)
         );
     }
 }

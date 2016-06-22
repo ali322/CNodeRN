@@ -29,20 +29,20 @@ class Navigation extends Component{
     }
     _renderCard(NavigationSceneRendererProps){
         const {sceneProps,navigationActions} = this.props
-        const {navigationState} = NavigationSceneRendererProps.scene
+        const {route} = NavigationSceneRendererProps.scene
         return <NavigationCard {...NavigationSceneRendererProps} renderScene={this._renderScene.bind(this)}  
-        key={NavigationSceneRendererProps.scene.navigationState.key} sceneProps={sceneProps}/>
+        key={NavigationSceneRendererProps.scene.route.key} sceneProps={sceneProps}/>
     }
     _renderScene(props){
         const {sceneProps,navigationActions} = this.props
-        const {navigationState} = props.scene
-        if(navigationState.tabbar){
-            return <TabNavigation navigationState={navigationState} navigationActions={this.props.navigationActions}
+        const {route} = props.scene
+        if(route.tabbar){
+            return <TabNavigation navigationState={route} navigationActions={this.props.navigationActions}
                 sceneProps={sceneProps}/>
         }
-        if(navigationState.component){
-            const params = navigationState.params
-            const SceneComponent = navigationState.component
+        if(route.component){
+            const params = route.params
+            const SceneComponent = route.component
             return <SceneComponent navigationActions={navigationActions} isRequired={true} {...sceneProps} {...params}/>
         }
     }

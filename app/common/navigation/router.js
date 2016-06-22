@@ -29,7 +29,7 @@ class Router extends Component{
             let nextChildren = null
             if(child.props.children){
                 nextChildren = this._scenesListByChilren(child.props.children)
-                return {key:child.key,...child.props,children:nextChildren}
+                return {key:child.key,...child.props,routes:nextChildren}
             }else{
                 return {key:child.key,...child.props}
             }
@@ -37,7 +37,7 @@ class Router extends Component{
         return Immutable(_scenes)
     }
     componentDidMount(){
-        if(this.props.navigationState.children.length === 0){
+        if(this.props.navigationState.routes.length === 0){
             this._navigationActions.pushScene(this.props.initialSceneKey)
         }
         let poping = false
@@ -52,7 +52,7 @@ class Router extends Component{
         if(_.isEqual(sceneProps,nextSceneProps) === false){
             this._navigationActions.reloadScene()
         }
-        if(nextProps.navigationState.children.length === 0){
+        if(nextProps.navigationState.routes.length === 0){
             this._navigationActions.pushScene(this.props.initialSceneKey)
         }
     }
@@ -61,7 +61,7 @@ class Router extends Component{
         if(!initialSceneKey){
             throw new Error("missing initialSceneKey")
         }
-        if(navigationState.children.length === 0){
+        if(navigationState.routes.length === 0){
             return null
         }
         return <Navigation navigationState={navigationState} navigationActions={this._navigationActions} sceneProps={sceneProps}/>

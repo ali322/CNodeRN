@@ -6,7 +6,7 @@ import thunkMiddleware from "redux-thunk"
 import createLogger from "redux-logger"
 import {autoRehydrate,persistStore} from "redux-persist"
 import {AsyncStorage,Platform} from "react-native"
-import devTools from 'remote-redux-devtools'
+// import devTools from 'remote-redux-devtools'
 import _ from "lodash"
 
 const isDebugInChrome = __DEV__ && typeof window !== "undefined" 

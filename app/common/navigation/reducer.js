@@ -11,12 +11,12 @@ const {
 function navigationReducer(state={},action) {
     switch(action.type){
         case constants.PUSH_SCENE:
-            if(state.children[state.index].key === (action.state && action.state.key)){
+            if(state.routes[state.index].key === (action.state && action.state.key)){
                 return state
             }
             return NavigationStateUtils.push(state,action.state)
         case constants.POP_SCENE:
-            if(state.index === 0 || state.children.length === 1){
+            if(state.index === 0 || state.routes.length === 1){
                 return state
             }
             return NavigationStateUtils.pop(state)
@@ -32,7 +32,7 @@ function navigationReducer(state={},action) {
                 children:[]
             }
         case constants.RELOAD_SCENE:
-            return state.update("children",children=>{
+            return state.update("routes",children=>{
                 return children.map((child,i)=>{
                     return {
                         ...child,
@@ -48,7 +48,7 @@ function navigationReducer(state={},action) {
 let initialState = Immutable({
     index:0,
     key:"root",
-    children:[]
+    routes:[]
 })
     
 export default function routerReducer(navigationState=initialState,action){
@@ -65,21 +65,21 @@ export default function routerReducer(navigationState=initialState,action){
         nextScene = scene
         //initialize tabbar scene state
         if(scene.tabbar){
-            nextScene = scene.set("children",scene.children.map((item,i)=>{
+            nextScene = scene.set("routes",scene.routes.map((item,i)=>{
                 return {
                     index:0,
                     ...item,
-                    children:[item.children[0]]
+                    routes:[item.routes[0]]
                 }
             })).set("index",0)
         }
-        if(navigationState.children.length === 0){
-            navigationState = navigationState.setIn(["children",0],nextScene)
+        if(navigationState.routes.length === 0){
+            navigationState = navigationState.setIn(["routes",0],nextScene)
             return navigationState
         }
     }
     if(action.type === constants.POP_SCENE){
-        nextScene = getInPath(navigationState,path).children.slice(-2,-1)[0]
+        nextScene = getInPath(navigationState,path).routes.slice(-2,-1)[0]
     }
     //toggle tabbar visible
     if(path.length > 2 && (action.type === constants.POP_SCENE || action.type === constants.PUSH_SCENE)){
@@ -130,11 +130,11 @@ export default function routerReducer(navigationState=initialState,action){
  * @returns Array<String>
  */
 function resolvePath(navigationState,path=[]){
-    if(navigationState.children.length > 0){
-        const scene = navigationState.children[navigationState.index]
-        if(scene.tabbar && scene.children.length > 0){
-            path = resolvePath(scene.children[scene.index],
-                [...path,"children",navigationState.index,"children",scene.index]
+    if(navigationState.routes.length > 0){
+        const scene = navigationState.routes[navigationState.index]
+        if(scene.tabbar && scene.routes.length > 0){
+            path = resolvePath(scene.routes[scene.index],
+                [...path,"routes",navigationState.index,"routes",scene.index]
             )
         }
     }
@@ -149,18 +149,18 @@ function resolvePath(navigationState,path=[]){
  * @returns Object
  */
 function focusScene(navigationState,key){
-    return navigationState.set("children",navigationState.children.map((scene,i)=>{
+    return navigationState.set("routes",navigationState.routes.map((scene,i)=>{
         if(scene.tabbar){
-            for(let j in scene.children){
-                const subScene = scene.children[j]
+            for(let j in scene.routes){
+                const subScene = scene.routes[j]
                 if(subScene.key === key){
                     scene = scene.set("index",Number(j))
                     break
                 }
-                for(let k in subScene.children){
-                    const innerScene = subScene.children[k]
-                    if(innerScene.children && innerScene.children.length > 0){
-                        scene = scene.updateIn(["chilren",j,"children",k],nestScene=>focusScene(nestScene,key))
+                for(let k in subScene.routes){
+                    const innerScene = subScene.routes[k]
+                    if(innerScene.routes && innerScene.routes.length > 0){
+                        scene = scene.updateIn(["routes",j,"routes",k],nestScene=>focusScene(nestScene,key))
                     }
                 }
             }
@@ -187,9 +187,9 @@ function locateScene(scenes,key,path=[]) {
                 break
             }
             if(scene.tabbar){
-                for(let j in scene.children){
-                    const item = scene.children[j]
-                    _scene = locateScene(item.children,key,[...path,"children",i,"children",j])
+                for(let j in scene.routes){
+                    const item = scene.routes[j]
+                    _scene = locateScene(item.routes,key,[...path,"routes",i,"routes",j])
                     if(_scene){
                         break
                     }

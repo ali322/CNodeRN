@@ -9,6 +9,6 @@ import Publish from "./publish"
 export default [
     <Scene key="topics" component={Topics}/>,
     <Scene key="topic"  hideTabBar={true} component={Topic}/>,
-    <Scene key="publish" component={Publish}/>,
-    <Scene key="reply" component={Reply}/>
+    <Scene key="publish" hideTabBar={true} component={Publish}/>,
+    <Scene key="reply" hideTabBar={true} component={Reply}/>
 ]
