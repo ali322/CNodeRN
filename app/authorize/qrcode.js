@@ -4,7 +4,7 @@ import React,{Component} from "react"
 import {View, StyleSheet, Dimensions, Text, TouchableOpacity,Platform} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-// import Scanner from "../common/component/scanner"
+import Scanner from "../common/component/scanner"
 import NavBar from "../common/component/navbar"
 import Toast from "../common/component/toast"
 
@@ -41,6 +41,7 @@ class QrCode extends Component {
         return (
             <View style={styles.container}>
                 <NavBar leftButton="取消" onLeftButtonClick={navigationActions.popScene} userPrefs={this.props.userPrefs}/>
+                <Scanner handleBarCodeRead={this.handleBarCodeRead.bind(this)}/>
                 <Toast ref={(view)=>this.toast=view}/>
             </View>
         )
