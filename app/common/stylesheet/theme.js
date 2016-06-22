@@ -52,6 +52,12 @@ export const theme = {
         topicTagText:{
             color:"#999"
         },
+        cellAccessory:{
+            backgroundColor:"#555"
+        },
+        cellAccessoryText:{
+            color:"#999"
+        },
         tab:{
           borderBottomColor:"#000"  
         },
@@ -141,6 +147,21 @@ export const theme = {
         publishLabel:{
             color:"#333"
         }
+    }
+}
+
+export const htmlStyle = {
+    dark:{
+        p:{
+            color:"#999"
+        },
+        h1:{color:"#999"},
+        h2:{color:"#999"},
+        h3:{color:"#999"},
+        h4:{color:"#999"},
+        h5:{color:"#999"},
+        h6:{color:"#999"},
+        li:{color:"#999"}
     }
 }
 

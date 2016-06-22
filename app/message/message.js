@@ -11,10 +11,10 @@ import Tabs from "../common/component/tabs"
 import Loading from "../common/component/loading"
 import Anonymous from "../common/module/anonymous"
 import NavBar from "../common/component/navbar"
-import HTMLView from "../common/component/htmlview"
+import HtmlRender from "../common/component/htmlrender"
 
 import styles from "./stylesheet/message"
-import preferredThemeByName from "../common/stylesheet/theme"
+import preferredThemeByName,{htmlStyle} from "../common/stylesheet/theme"
 
 class Message extends Component{
     constructor(props){
@@ -29,6 +29,7 @@ class Message extends Component{
             isLogined:false
         }
         this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
+        this._preferredHtmlStyle = htmlStyle[props.userPrefs["preferredTheme"]]
     }
     componentDidMount(){
         global.storage.getItem("user").then((user)=>{
@@ -58,16 +59,16 @@ class Message extends Component{
                         <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{message.author.loginname}</Text>
                         <Text style={styles.cellMintitleText}>{message.reply.create_at}</Text>
                     </View>
-                    <TouchableOpacity style={styles.cellAccessory} 
+                    <TouchableOpacity style={[styles.cellAccessory,this._preferredTheme["cellAccessory"]]} 
                     onPress={()=>this.props.navigationActions.pushScene("reply2reply",{id:message.topic.id,replyTo:{...message.reply,author:message.author}})}>
-                    <Text style={styles.cellAccessoryText}>回复</Text>
+                    <Text style={[styles.cellAccessoryText,this._preferredTheme["cellAccessoryText"]]}>回复</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.cellTitle}>
                     <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubtitleText"]]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
                 </View>
-                <View style={[styles.cellTitle,this._preferredTheme["topicDesc"]]}>
-                    <HTMLView value={message.reply.content.replace(/(\n|\r)+$/g,"")}/>
+                <View style={[styles.cellTitle]}>
+                    <HtmlRender value={message.reply.content.replace(/(\n|\r)+$/g,"")} style={this._preferredHtmlStyle}/>
                 </View>
             </View>
         )

@@ -5,10 +5,11 @@ import {View,Text,Image,ScrollView,TouchableOpacity,ListView,InteractionManager,
 import Icon from "react-native-vector-icons/FontAwesome"
 
 import HTMLView from "../common/component/htmlview"
-import WebContainer from "../common/component/webcontainer"
+import HTMLRender from "../common/component/htmlrender"
 import Loading from "../common/component/loading"
 import NavBar from "../common/component/navbar"
 import Alert from "../common/component/alert"
+import TopicContent from "./partial/topic-content"
 
 import containerByComponent from "../lib/redux-helper"
 import pureRender from "../lib/pure-render"
@@ -16,7 +17,7 @@ import {fetchTopic,toggleCollect,toggleAgree} from "./action"
 import {topicReducer} from "./reducer"
 
 import styles from "./stylesheet/topic"
-import preferredThemeByName,{theme} from "../common/stylesheet/theme"
+import preferredThemeByName,{theme,htmlStyle} from "../common/stylesheet/theme"
 
 class Topic extends Component{
     constructor(props){
@@ -32,6 +33,7 @@ class Topic extends Component{
         }
         this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
         this._preferredThemeDefines = theme[props.userPrefs["preferredTheme"]]
+        this._preferredHtmlStyle = htmlStyle[props.userPrefs["preferredTheme"]]
     }
     componentDidMount(){
         InteractionManager.runAfterInteractions(()=>{
@@ -118,7 +120,7 @@ class Topic extends Component{
         return <NavBar title="主题详情" rightButton={()=>rightButton} onLeftButtonClick={popScene} userPrefs={this.props.userPrefs}/>
     }
     renderContent(){
-        const {topic} = this.props
+        const {topic,userPrefs} = this.props
         if(!topic){
             return null
         }
@@ -143,8 +145,8 @@ class Topic extends Component{
                         <Text style={[styles.topicAgreeBadgeText,{color:reply.agreeStatus === "up"?selectedIcon:unselectedIcon}]}> +{reply.ups.length}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={[styles.topicDesc,this._preferredTheme["topicDesc"]]}>
-                    <HTMLView value={reply.content.replace(/(\n|\r)+$/g,"")}/>
+                <View style={[styles.topicDesc]}>
+                    <HTMLRender value={reply.content.replace(/(\n|\r)+$/g,"")} style={this._preferredHtmlStyle}/>
                 </View>
                 </View>            
             )
@@ -153,28 +155,7 @@ class Topic extends Component{
             <ListView dataSource={this.state.dataSource}  style={styles.topicContent} 
             scrollRenderAheadDistance={20} 
             initialListSize={1} removeClippedSubviews={true} enableEmptySections={true} 
-            renderRow={renderComment} renderHeader={()=>{
-                return (
-                    <View>
-                        <View style={styles.topicBreif}>
-                            <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
-                            <View style={styles.topicSubtitle}>
-                                <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{topic.author.loginname}</Text>
-                                <Text style={styles.topicMintitleText}>{topic.create_at},{topic.visit_count} 次点击</Text>
-                            </View>
-                            <View style={[styles.topicBadge,this._preferredTheme["topicTag"]]}>
-                                <Text style={[styles.topicBadgeText,this._preferredTheme["topicTagText"]]}>{topic.tab}</Text>
-                            </View>
-                        </View>
-                        <View style={[styles.topicDesc,this._preferredTheme["topicDesc"]]}>
-                            <HTMLView value={topic.content.replace(/(\n|\r)+$/g,"")}/>
-                        </View>
-                        <View style={[styles.topicComments,this._preferredTheme["topicComments"]]}>
-                            <Text style={[styles.topicCommentsStatus,this._preferredTheme["topicSubtitleText"]]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
-                        </View>
-                    </View>
-                )
-            }}/>
+            renderRow={renderComment} renderHeader={()=><TopicContent topic={topic} styles={styles} preferredTheme={this._preferredTheme} htmlStyle={this._preferredHtmlStyle}/>}/>
         )
     }
     render(){
@@ -189,20 +170,3 @@ class Topic extends Component{
 }
 
 export default containerByComponent(Topic,topicReducer,{fetchTopic,toggleAgree,toggleCollect})
-
-const screenWidth = Dimensions.get("window").width
-const topicCSS = `
-    html,body{
-        height:100%
-    }
-    body{
-        font-size:14px;
-        position:absolute;
-    }
-    .markdown-text{
-        width:${screenWidth - 20}px;
-    }
-    img{
-        max-width:100%;
-    }
-`

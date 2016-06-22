@@ -33,7 +33,7 @@ const styles = {
     container:{
         flex:1,
         backgroundColor:"#FFF",
-        marginBottom:49
+        paddingBottom:49
     },
     topicCell:{
         flex: 1,
