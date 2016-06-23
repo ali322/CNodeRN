@@ -82,7 +82,9 @@ const styles = {
         fontWeight:"700"
     },
     mineTrendsContent:{
-        flex:1
+        flex:1,
+        paddingHorizontal:8,
+        paddingVertical:10
     },
     listCell:{
       ...listview.listCell,

@@ -77,10 +77,7 @@ class Mine extends Component {
         const {user,navigationActions,styles} = this.props
         return (
             <TouchableOpacity onPress={()=>navigationActions.pushScene("topic",{ id: topic.id }) }>
-                <Animated.View style={[styles.topicCell,{
-                    // opacity: this.state.rowScale,
-                    // transform: [{ scaleX: this.state.rowScale }]
-                }]}>
+                <Animated.View style={styles.topicCell}>
                     <View style={styles.topicBreif}>
                         <Image source={{ uri: user.avatar_url }} style={styles.topicImage}/>
                         <View style={[styles.topicSubtitle]}>
