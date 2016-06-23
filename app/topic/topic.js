@@ -16,9 +16,10 @@ import pureRender from "../lib/pure-render"
 import {fetchTopic,toggleCollect,toggleAgree} from "./action"
 import {topicReducer} from "./reducer"
 
-import styles from "./stylesheet/topic"
-import preferredThemeByName,{theme,htmlStyle} from "../common/stylesheet/theme"
+import defaultStyles from "./stylesheet/topic"
+import preferredThemer from "../common/theme"
 
+@preferredThemer(defaultStyles)
 class Topic extends Component{
     constructor(props){
         super(props)
@@ -31,9 +32,6 @@ class Topic extends Component{
                 sectionHeaderHasChanged:(s1,s2)=>s1 !== s2
             })
         }
-        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
-        this._preferredThemeDefines = theme[props.userPrefs["preferredTheme"]]
-        this._preferredHtmlStyle = htmlStyle[props.userPrefs["preferredTheme"]]
     }
     componentDidMount(){
         InteractionManager.runAfterInteractions(()=>{
@@ -97,11 +95,11 @@ class Topic extends Component{
         }
     }
     renderNavigationBar(){
-        const {topic} = this.props
+        const {topic,styles,styleConstants} = this.props
         const {popScene} = this.props.navigationActions
         const isCollect = topic && topic.is_collect
-        const unselectedIcon = this._preferredThemeDefines["uncollectIcon"].color
-        const selectedIcon = this._preferredThemeDefines["collectIcon"].color
+        const unselectedIcon = styleConstants.uncollectIconColor
+        const selectedIcon = styleConstants.uncollectIconColor
         const rightButton = (
             <View style={[styles.navigationBarButton,{marginRight:5}]}>
                 <TouchableOpacity onPress={this._toggleCollect.bind(this)}>
@@ -120,19 +118,19 @@ class Topic extends Component{
         return <NavBar title="主题详情" rightButton={()=>rightButton} onLeftButtonClick={popScene} userPrefs={this.props.userPrefs}/>
     }
     renderContent(){
-        const {topic,userPrefs} = this.props
+        const {topic,userPrefs,styles,styleConstants,htmlStyles} = this.props
         if(!topic){
             return null
         }
-        const unselectedIcon = this._preferredThemeDefines["disagreeIcon"].color
-        const selectedIcon = this._preferredThemeDefines["agreeIcon"].color
+        const unselectedIcon = styleConstants.disagreeIconColor
+        const selectedIcon = styleConstants.agreeIconColor
         const renderComment = (reply)=>{
             return (
-                <View style={[styles.topicComment,this._preferredTheme["topicComment"]]}>
+                <View style={[styles.topicComment]}>
                 <View style={styles.topicCommentBreif}>
                     <Image source={{uri:reply.author.avatar_url}} style={styles.topicImage}/>
                     <View style={styles.topicSubtitle}>
-                        <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{reply.author.loginname}</Text>
+                        <Text style={[styles.topicSubtitleText]}>{reply.author.loginname}</Text>
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>
                     </View>
                     <TouchableOpacity style={styles.topicCommentBadge} onPress={()=>{
@@ -146,7 +144,7 @@ class Topic extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style={[styles.topicDesc]}>
-                    <HTMLRender value={reply.content.replace(/(\n|\r)+$/g,"")} style={this._preferredHtmlStyle}/>
+                    <HTMLRender value={reply.content.replace(/(\n|\r)+$/g,"")} style={htmlStyles}/>
                 </View>
                 </View>            
             )
@@ -155,14 +153,15 @@ class Topic extends Component{
             <ListView dataSource={this.state.dataSource}  style={styles.topicContent} 
             scrollRenderAheadDistance={20} 
             initialListSize={1} removeClippedSubviews={true} enableEmptySections={true} 
-            renderRow={renderComment} renderHeader={()=><TopicContent topic={topic} styles={styles} preferredTheme={this._preferredTheme} htmlStyle={this._preferredHtmlStyle}/>}/>
+            renderRow={renderComment} renderHeader={()=><TopicContent topic={topic} styles={styles} htmlStyle={htmlStyles}/>}/>
         )
     }
     render(){
+        const {styles,styleConstants} = this.props
         return (
-            <View style={[styles.container,this._preferredTheme["container"]]}>
+            <View style={[styles.container]}>
             {this.renderNavigationBar()}
-            {this.state.loading?<Loading color={this._preferredThemeDefines["loading"].color}/>:this.renderContent()}
+            {this.state.loading?<Loading color={styleConstants.loadingColor}/>:this.renderContent()}
             <Alert ref={(view)=>this._alert=view}/>
             </View>
         )

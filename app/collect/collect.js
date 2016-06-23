@@ -9,9 +9,10 @@ import Anonymous from "../common/module/anonymous"
 import containerByComponent from "../lib/redux-helper"
 import {collectReducer} from "./reducer"
 import {fetchUserCollect} from "./action"
-import styles from "./stylesheet"
-import preferredThemeByName from "../common/stylesheet/theme"
+import defaultStyles from "./stylesheet"
+import preferredThemer from "../common/theme"
 
+@preferredThemer(defaultStyles)
 class UserCollect extends Component{
     constructor(props){
         super(props)
@@ -23,15 +24,13 @@ class UserCollect extends Component{
             refreshing:false,
             isLogined:false
         }
-        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
     }
     componentDidMount(){
-        global.storage.getItem("user").then((user)=>{
-            if(user){
-                this.setState({isLogined:true})
-                this.props.actions.fetchUserCollect(user.username)
-            }
-        })
+        const {user} = this.props
+        if(user){
+            this.setState({isLogined:true})
+            this.props.actions.fetchUserCollect(user.username)
+        }
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.collectFetching && nextProps.collectFetched){
@@ -39,53 +38,49 @@ class UserCollect extends Component{
                 dataSource:this.state.dataSource.cloneWithRows(nextProps.collects)
             })
         }
-        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
-            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
-        }
     }
     handleRefresh(){
         this.props.fetchUserCollect()
     }
     renderRow(topic){
-        const {navigationActions} = this.props
+        const {navigationActions,styles} = this.props
         return (
             <TouchableOpacity onPress={()=>navigationActions.pushScene("topic",{id:topic.id,collect:true})}>
-            <Animated.View style={[styles.topicCell,this._preferredTheme["topicCell"],{
+            <Animated.View style={[styles.topicCell,{
                 // opacity: this.state.rowScale,
                 // transform: [{ scaleX: this.state.rowScale }]
             }]}>
                     <View style={styles.topicBreif}>
                         <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
                         <View style={styles.topicSubtitle}>
-                            <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{topic.author.loginname}</Text>
+                            <Text style={styles.topicSubtitleText}>{topic.author.loginname}</Text>
                             <View style={styles.topicMintitle}>
                                 <Text style={[styles.topicMintitleText]}>{topic.create_at}</Text>
-                                <View style={[styles.topicTag,this._preferredTheme["topicTag"]]}>
-                                    <Text style={[styles.topicTagText,this._preferredTheme["topicTagText"]]}>{topic.tab}</Text>
+                                <View style={styles.topicTag}>
+                                    <Text style={styles.topicTagText}>{topic.tab}</Text>
                                 </View>
                             </View>
                         </View>
                         <View style={styles.topicAccessory}>
-                            <Text style={styles.topicStatic}><Text style={[styles.topicReply,this._preferredTheme["topicSubtitleText"]]}>{topic.reply_count}</Text> /{topic.visit_count}</Text>
+                            <Text style={styles.topicStatic}><Text style={styles.topicReply}>{topic.reply_count}</Text> /{topic.visit_count}</Text>
                         </View>
                     </View>
                     <View style={styles.topicTitle}>
-                        <Text style={[styles.topicTitleText,this._preferredTheme["topicSubtitleText"]]} numberOfLines={2}>{topic.title}</Text>
+                        <Text style={styles.topicTitleText} numberOfLines={2}>{topic.title}</Text>
                     </View>
             </Animated.View>
             </TouchableOpacity>
         )
     }
     render(){
-        const {navigationActions} = this.props
-        const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
+        const {navigationActions,styles,styleConstants} = this.props
         return (
-            <View style={[styles.container,this._preferredTheme["container"]]}>
+            <View style={styles.container}>
             <NavBar title="收藏的主题" leftButton={false} userPrefs={this.props.userPrefs}/>
-            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.collectFetching?<Loading color={loadingColor}/>:(
+            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.collectFetching?<Loading color={styleConstants.loadingColor}/>:(
                 <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
                 refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
-                renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={[styles.cellSeparator,this._preferredTheme["cellSeparator"]]}/>}/>
+                renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}/>
             )}
             </View>
         )

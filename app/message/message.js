@@ -13,9 +13,10 @@ import Anonymous from "../common/module/anonymous"
 import NavBar from "../common/component/navbar"
 import HtmlRender from "../common/component/htmlrender"
 
-import styles from "./stylesheet/message"
-import preferredThemeByName,{htmlStyle} from "../common/stylesheet/theme"
+import defaultStyles from "./stylesheet/message"
+import preferredThemer from "../common/theme"
 
+@preferredThemer(defaultStyles)
 class Message extends Component{
     constructor(props){
         super(props)
@@ -28,8 +29,6 @@ class Message extends Component{
             }),
             isLogined:false
         }
-        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
-        this._preferredHtmlStyle = htmlStyle[props.userPrefs["preferredTheme"]]
     }
     componentDidMount(){
         global.storage.getItem("user").then((user)=>{
@@ -46,38 +45,37 @@ class Message extends Component{
                 readDataSource:this.state.readDataSource.cloneWithRows(nextProps.messages.has_read_messages)
             })
         }
-        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
-            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
-        }
     }
     _renderMessage(message){
+        const {styles,htmlStyles} = this.props
         return (
-            <View style={[styles.listCell,this._preferredTheme["topicCell"]]}>
+            <View style={styles.topicCell}>
                 <View style={styles.cellRow}>
                     <Image source={{uri:message.author.avatar_url}} style={styles.cellImage}/>
                     <View style={styles.cellSubtitle}>
-                        <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{message.author.loginname}</Text>
+                        <Text style={styles.cellSubtitleText}>{message.author.loginname}</Text>
                         <Text style={styles.cellMintitleText}>{message.reply.create_at}</Text>
                     </View>
-                    <TouchableOpacity style={[styles.cellAccessory,this._preferredTheme["cellAccessory"]]} 
-                    onPress={()=>this.props.navigationActions.pushScene("reply2reply",{id:message.topic.id,replyTo:{...message.reply,author:message.author}})}>
-                    <Text style={[styles.cellAccessoryText,this._preferredTheme["cellAccessoryText"]]}>回复</Text>
+                    <TouchableOpacity style={styles.cellAccessory} 
+                    onPress={()=>this.props.navigationActions.pushScene("reply",{id:message.topic.id,replyTo:{...message.reply,author:message.author}})}>
+                    <Text style={styles.cellAccessoryText}>回复</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.cellTitle}>
-                    <Text style={[styles.cellSubtitleText,this._preferredTheme["topicSubtitleText"]]}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
+                    <Text style={styles.cellSubtitleText}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
                 </View>
                 <View style={[styles.cellTitle]}>
-                    <HtmlRender value={message.reply.content.replace(/(\n|\r)+$/g,"")} style={this._preferredHtmlStyle}/>
+                    <HtmlRender value={message.reply.content.replace(/(\n|\r)+$/g,"")} style={htmlStyles}/>
                 </View>
             </View>
         )
     }
     _renderTimeline(){
+        const {styles} = this.props
         const renderTabBar = ()=>{
             return (
-                <Tabs style={[styles.tab,this._preferredTheme["tab"]]} 
-                selectedStyle={[styles.selectedTab,this._preferredTheme["selectedTab"]]}>
+                <Tabs style={styles.tab} 
+                selectedStyle={styles.selectedTab}>
                     <Text style={styles.unselectedTab}>未读</Text>
                     <Text style={styles.unselectedTab}>已读</Text>
                 </Tabs>
@@ -93,12 +91,11 @@ class Message extends Component{
         )
     }
     render(){
-        const {navigationActions}= this.props
-        const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
+        const {navigationActions,styles,styleConstants}= this.props
         return (
-            <View style={[styles.container,this._preferredTheme["container"]]}>
+            <View style={styles.container}>
             <NavBar title="消息" leftButton={false} userPrefs={this.props.userPrefs}/>
-            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.messagesFetching?<Loading color={loadingColor}/>:this._renderTimeline()}
+            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.messagesFetching?<Loading color={styleConstants.loadingColor}/>:this._renderTimeline()}
             </View>
         )
     }

@@ -10,6 +10,7 @@ module.exports = {
       "__DEV__":true  
     },
     "extends": "eslint:recommended",
+    "parser":"babel-eslint",
     "parserOptions": {
         "ecmaVersion":7,
         "ecmaFeatures": {

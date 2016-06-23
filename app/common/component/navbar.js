@@ -3,79 +3,7 @@
 import React,{Component} from "react"
 import {View,Text,TouchableOpacity,StatusBar,StyleSheet,Platform,Dimensions} from "react-native"
 import _ from "lodash"
-import {preferredStyles,preferredThemeDefines} from "../../lib/helper"
-
-import preferredThemeByName from "../stylesheet/theme"
-
-class NavBar extends Component{
-    static defaultProps = {
-        leftButton:"返回"
-    }
-    constructor(props){
-        super(props)
-        this._renderNavBar = this._renderNavBar.bind(this)
-        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
-    }
-    componentWillReceiveProps(nextProps){
-        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
-            if(Platform.OS === "ios"){
-                StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
-            }
-            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
-        }
-    }
-    componentDidMount(){
-        if(Platform.OS === "ios"){
-            StatusBar.setBarStyle((this.props.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
-        }
-    }
-    _renderNavBar(){
-        const {title,leftButton,rightButton,onLeftButtonClick,onRightButtonClick} = this.props
-        let _title = (
-            <View style={styles.navigationBarTitle}>
-            {_.isString(title)?<Text style={[styles.navigationBarTitleText,this._preferredTheme["navigationBarTitleText"]]}>{title}</Text>:
-                React.isValidElement(title)?title:null}
-            </View>
-        )
-        if(_.isFunction(title)){
-            _title = title()
-        }
-        
-        let _leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onLeftButtonClick || (()=>{})}>
-            {_.isString(leftButton)?<Text style={[styles.navigationBarButtonText,this._preferredTheme["navigationBarButtonText"]]}>{leftButton}</Text>:
-                React.isValidElement(leftButton)?leftButton:null}
-            </TouchableOpacity>
-        )
-        if(_.isFunction(leftButton)){
-            _leftButton = leftButton()
-        }
-        
-        let _rightButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onRightButtonClick || (()=>{})}>
-            {_.isString(rightButton)?<Text style={[styles.navigationBarButtonText,this._preferredTheme["navigationBarButtonText"] ]}>{rightButton}</Text>:
-                React.isValidElement(rightButton)?rightButton:null}
-            </TouchableOpacity>
-        )
-        if(_.isFunction(rightButton)){
-            _rightButton = rightButton()
-        }
-        
-        return (
-            <View style={styles.navigationBar}>
-            {_leftButton}{_title}{_rightButton}
-            </View>
-        )
-    }
-    render(){
-        return (
-            <View style={[styles.header,this._preferredTheme["header"]]}>
-            {Platform.OS === "ios"?<StatusBar />:null}
-            {this._renderNavBar()}
-            </View>
-        )
-    }
-}
+import preferredThemer from "../theme"
 
 const stylesForAll = {
     header:{
@@ -115,6 +43,76 @@ const stylesForAll = {
     }
 }
 
-const styles = StyleSheet.create(stylesForAll)
+const defaultStyles = StyleSheet.create(stylesForAll)
+
+@preferredThemer(defaultStyles)
+class NavBar extends Component{
+    static defaultProps = {
+        leftButton:"返回"
+    }
+    constructor(props){
+        super(props)
+        this._renderNavBar = this._renderNavBar.bind(this)
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
+            if(Platform.OS === "ios"){
+                StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+            }
+        }
+    }
+    componentDidMount(){
+        if(Platform.OS === "ios"){
+            StatusBar.setBarStyle((this.props.userPrefs["preferredTheme"] === "dark")?"light-content":"default")
+        }
+    }
+    _renderNavBar(){
+        const {title,leftButton,rightButton,onLeftButtonClick,onRightButtonClick,styles} = this.props
+        let _title = (
+            <View style={styles.navigationBarTitle}>
+            {_.isString(title)?<Text style={styles.navigationBarTitleText}>{title}</Text>:
+                React.isValidElement(title)?title:null}
+            </View>
+        )
+        if(_.isFunction(title)){
+            _title = title()
+        }
+        
+        let _leftButton = (
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onLeftButtonClick || (()=>{})}>
+            {_.isString(leftButton)?<Text style={styles.navigationBarButtonText}>{leftButton}</Text>:
+                React.isValidElement(leftButton)?leftButton:null}
+            </TouchableOpacity>
+        )
+        if(_.isFunction(leftButton)){
+            _leftButton = leftButton()
+        }
+        
+        let _rightButton = (
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onRightButtonClick || (()=>{})}>
+            {_.isString(rightButton)?<Text style={styles.navigationBarButtonText}>{rightButton}</Text>:
+                React.isValidElement(rightButton)?rightButton:null}
+            </TouchableOpacity>
+        )
+        if(_.isFunction(rightButton)){
+            _rightButton = rightButton()
+        }
+        
+        return (
+            <View style={styles.navigationBar}>
+            {_leftButton}{_title}{_rightButton}
+            </View>
+        )
+    }
+    render(){
+        const {styles} = this.props
+        return (
+            <View style={styles.header}>
+            {Platform.OS === "ios"?<StatusBar />:null}
+            {this._renderNavBar()}
+            </View>
+        )
+    }
+}
 
 export default NavBar

@@ -12,6 +12,15 @@ import containerByComponent from "../lib/redux-helper"
 import {authorizeByToken} from "./action"
 import {authorizeReducer} from "./reducer"
 
+import preferredThemer from "../common/theme"
+
+const defaultStyles = StyleSheet.create({
+    container:{
+        flex: 1
+    }
+})
+
+@preferredThemer(defaultStyles)
 class QrCode extends Component {
     constructor(props) {
         super(props)
@@ -37,7 +46,7 @@ class QrCode extends Component {
         }
     }
     render() {
-        const {navigationActions} = this.props
+        const {navigationActions,styles} = this.props
         return (
             <View style={styles.container}>
                 <NavBar leftButton="取消" onLeftButtonClick={navigationActions.popScene} userPrefs={this.props.userPrefs}/>
@@ -47,11 +56,5 @@ class QrCode extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container:{
-        flex: 1
-    }
-})
 
 export default containerByComponent(QrCode,authorizeReducer,{authorizeByToken})

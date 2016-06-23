@@ -15,9 +15,10 @@ import containerByComponent from "../lib/redux-helper"
 import {fetchUser} from "./action"
 import {userReducer} from "./reducer"
 
-import styles from "./stylesheet/mine"
-import preferredThemeByName,{htmlStyle} from "../common/stylesheet/theme"
+import defaultStyles from "./stylesheet/mine"
+import preferredThemer from "../common/theme"
 
+@preferredThemer(defaultStyles)
 class Mine extends Component {
     constructor(props) {
         super(props)
@@ -32,8 +33,6 @@ class Mine extends Component {
             }),
             isLogined:false
         }
-        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
-        this._preferredHtmlStyle = htmlStyle[props.userPrefs["preferredTheme"]]
     }
     componentDidMount() {
         const {user} = this.props
@@ -49,12 +48,9 @@ class Mine extends Component {
                 replyDatasource: this.state.topicDatasource.cloneWithRows(nextProps.user.recent_replies)
             })
         }
-        if(nextProps.userPrefs && nextProps.userPrefs !== this.props.userPrefs){
-            this._preferredTheme = preferredThemeByName(nextProps.userPrefs["preferredTheme"])
-        }
     }
     renderBreif() {
-        const {user} = this.props
+        const {user,styles} = this.props
         if (!user) {
             return null
         }
@@ -69,7 +65,7 @@ class Mine extends Component {
         )
     }
     renderNavigationBar() {
-        const {navigationActions} = this.props
+        const {navigationActions,styles} = this.props
         const rightButton = (
             <TouchableOpacity style={styles.navigationBarButton} onPress={()=>navigationActions.pushScene("setup")}>
                 <Icon name="cog" size={20} color="#999"/>
@@ -78,36 +74,36 @@ class Mine extends Component {
         return <NavBar title="我的" leftButton={false} rightButton={()=>rightButton} userPrefs={this.props.userPrefs}/>
     }
     renderTopicRow(topic) {
-        const {user,navigationActions} = this.props
+        const {user,navigationActions,styles} = this.props
         return (
             <TouchableOpacity onPress={()=>navigationActions.pushScene("topic",{ id: topic.id }) }>
-                <Animated.View style={[styles.listCell,this._preferredTheme["topicCell"],{
+                <Animated.View style={[styles.topicCell,{
                     // opacity: this.state.rowScale,
                     // transform: [{ scaleX: this.state.rowScale }]
                 }]}>
                     <View style={styles.topicBreif}>
                         <Image source={{ uri: user.avatar_url }} style={styles.topicImage}/>
                         <View style={[styles.topicSubtitle]}>
-                            <Text style={[styles.topicSubtitleText,this._preferredTheme["topicSubtitleText"]]}>{user.loginname}</Text>
+                            <Text style={styles.topicSubtitleText}>{user.loginname}</Text>
                             <Text style={styles.topicMintitleText}>{topic.last_reply_at}</Text>
                         </View>
                     </View>
                     <View style={styles.topicTitle}>
-                        <Text style={[styles.topicTitleText,this._preferredTheme["topicSubtitleText"]]} numberOfLines={2}>{topic.title}</Text>
+                        <Text style={styles.topicTitleText} numberOfLines={2}>{topic.title}</Text>
                     </View>
                 </Animated.View>
             </TouchableOpacity>
         )
     }
     renderTrends() {
-        const {user} = this.props
+        const {user,styles} = this.props
         if (!user) {
             return null
         }
         const renderTabs = ()=>{
             return (
-                <Tabs style={[styles.mineTrendsTab,this._preferredTheme["tab"]]} 
-                selectedStyle={[styles.mineTrendsSelectedTab,this._preferredTheme["selectedTab"]]}>
+                <Tabs style={styles.tab} 
+                selectedStyle={styles.selectedTab}>
                     <Text style={styles.mineTrendsUnselectedTab} name="topic">最近主题</Text>
                     <Text style={styles.mineTrendsUnselectedTab} name="reply">最近回复</Text>
                 </Tabs>
@@ -118,12 +114,12 @@ class Mine extends Component {
                 <ScrollableTabView renderTabBar={renderTabs}>
                     <View style={styles.mineTrendsContent}>
                         <ListView dataSource={this.state.topicDatasource} renderRow={this.renderTopicRow.bind(this) } enableEmptySections={true} 
-                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={[styles.cellSeparator,this._preferredTheme["cellSeparator"]]}/>}
+                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
                             />
                     </View>
                     <View style={styles.mineTrendsContent}>
                         <ListView dataSource={this.state.replyDatasource} renderRow={this.renderTopicRow.bind(this) } enableEmptySections={true} 
-                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={[styles.cellSeparator,this._preferredTheme["cellSeparator"]]}/>}
+                            renderSeparator={(sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}
                             />
                     </View>
                 </ScrollableTabView>
@@ -131,10 +127,10 @@ class Mine extends Component {
         )
     }
     render() {
-        const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333"
-        const {navigationActions} = this.props
+        const {navigationActions,styles} = this.props
+        const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333333"
         return (
-            <View style={[styles.container,this._preferredTheme["container"]]}>
+            <View style={styles.container}>
                 {this.renderNavigationBar() }
                 {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.userFetching?<Loading color={loadingColor}/>:(
                     <ScrollView>

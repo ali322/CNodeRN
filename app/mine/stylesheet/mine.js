@@ -21,6 +21,18 @@ const styles = {
         color:"#666"
         // paddingLeft:3 
     },
+    tab:{
+        borderBottomColor:"#DDD",
+        borderBottomWidth:0.5,
+        height:40
+    },
+    unselectedTab:{
+        color:"#999"
+    },
+    selectedTab:{
+        color:"#333",
+        fontWeight:"700"
+    },
     mineBreif:{
         height:150,
         // backgroundColor:"#FFF",

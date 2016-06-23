@@ -10,17 +10,16 @@ import containerByComponent from "../lib/redux-helper"
 import {topicReducer} from "./reducer"
 import {saveReply,fetchTopic} from "./action"
 
-import styles from "./stylesheet/topic"
-import preferredThemeByName,{theme} from "../common/stylesheet/theme"
+import defaultStyles from "./stylesheet/topic"
+import preferredThemer from "../common/theme"
 
+@preferredThemer(defaultStyles)
 class Reply extends Component{
     constructor(props){
         super(props)
         this.state = {
             content:""
         }
-        this._preferredTheme = preferredThemeByName(props.userPrefs["preferredTheme"])
-        this._preferredThemeDefines = theme[props.userPrefs["preferredTheme"]]
     }
     componentWillReceiveProps(nextProps){
         if(!nextProps.replySaving && this.props.replySaving){
@@ -34,7 +33,7 @@ class Reply extends Component{
         }
     }
     renderNavigationBar(){
-        const {navigationActions} = this.props
+        const {navigationActions,styles} = this.props
         const handleSave = ()=>{
             const {user} = this.props
             const reply = {
@@ -47,22 +46,23 @@ class Reply extends Component{
 
         const rightButton = (
             <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={handleSave}>
-                <Text style={[styles.navigationBarButtonText,this._preferredTheme["replyInput"]]}>发布</Text>
+                <Text style={styles.navigationBarButtonText}>发布</Text>
             </TouchableOpacity>
         )
 
         return <NavBar title="回复" rightButton={()=>rightButton} onLeftButtonClick={navigationActions.popScene} userPrefs={this.props.userPrefs}/>
     }
     render(){
+        const {styles,styleConstants} = this.props
         return (
-            <View style={[styles.container,this._preferredTheme["container"]]}>
+            <View style={styles.container}>
             {this.renderNavigationBar()}
             <View style={styles.replyWrap}>
             <TextInput placeholder="回复内容不超过50字" onChangeText={(content)=>this.setState({content})} 
-            placeholderTextColor={this._preferredThemeDefines["publishLabel"].color} 
+            placeholderTextColor={styleConstants.publishLabelColor} 
             defaultValue={this.props.replyTo?`@${this.props.replyTo.author.loginname} `:""} numberOfLines={10} 
             multiline={true} maxLength={200} 
-            style={[styles.replyInput,this._preferredTheme["replyInput"]]}/>
+            style={styles.replyInput}/>
             </View>
             </View>
         )
