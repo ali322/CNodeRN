@@ -69,7 +69,7 @@ export function authenticationReducer(state={},action){
                 ...state,
                 authenticationFetched:true,
                 authenticationFetching:false,
-                user:action.ret
+                authentication:action.ret
             }
         case constants.START_SAVEAUTHENTICATION:
             return {
@@ -79,7 +79,7 @@ export function authenticationReducer(state={},action){
         case constants.FINISH_SAVEAUTHENTICATION:
             return {
                 ...state,
-                user:action.ret,
+                authentication:action.ret,
                 authenticationSaving:false,
                 authenticationSaved:true
             }

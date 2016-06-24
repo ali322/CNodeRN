@@ -2,6 +2,7 @@
 
 export const constants = {
     loadingColor:"#FFFFFF",
+    loadMoreColor:"#999999",
     collectIconColor:"#FF3300",
     uncollectIconColor:"#999999",
     agreeIconColor:"dodgerblue",
@@ -50,6 +51,9 @@ export const styles = {
         borderTopColor:"#000",
         backgroundColor:"#444"
     },
+    loadMoreText:{
+        color:"#999"
+    },
     //common style end --->
     // listview style start --->
     topicCell:{
@@ -68,6 +72,9 @@ export const styles = {
         backgroundColor:"#555"  
     },
     topicTagText:{
+        color:"#999"
+    },
+    cellSubtitleText:{
         color:"#999"
     },
     cellAccessory:{
@@ -153,8 +160,24 @@ export const styles = {
     },
     updaterButtonText:{
         color:"#FFF"
-    }
+    },
     //setup style end --->
+    //<--- offline style start 
+    offlineWrapper:{
+        backgroundColor:"#333"
+    },
+    offLineInfoText:{
+        color:"#999"
+    },
+    //offline style end --->
+    //<--- anonymous style start
+    anonymousPanel:{
+        backgroundColor:"#333"
+    },
+    authorizeQrcodeText:{
+        color:"#999"
+    }
+    //anonymous style end --->
 }
 
 export const htmlStyles = {

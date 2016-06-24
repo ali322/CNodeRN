@@ -29,7 +29,7 @@ function navigationReducer(state={},action) {
             return {
                 ...state,
                 index:0,
-                children:[]
+                routes:[]
             }
         case constants.RELOAD_SCENE:
             return state.update("routes",children=>{

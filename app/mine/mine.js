@@ -35,10 +35,10 @@ class Mine extends Component {
         }
     }
     componentDidMount() {
-        const {user} = this.props
-        if(user){
+        const {authentication} = this.props
+        if(authentication){
             this.setState({isLogined:true})
-            this.props.actions.fetchUser(user.username)
+            this.props.actions.fetchUser(authentication.username)
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -124,12 +124,12 @@ class Mine extends Component {
         )
     }
     render() {
-        const {navigationActions,styles} = this.props
+        const {navigationActions,styles,userPrefs} = this.props
         const loadingColor = this._preferredThemeDefines && this._preferredThemeDefines["loading"]?this._preferredThemeDefines["loading"].color:"#333333"
         return (
             <View style={styles.container}>
                 {this.renderNavigationBar() }
-                {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.userFetching?<Loading color={loadingColor}/>:(
+                {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")} userPrefs={userPrefs}/>:this.props.userFetching?<Loading color={loadingColor}/>:(
                     <ScrollView>
                     {this.renderBreif() }
                     {this.renderTrends() }

@@ -5,26 +5,9 @@ import {Text,View,StyleSheet} from "react-native"
 import containerByComponent from "../../lib/redux-helper"
 import {messageCountReducer} from "../reducer"
 import {fetchMessageCount} from "../action"
+import preferredThemer from "../theme"
 
-class MessageCounter extends Component{
-    componentDidMount(){
-        global.storage.getItem("user").then((user)=>{
-            if(user){
-                this.props.fetchMessageCount(user.accessToken)
-            }
-        })  
-    }
-    render(){
-        if(this.props.count > 0){
-            return (
-                <View style={styles.tabBarCounter}><Text style={styles.tabBarCounterText}>{this.props.count}</Text></View>
-            )
-        }
-        return null
-    }
-}
-
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
     tabBarCounter:{
         position:"absolute",
         top:-3,
@@ -39,5 +22,25 @@ const styles = StyleSheet.create({
         fontSize:12
     }
 })
+
+@preferredThemer(defaultStyles)
+class MessageCounter extends Component{
+    componentDidMount(){
+        const {authentication} = this.props
+        if(authentication){
+            this.props.actions.fetchMessageCount(authentication.accessToken)
+        }
+    }
+    render(){
+        const {styles,count} = this.props
+        if(count > 0){
+            return (
+                <View style={styles.tabBarCounter}><Text style={styles.tabBarCounterText}>{count}</Text></View>
+            )
+        }
+        return null
+    }
+}
+
 
 export default containerByComponent(MessageCounter,messageCountReducer,{fetchMessageCount})

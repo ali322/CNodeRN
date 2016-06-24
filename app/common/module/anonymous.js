@@ -3,23 +3,9 @@
 import React,{Component} from "react"
 import {View,Text,StyleSheet,TouchableOpacity} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
+import preferredThemer from "../theme"
 
-class Anonymous extends Component{
-    render(){
-        return (
-            <View style={styles.anonymousPanel}>
-                <View style={styles.anonymousContainer}>
-                    <Icon.Button name="qrcode" onPress={this.props.toLogin}
-                    size={30} backgroundColor="transparent" color="#666">
-                        <Text style={styles.authorizeQrcodeText}>扫码登录</Text>
-                    </Icon.Button>
-                </View>
-            </View>
-        )
-    }
-}
-
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
     anonymousPanel:{
         flex:1,
         backgroundColor:"#FFF",
@@ -38,5 +24,22 @@ const styles = StyleSheet.create({
         color:"#666"
     }
 })
+
+@preferredThemer(defaultStyles)
+class Anonymous extends Component{
+    render(){
+        const {styles} = this.props
+        return (
+            <View style={styles.anonymousPanel}>
+                <View style={styles.anonymousContainer}>
+                    <Icon.Button name="qrcode" onPress={this.props.toLogin}
+                    size={30} backgroundColor="transparent" color="#666">
+                        <Text style={styles.authorizeQrcodeText}>扫码登录</Text>
+                    </Icon.Button>
+                </View>
+            </View>
+        )
+    }
+}
 
 export default Anonymous

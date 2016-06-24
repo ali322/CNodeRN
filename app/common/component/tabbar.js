@@ -79,15 +79,19 @@ class TabBar extends Component{
         return  React.Children.toArray(this.props.children)
             .filter((child,i)=>this.state.activeIndex === i)[0]
     }
-    _renderIcon(tintText,iconName,selected){
-        const {styles,styleConstants} = this.props
+    _renderIcon(childProps,selected){
+        const {styles,styleConstants,userPrefs,authentication} = this.props
         const iconColor = styleConstants.tabBarItemColor
+        const {title,iconName,iconTag} = childProps
         const selectedIconColor = styleConstants.tabBarSelectedItemColor
         return (
             <View style={styles.tabBarItem}>
                 <Icon name={iconName} size={20} color={selected?selectedIconColor:iconColor}/>
                 <Text style={[styles.tabBarItemText,
-                selected?styles.tabBarSelectedItemText:null]}>{tintText}</Text>
+                selected?styles.tabBarSelectedItemText:null]}>{title}</Text>
+                {iconTag?React.createElement(iconTag,{
+                    userPrefs,authentication
+                }):null}
             </View>
         )
     }
@@ -101,7 +105,7 @@ class TabBar extends Component{
                         child.props.afterSelect(i)
                     }
                 }}>
-                    {this._renderIcon(child.props.title,child.props.iconName,i === this.state.activeIndex)}
+                    {this._renderIcon(child.props,i === this.state.activeIndex)}
                 </TouchableOpacity>
             )
         })

@@ -1,29 +1,14 @@
 'use strict'
 
-import React,{Component} from "react"
+import React,{Component,PropTypes} from "react"
 import {View,Text,StyleSheet} from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
 import Spinner from "react-native-spinkit"
 
-class LoadMore extends Component{
-    render(){
-        return (
-            <View style={styles.loadMore}>
-               {this.props.active?<Spinner isVisble={true} type="FadingCircle" size={13} color="rgba(0,0,0,0.3)"/>:
-               <Icon name="arrow-upward" size={20} color="#AAA"/>}
-               <Text style={styles.loadMoreText}>{this.props.active?"加载中":"上拉加载更多"}</Text>
-            </View>
-        )
-    }
-}
+import preferredThemer from "../theme"
 
-LoadMore.defaultProps = {
-    active:false
-}
-
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
     loadMore:{
-        // backgroundColor:"#F7F7F7",
         flex:1,
         flexDirection:"row",
         height:30,
@@ -34,10 +19,28 @@ const styles = StyleSheet.create({
         paddingLeft:5,
         fontSize:13,
         color:"#AAA"
-    },
-    loadMoreIcon:{
-        color:"#AAA"
     }
 })
+
+@preferredThemer(defaultStyles)
+class LoadMore extends Component{
+    static propTypes = {
+        active:PropTypes.bool
+    }
+    static defaultProps = {
+        active:false
+    }
+    render(){
+        const {styles,styleConstants} = this.props
+        const loadMoreColor = styleConstants.loadMoreColor
+        return (
+            <View style={styles.loadMore}>
+               {this.props.active?<Spinner isVisble={true} type="FadingCircle" size={13} color={loadMoreColor}/>:
+               <Icon name="arrow-upward" size={20} color={loadMoreColor}/>}
+               <Text style={styles.loadMoreText}>{this.props.active?"加载中":"上拉加载更多"}</Text>
+            </View>
+        )
+    }
+}
 
 export default LoadMore

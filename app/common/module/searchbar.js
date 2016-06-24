@@ -2,41 +2,7 @@
 
 import React,{Component} from "react"
 import {Text,View,TextInput,TouchableOpacity,StyleSheet,Platform} from "react-native"
-
-export default class SearchBar extends Component{
-    static defaultProps = {
-        preferredTheme:{}
-    }
-    constructor(props){
-        super(props)
-        this.state = {
-            keyword:""
-        }
-    }
-    render(){
-        const handleSearch = ()=>{
-            this.props.onSearch(this.state.keyword)
-        }
-        const {preferredTheme} = this.props
-        return (
-        <View style={[styles.searchBar,preferredTheme.searchBar]}>
-        <View style={styles.searchBarInputWrap}>
-            <TextInput style={styles.searchBarInput} ref="searchTextInput" placeholder="请输入搜索关键字" clearButtonMode="while-editing" 
-            onChangeText={(keyword)=>this.setState({keyword})}/>
-        </View>
-        <TouchableOpacity style={styles.searchBarButton} onPress={this.state.keyword === ""?this.props.onClose:handleSearch}>
-            <Text style={[styles.searchBarButtonText,preferredTheme.searchBarButtonText]}>{this.state.keyword === ""?"取消":"搜索"}</Text>
-        </TouchableOpacity>
-        </View> 
-        )
-    }
-}
-
-SearchBar.defaultProps = {
-    active:false,
-    onSearch:()=>{},
-    onClose:()=>{}
-}
+import preferredThemer from "../theme"
 
 const stylesForAll = {
     searchBar:{
@@ -100,7 +66,39 @@ const stylesForIOS = {
     }
 }
 
-const styles = StyleSheet.create(Object.assign({},stylesForAll,
+const defaultStyles = StyleSheet.create(Object.assign({},stylesForAll,
     Platform.OS === "android"?stylesForAndroid:{},
     Platform.OS === "ios"?stylesForIOS:{}
 ))
+
+@preferredThemer(defaultStyles)
+export default class SearchBar extends Component{
+    static defaultProps = {
+        active:false,
+        onSearch:()=>{},
+        onClose:()=>{}
+    }
+    constructor(props){
+        super(props)
+        this.state = {
+            keyword:""
+        }
+    }
+    render(){
+        const handleSearch = ()=>{
+            this.props.onSearch(this.state.keyword)
+        }
+        const {styles} = this.props
+        return (
+        <View style={styles.searchBar}>
+        <View style={styles.searchBarInputWrap}>
+            <TextInput style={styles.searchBarInput} ref="searchTextInput" placeholder="请输入搜索关键字" clearButtonMode="while-editing" 
+            onChangeText={(keyword)=>this.setState({keyword})}/>
+        </View>
+        <TouchableOpacity style={styles.searchBarButton} onPress={this.state.keyword === ""?this.props.onClose:handleSearch}>
+            <Text style={styles.searchBarButtonText}>{this.state.keyword === ""?"取消":"搜索"}</Text>
+        </TouchableOpacity>
+        </View> 
+        )
+    }
+}

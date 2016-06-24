@@ -14,12 +14,14 @@ import Loading from "../common/component/loading"
 import SearchBar from "../common/module/searchbar"
 import NavBar from "../common/component/navbar"
 import Alert from "../common/component/alert"
+import offlineDecorator from "../common/module/offline"
 
 import defaultStyles from "./stylesheet/topics"
 import preferredThemer from "../common/theme"
 
 
 @preferredThemer(defaultStyles)
+@offlineDecorator
 class Topics extends Component{
     constructor(props){
         super(props)
@@ -127,7 +129,7 @@ class Topics extends Component{
     }
     renderSearchBar(){
         return <SearchBar active={this.state.searchBarActive} onSearch={this.handleSearch.bind(this)} 
-        onClose={this.toggleSearchActive.bind(this)} preferredTheme={this._preferredTheme}/>
+        onClose={this.toggleSearchActive.bind(this)} userPrefs={this.props.userPrefs}/>
     }
     renderRow(topic){
         const {styles} = this.props
@@ -159,17 +161,21 @@ class Topics extends Component{
     }
     render(){
         const threshold = (Platform.OS === "ios" ? 10 : -20)
-        const {categories,selectedCategory,styles,styleConstants} = this.props
+        const {categories,selectedCategory,styles,styleConstants,userPrefs} = this.props
         const loadingColor = styleConstants.loadingColor
         return (
             <View style={styles.container}>
             {this.state.searchBarActive?this.renderSearchBar():this.renderNavigationBar()}
             {categories[selectedCategory].list.length === 0 && this.props.topicsFetching ? <Loading color={loadingColor}/>:(
             <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
-            refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
+            refreshControl={<RefreshControl refreshing={this.state.refreshing} 
+            title="加载中..." 
+            titleColor={loadingColor} tintColor={loadingColor} colors={[loadingColor]} 
+            onRrefresh={this.handleRefresh.bind(this)}/>}
             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}
             renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>}
-            renderFooter={()=>categories[selectedCategory].list.length > 0?<LoadMore active={this.props.topicsFetching}/>:null}/>
+            renderFooter={()=>categories[selectedCategory].list.length > 0?
+                <LoadMore active={this.props.topicsFetching} userPrefs={userPrefs}/>:null}/>
             )}
             {this.renderModal()}
             <Alert ref={view=>this._alert=view}/>

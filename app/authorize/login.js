@@ -15,7 +15,7 @@ class Login extends Component{
         return (
             <View style={styles.container}>
             <NavBar title="登录" onLeftButtonClick={navigationActions.popScene} userPrefs={this.props.userPrefs}/>
-            <Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>
+            <Anonymous toLogin={()=>navigationActions.pushScene("qrcode")} userPrefs={this.props.userPrefs}/>
             </View>
         )
     }

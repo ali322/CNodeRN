@@ -31,12 +31,11 @@ class Message extends Component{
         }
     }
     componentDidMount(){
-        global.storage.getItem("user").then((user)=>{
-            if(user){
-                this.setState({isLogined:true})
-                this.props.actions.fetchMessages(user.accessToken)
-            }
-        })
+        const {authentication} = this.props
+        if(authentication){
+            this.setState({isLogined:true})
+            this.props.actions.fetchMessages(authentication.accessToken)
+        }
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.messagesFetched && !nextProps.messagesFetching){

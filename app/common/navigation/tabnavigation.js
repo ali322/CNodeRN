@@ -14,14 +14,17 @@ class TabNavigation extends Component{
     render(){
         const {navigationState,navigationActions,sceneProps} = this.props
         return (
-            <TabBar userPrefs={sceneProps.userPrefs} activeIndex={navigationState.index} visible={navigationState.visible}>
+            <TabBar {...sceneProps} activeIndex={navigationState.index} visible={navigationState.visible}>
                 {navigationState.routes.map((item,i)=>{
                     return (
                         <TabBar.Item key={i} beforeSelect={()=>{
-                            navigationActions.focusScene(item.key)
-                            return item.onSelect?item.onSelect(navigationState,navigationActions):true
+                            const selectable = item.onSelect?item.onSelect(navigationState,navigationActions):true
+                            if(selectable){
+                                navigationActions.focusScene(item.key)
+                            }
+                            return selectable
                         }} 
-                        title={item.title} iconName={item.iconName}>
+                        title={item.title} iconName={item.iconName} iconTag={item.iconTag}>
                             <Navigation navigationState={item} navigationActions={navigationActions} sceneProps={sceneProps}/>
                         </TabBar.Item>
                     )

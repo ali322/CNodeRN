@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         width:Dimensions.get("window").width,
         flex:1,
         flexDirection:"column",
-        justifyContent:"center",
+        justifyContent:"flex-start",
         alignItems:"center"
     },
     scanner:{

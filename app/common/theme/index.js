@@ -19,14 +19,14 @@ const htmlStyles = {
 
 const constants = {
     dark:darkConstants,
-    light:{}
+    light:defaultConstants
 }
 
 function preferredStyle(themeName) {
     return {
         styles:themeName?styles[themeName]:{},
         htmlStyles:themeName?htmlStyles[themeName]:{},
-        constants:themeName?constants[themeName]:defaultConstants
+        constants:themeName?constants[themeName]:{}
     }
 }
 

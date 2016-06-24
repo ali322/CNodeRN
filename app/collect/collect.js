@@ -26,10 +26,10 @@ class UserCollect extends Component{
         }
     }
     componentDidMount(){
-        const {user} = this.props
-        if(user){
+        const {authentication} = this.props
+        if(authentication){
             this.setState({isLogined:true})
-            this.props.actions.fetchUserCollect(user.username)
+            this.props.actions.fetchUserCollect(authentication.username)
         }
     }
     componentWillReceiveProps(nextProps){
@@ -74,12 +74,15 @@ class UserCollect extends Component{
     }
     render(){
         const {navigationActions,styles,styleConstants} = this.props
+        const loadingColor = styleConstants.loadingColor
         return (
             <View style={styles.container}>
             <NavBar title="收藏的主题" leftButton={false} userPrefs={this.props.userPrefs}/>
-            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.collectFetching?<Loading color={styleConstants.loadingColor}/>:(
+            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.collectFetching?<Loading color={loadingColor}/>:(
                 <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
-                refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." onRrefresh={this.handleRefresh.bind(this)}/>}
+                refreshControl={<RefreshControl refreshing={this.state.refreshing} title="加载中..." 
+                titleColor={loadingColor} tintColor={loadingColor} colors={[loadingColor]} 
+                onRrefresh={this.handleRefresh.bind(this)}/>}
                 renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles.cellSeparator}/>}/>
             )}
             </View>
