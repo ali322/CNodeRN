@@ -7,7 +7,7 @@ import preferredThemer from "../theme"
 
 const stylesForAll = {
     header:{
-        height:64,
+        height:Platform.OS === "ios"?64:44,
         borderBottomWidth:0.5,
         borderBottomColor:"#DDD",
         backgroundColor:"#F8F8F8"

@@ -1,7 +1,7 @@
 'use strict'
 
 export const constants = {
-    loadingIconColor:"#3333333",
+    loadingColor:"#333333",
     loadMoreColor:"#333333",
     collectIconColor:"#333333",
     uncollectIconColor:"#999999",

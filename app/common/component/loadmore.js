@@ -15,8 +15,10 @@ const defaultStyles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center"
     },
+    loadMoreTextWrapper:{
+        paddingLeft:5
+    },
     loadMoreText:{
-        paddingLeft:5,
         fontSize:13,
         color:"#AAA"
     }
@@ -35,9 +37,11 @@ class LoadMore extends Component{
         const loadMoreColor = styleConstants.loadMoreColor
         return (
             <View style={styles.loadMore}>
-               {this.props.active?<Spinner isVisble={true} type="FadingCircle" size={13} color={loadMoreColor}/>:
+               {this.props.active?<Spinner isVisble={true} type="Circle" size={13} color={loadMoreColor}/>:
                <Icon name="arrow-upward" size={20} color={loadMoreColor}/>}
-               <Text style={styles.loadMoreText}>{this.props.active?"加载中":"上拉加载更多"}</Text>
+               <View style={styles.loadMoreTextWrapper}>
+                   <Text style={styles.loadMoreText}>{this.props.active?"加载中":"上拉加载更多"}</Text>
+               </View>
             </View>
         )
     }

@@ -21,7 +21,6 @@ import preferredThemer from "../common/theme"
 
 
 @preferredThemer(defaultStyles)
-@offlineDecorator
 class Topics extends Component{
     constructor(props){
         super(props)
@@ -170,7 +169,7 @@ class Topics extends Component{
             <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} enableEmptySections={true} 
             refreshControl={<RefreshControl refreshing={this.state.refreshing} 
             title="加载中..." 
-            titleColor={loadingColor} tintColor={loadingColor} colors={[loadingColor]} 
+            titleColor={loadingColor} tintColor={loadingColor} 
             onRrefresh={this.handleRefresh.bind(this)}/>}
             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}
             renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>}
