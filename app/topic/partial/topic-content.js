@@ -7,10 +7,14 @@ import HTMLRender from "../../common/component/htmlrender"
 class TopicContent extends Component{
     render(){
         const {styles,topic,userPrefs,htmlStyle} = this.props
+        let avatarURL = topic.author.avatar_url
+        if (/^\/\/.*/.test(avatarURL)) {
+            avatarURL = 'http:' + avatarURL
+        }
         return (
             <View>
                 <View style={styles.topicBreif}>
-                    <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
+                    <Image source={{uri:avatarURL}} style={styles.topicImage}/>
                     <View style={styles.topicSubtitle}>
                         <Text style={[styles.topicSubtitleText]}>{topic.author.loginname}</Text>
                         <Text style={styles.topicMintitleText}>{topic.create_at},{topic.visit_count} 次点击</Text>

@@ -125,10 +125,14 @@ class Topic extends Component{
         const unselectedIcon = styleConstants.disagreeIconColor
         const selectedIcon = styleConstants.agreeIconColor
         const renderComment = (reply)=>{
+            let avatarURL = reply.author.avatar_url
+            if (/^\/\/.*/.test(avatarURL)) {
+                avatarURL = 'http:' + avatarURL
+            }
             return (
                 <View style={[styles.topicComment]}>
                 <View style={styles.topicCommentBreif}>
-                    <Image source={{uri:reply.author.avatar_url}} style={styles.topicImage}/>
+                    <Image source={{uri:avatarURL}} style={styles.topicImage}/>
                     <View style={styles.topicSubtitle}>
                         <Text style={[styles.topicSubtitleText]}>{reply.author.loginname}</Text>
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>

@@ -133,11 +133,15 @@ class Topics extends Component{
     renderRow(topic){
         const {styles} = this.props
         const {pushScene} = this.props.navigationActions
+        let avatarURL = topic.author.avatar_url
+        if (/^\/\/.*/.test(avatarURL)) {
+            avatarURL = 'http:' + avatarURL
+        }
         return (
             <TouchableOpacity onPress={()=>pushScene("topic",{id:topic.id})}>
             <Animated.View style={styles["topicCell"]}>
                     <View style={styles.topicBreif}>
-                        <Image source={{uri:topic.author.avatar_url}} style={styles.topicImage}/>
+                        <Image source={{uri:avatarURL}} style={styles.topicImage}/>
                         <View style={styles.topicSubtitle}>
                             <Text style={styles["topicSubtitleText"]}>{topic.author.loginname}</Text>
                             <View style={styles.topicMintitle}>
