@@ -19,8 +19,8 @@ import offlineDecorator from "../common/module/offline"
 import defaultStyles from "./stylesheet/topics"
 import preferredThemer from "../common/theme"
 
-
 @preferredThemer(defaultStyles)
+@offlineDecorator
 class Topics extends Component{
     constructor(props){
         super(props)
@@ -49,7 +49,8 @@ class Topics extends Component{
         this.props.actions.fetchTopics(selectedCategory,categories[selectedCategory].pageIndex + 1)
     }
     handleRefresh(){
-        this.props.actions.fetchTopics(this.props.selectedCategory)
+        console.log("handleRefresh")
+        this.props.actions.fetchTopics(this.props.selectedCategory,1,10,{caching:false})
     }
     handleSearch(keyword){
         this.props.actions.filterTopics(keyword)
@@ -174,7 +175,7 @@ class Topics extends Component{
             refreshControl={<RefreshControl refreshing={this.state.refreshing} 
             title="加载中..." 
             titleColor={loadingColor} tintColor={loadingColor} 
-            onRrefresh={this.handleRefresh.bind(this)}/>}
+            onRefresh={this.handleRefresh.bind(this)}/>}
             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}
             renderSeparator={(sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>}
             renderFooter={()=>categories[selectedCategory].list.length > 0?

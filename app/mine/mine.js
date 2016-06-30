@@ -9,6 +9,7 @@ import Tabs from "../common/component/tabs"
 import Loading from "../common/component/loading"
 import Anonymous from "../common/module/anonymous"
 import NavBar from "../common/component/navbar"
+import offlineDecorator from "../common/module/offline"
 
 import {formatTime} from "../lib/helper"
 import containerByComponent from "../lib/redux-helper"
@@ -19,6 +20,7 @@ import defaultStyles from "./stylesheet/mine"
 import preferredThemer from "../common/theme"
 
 @preferredThemer(defaultStyles)
+@offlineDecorator
 class Mine extends Component {
     constructor(props) {
         super(props)

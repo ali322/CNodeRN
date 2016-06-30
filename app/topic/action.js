@@ -28,11 +28,12 @@ function responseTopics(ret,category,pageIndex) {
     }
 }
 
-export function fetchTopics(category="",pageIndex=1,pageSize=10) {
+export function fetchTopics(category="",pageIndex=1,pageSize=10,options) {
     return (dispatch)=>{
         dispatch(requestTopics(category,pageIndex))
-        fetch(`${api.topics}?tab=${category}&page=${pageIndex}&limit=${pageSize}`).then(ret=>ret.json())
-        .then((ret)=>{
+        request.get(api.topics,{
+            tab:category,page:pageIndex,limit:pageSize
+        },options).then(ret=>{
             dispatch(responseTopics(ret,category,pageIndex))
         })
     }

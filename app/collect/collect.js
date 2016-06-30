@@ -5,6 +5,7 @@ import {View,Text,ListView,TouchableOpacity,Animated,RefreshControl,Image} from 
 import NavBar from "../common/component/navbar"
 import Loading from "../common/component/loading"
 import Anonymous from "../common/module/anonymous"
+import offlineDecorator from "../common/module/offline"
 
 import containerByComponent from "../lib/redux-helper"
 import {collectReducer} from "./reducer"
@@ -13,6 +14,7 @@ import defaultStyles from "./stylesheet"
 import preferredThemer from "../common/theme"
 
 @preferredThemer(defaultStyles)
+@offlineDecorator
 class UserCollect extends Component{
     constructor(props){
         super(props)

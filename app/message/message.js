@@ -9,14 +9,16 @@ import {messageReducer} from "./reducer"
 import {fetchMessages,fetchMessageCount,markAllMessage} from "./action"
 import Tabs from "../common/component/tabs"
 import Loading from "../common/component/loading"
-import Anonymous from "../common/module/anonymous"
 import NavBar from "../common/component/navbar"
 import HtmlRender from "../common/component/htmlrender"
+import Anonymous from "../common/module/anonymous"
+import offlineDecorator from "../common/module/offline"
 
 import defaultStyles from "./stylesheet/message"
 import preferredThemer from "../common/theme"
 
 @preferredThemer(defaultStyles)
+@offlineDecorator
 class Message extends Component{
     constructor(props){
         super(props)

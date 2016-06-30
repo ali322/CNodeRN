@@ -1,13 +1,28 @@
 'use strict'
 
 export default {
-    get(url,data={}){
+    get(url,data={},options={
+        caching:"permanent"
+    }){
         let params = []
         Object.keys(data).forEach((param)=>{
             params.push(`${param}=${encodeURIComponent(data[param])}`)
         })
         params = params.join("&")
-        return fetch(`${url}?${params}`).then(ret=>ret.json())
+        url = `${url}?${params}`
+        if(!options.caching){
+            return fetch(url).then(ret=>ret.json())
+        }
+        return global.storage.getItem(url).then(cached=>{
+            if(cached){
+                return cached
+            }else{
+                return fetch(url).then(ret=>ret.json()).then(ret=>{
+                    global.storage.setItem(url)
+                    return ret
+                })
+            }
+        })
     },
     post(url,data={}){
         return fetch(url,{
