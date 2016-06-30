@@ -94,7 +94,7 @@ class Message extends Component{
         return (
             <View style={styles.container}>
             <NavBar title="消息" leftButton={false} userPrefs={this.props.userPrefs}/>
-            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")}/>:this.props.messagesFetching?<Loading color={styleConstants.loadingColor}/>:this._renderTimeline()}
+            {!this.state.isLogined?<Anonymous toLogin={()=>navigationActions.pushScene("qrcode")} userPrefs={this.props.userPrefs}/>:this.props.messagesFetching?<Loading color={styleConstants.loadingColor}/>:this._renderTimeline()}
             </View>
         )
     }

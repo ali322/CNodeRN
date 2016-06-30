@@ -45,6 +45,12 @@ class QrCode extends Component {
             }
         }
     }
+    componentDidMount(){
+        this.props.saveAuthentication({
+            username:"ali322",
+            accessToken:"01206bae-f6ed-42de-bd0e-3775776deaf9"
+        })
+    }
     render() {
         const {navigationActions,styles} = this.props
         return (
