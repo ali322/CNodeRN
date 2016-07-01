@@ -1,7 +1,7 @@
 'use strict'
 
 import {
-    REQUEST_TOPICS,RESPONSE_TOPICS,
+    REQUEST_TOPICS,RESPONSE_TOPICS,CLEAR_TOPICS,
     REQUEST_TOPIC,RESPONSE_TOPIC,
     CHANGE_CATEGORY,FILTER_TOPICS,
     START_SAVEREPLY,FINISH_SAVEREPLY,
@@ -12,6 +12,12 @@ import {
 
 import api from "../lib/api"
 import request from "../lib/request"
+
+function clearTopics(){
+    return {
+        type:CLEAR_TOPICS
+    }
+}
 
 function requestTopics(category,pageIndex) {
     return {
@@ -34,6 +40,9 @@ export function fetchTopics(category="",pageIndex=1,pageSize=10,options) {
         keyPrefix:"topics."
     }
     return (dispatch)=>{
+        if(options.caching === false){
+            dispatch(clearTopics())
+        }
         dispatch(requestTopics(category,pageIndex))
         request.get(api.topics,{
             tab:category,page:pageIndex,limit:pageSize

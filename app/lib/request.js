@@ -12,7 +12,7 @@ export default {
         })
         params = params.join("&")
         url = `${url}?${params}`
-        const cacheKey = options.keyPrefix + url
+        const cacheKey = "cache." + options.keyPrefix + url
         if(!options.caching){
             global.storage.getAllKeys().then(ret=>{
                 global.storage.multiRemove(ret.filter(key=>key.startsWith(options.keyPrefix)))
@@ -21,8 +21,10 @@ export default {
         }
         return global.storage.getItem(cacheKey).then(cached=>{
             if(cached){
+                // console.log("from cached")
                 return cached
             }else{
+                // console.log("from fetch")
                 return fetch(url).then(ret=>ret.json()).then(ret=>{
                     global.cache.setItem(cacheKey,ret)
                     return ret

@@ -52,6 +52,7 @@ export function eraseCache(){
     return dispatch=>{
         dispatch(startEraseCache())
         global.storage.getAllKeys().then(keys=>{
+            console.log(keys.filter(key=>key.startsWith("cache.")),keys)
             global.storage.multiRemove(keys.filter(key=>key.startsWith("cache."))).then(err=>{
                 dispatch(finishEraseCache())
             })

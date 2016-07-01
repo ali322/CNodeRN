@@ -1,7 +1,7 @@
 'use strict'
 
 import {
-    REQUEST_TOPICS,RESPONSE_TOPICS,
+    REQUEST_TOPICS,RESPONSE_TOPICS,CLEAR_TOPICS,
     REQUEST_TOPIC,RESPONSE_TOPIC,
     CHANGE_CATEGORY,FILTER_TOPICS,
     START_SAVEREPLY,FINISH_SAVEREPLY,
@@ -78,6 +78,18 @@ export function topicsReducer(state= initialState,action) {
                 ...state,
                 topicsFetching:false,
                 topicsFetched:action.ret.success,
+                categories
+            }
+        case CLEAR_TOPICS:
+            Object.keys(categories).map((category)=>{
+                if(category === state.selectedCategory){
+                    categories[category].list = []
+                    categories[category].pageIndex = 1
+                }
+            })
+            return {
+                ...state,
+                topicsClean:true,
                 categories
             }
         default:

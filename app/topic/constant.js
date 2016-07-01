@@ -1,5 +1,7 @@
 'use strict'
 
+export const CLEAR_TOPICS = "CLEAR_TOPICS"
+
 export const REQUEST_TOPICS = "REQUEST_TOPICS"
 export const RESPONSE_TOPICS = "RESPONSE_TOPICS"
 
