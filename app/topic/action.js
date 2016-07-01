@@ -29,6 +29,10 @@ function responseTopics(ret,category,pageIndex) {
 }
 
 export function fetchTopics(category="",pageIndex=1,pageSize=10,options) {
+    options = {
+        ...options,
+        keyPrefix:"topics."
+    }
     return (dispatch)=>{
         dispatch(requestTopics(category,pageIndex))
         request.get(api.topics,{

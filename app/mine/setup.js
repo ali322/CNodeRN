@@ -8,8 +8,8 @@ import Alert from "../common/component/alert"
 import Toast from "../common/component/toast"
 
 import containerByComponent from "../lib/redux-helper"
-import {clearUser} from "./action"
-import {userReducer} from "./reducer"
+import {clearUser,eraseCache} from "./action"
+import rootReducer from "./reducer"
 
 import defaultStyles from "./stylesheet/setup"
 import preferredThemer from "../common/theme"
@@ -34,20 +34,25 @@ class Setup extends Component{
         userPrefs["preferredTheme"] = enabled? "dark" : "light"
         this.props.saveUserPrefs(userPrefs)
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.cacheErased && this.props.cacheErasing){
+            this._toast.show("缓存清除成功!")
+        }
+    }
     render(){
-        const {userPrefs,navigationActions,styles} = this.props
+        const {userPrefs,navigationActions,styles,actions} = this.props
         return (
             <View style={styles.container}>
             <NavBar title="设置" 
             onLeftButtonClick={navigationActions.popScene} 
             userPrefs={this.props.userPrefs}/>
             <View style={styles.setupPanel}>
-                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]} onPress={actions.eraseCache}>
                     <View style={styles.setupRowLabel}>
                         <Text style={styles.setupRowLabelText}>清除缓存</Text>
                     </View>
                     <View style={styles.setupAccessory}>
-                        <Text style={styles.setupAccessoryText}>无缓存</Text>
+                        <Text style={[styles.setupRowLabelText]}><Icon name="angle-right" size={22} color="#666"/></Text>
                     </View>
                 </TouchableOpacity>
                 <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
@@ -88,4 +93,7 @@ class Setup extends Component{
     }
 }
 
-export default containerByComponent(Setup,userReducer,{clearUser})
+export default containerByComponent(Setup,rootReducer,{clearUser,eraseCache},null,state=>({
+    ...state.userReducer,
+    ...state.cacheReducer
+}))

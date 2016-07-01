@@ -34,3 +34,27 @@ export function clearUser(){
 }
 
 export {fetchUserPrefs,saveUserPrefs} from "../common/action"
+
+function startEraseCache(){
+    return {
+        type:constants.START_ERASECACHE
+    }
+}
+
+function finishEraseCache(){
+    return {
+        type:constants.FINISH_ERASECACHE,
+        finishAt:Date.now()
+    }
+}
+
+export function eraseCache(){
+    return dispatch=>{
+        dispatch(startEraseCache())
+        global.storage.getAllKeys().then(keys=>{
+            global.storage.multiRemove(keys.filter(key=>key.startsWith("cache."))).then(err=>{
+                dispatch(finishEraseCache())
+            })
+        })
+    }
+}

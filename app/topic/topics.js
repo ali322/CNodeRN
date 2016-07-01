@@ -49,7 +49,6 @@ class Topics extends Component{
         this.props.actions.fetchTopics(selectedCategory,categories[selectedCategory].pageIndex + 1)
     }
     handleRefresh(){
-        console.log("handleRefresh")
         this.props.actions.fetchTopics(this.props.selectedCategory,1,10,{caching:false})
     }
     handleSearch(keyword){

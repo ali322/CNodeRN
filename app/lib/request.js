@@ -1,24 +1,30 @@
 'use strict'
 
 export default {
-    get(url,data={},options={
-        caching:"permanent"
-    }){
+    get(url,data={},options){
+        options = {
+            caching:"permanent",
+            ...options
+        }
         let params = []
         Object.keys(data).forEach((param)=>{
             params.push(`${param}=${encodeURIComponent(data[param])}`)
         })
         params = params.join("&")
         url = `${url}?${params}`
+        const cacheKey = options.keyPrefix + url
         if(!options.caching){
+            global.storage.getAllKeys().then(ret=>{
+                global.storage.multiRemove(ret.filter(key=>key.startsWith(options.keyPrefix)))
+            })
             return fetch(url).then(ret=>ret.json())
         }
-        return global.storage.getItem(url).then(cached=>{
+        return global.storage.getItem(cacheKey).then(cached=>{
             if(cached){
                 return cached
             }else{
                 return fetch(url).then(ret=>ret.json()).then(ret=>{
-                    global.storage.setItem(url)
+                    global.cache.setItem(cacheKey,ret)
                     return ret
                 })
             }

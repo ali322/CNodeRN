@@ -29,6 +29,25 @@ export function userReducer(state={},action){
     }
 }
 
+export function cacheReducer(state={},action){
+    switch(action.type){
+        case constants.START_ERASECACHE:
+            return {
+                ...state,
+                cacheErasing:true
+            }
+        case constants.FINISH_ERASECACHE:
+            return {
+                ...state,
+                cacheErasing:false,
+                cacheErased:true
+            }
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
-    ...userReducer
+    userReducer,
+    cacheReducer
 })

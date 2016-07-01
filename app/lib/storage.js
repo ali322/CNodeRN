@@ -15,8 +15,11 @@ class Storge{
     removeItem(key){
         return this._storage.removeItem(key)
     }
+    getAllKeys(){
+        return this._storage.getAllKeys()
+    }
     clear(){
-        return this._storage.clear
+        return this._storage.clear()
     }
     multiRemove(keys){
         return this._storage.multiRemove(keys)
