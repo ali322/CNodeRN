@@ -22,7 +22,9 @@ export function messageCountReducer(state={},action){
 }
 
 export function userPrefsReducer(state={
-    userPrefs:{}
+    userPrefs:{
+        preferredFontSize:14
+    }
 },action){
     switch(action.type){
         case constants.START_SAVEUSERPREFS:

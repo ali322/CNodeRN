@@ -48,11 +48,15 @@ const styles = {
     setupAccessory:{
         width:60,
         flexDirection:"row",
-        justifyContent:"flex-end"
+        justifyContent:"flex-end",
+        alignItems:"center"
+    },
+    setupComplexAccessory:{
+        paddingRight:5
     },
     setupAccessoryText:{
         color:"#666",
-        fontSize:12
+        fontSize:13
     }
 }
 

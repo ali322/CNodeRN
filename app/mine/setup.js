@@ -1,7 +1,7 @@
 'use strict'
 
 import React,{Component} from "react"
-import {View,Text,TouchableHighlight,TouchableOpacity,Switch,Slider} from "react-native"
+import {View,Text,TouchableHighlight,TouchableOpacity,Switch} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import NavBar from "../common/component/navbar"
 import Alert from "../common/component/alert"
@@ -39,6 +39,22 @@ class Setup extends Component{
             this._toast.show("缓存清除成功!")
         }
     }
+    _preferredFontSize(){
+        const {userPrefs} = this.props
+        let _fontSize = "小"
+        switch(userPrefs["preferredFontSize"]){
+            case 14:
+                _fontSize = "小"
+                break
+            case 16:
+                _fontSize = "中"
+                break
+            case 18:
+                _fontSize = "大"
+                break
+        }
+        return _fontSize
+    }
     render(){
         const {userPrefs,navigationActions,styles,actions} = this.props
         return (
@@ -64,14 +80,15 @@ class Setup extends Component{
                         value={userPrefs && userPrefs["preferredTheme"] === "dark"}/>
                     </View>
                 </View>
-                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]} onPress={()=>navigationActions.pushScene("font")}>
                     <View style={styles.setupRowLabel}>
                         <Text style={styles.setupRowLabelText}>字体大小</Text>
                     </View>
-                    <View style={styles.setupRowContent}>
-                        <Slider maximumValue={20} minimumValue={12}/>
+                    <View style={[styles.setupAccessory]}>
+                        <View style={styles.setupComplexAccessory}><Text style={[styles.setupAccessoryText]}>{this._preferredFontSize()}</Text></View>
+                        <Icon name="angle-right" size={22} color="#666"/>
                     </View>
-                </View>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.setupRow} onPress={()=>navigationActions.pushScene("updater")}>
                     <View style={styles.setupRowLabel}>
                         <Text style={styles.setupRowLabelText}>检查更新</Text>
