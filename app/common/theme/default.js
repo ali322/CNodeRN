@@ -11,3 +11,17 @@ export const constants = {
     tabBarItemColor:"#333",
     tabBarSelectedItemColor:"blue"
 }
+
+export const htmlStyles = {
+    p:{
+        color:"#333",
+        fontSize:14
+    },
+    h1:{color:"#333",fontSize:14},
+    h2:{color:"#333",fontSize:14},
+    h3:{color:"#333",fontSize:14},
+    h4:{color:"#333",fontSize:14},
+    h5:{color:"#333",fontSize:14},
+    h6:{color:"#333",fontSize:14},
+    li:{color:"#333",fontSize:14}
+}
