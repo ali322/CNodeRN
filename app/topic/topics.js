@@ -131,7 +131,8 @@ class Topics extends Component{
         onClose={this.toggleSearchActive.bind(this)} userPrefs={this.props.userPrefs}/>
     }
     renderRow(topic){
-        const {styles} = this.props
+        const {styles,userPrefs} = this.props
+        const preferredFontSize = userPrefs["preferredFontSize"]
         const {pushScene} = this.props.navigationActions
         let avatarURL = topic.author.avatar_url
         if (/^\/\/.*/.test(avatarURL)) {
@@ -156,7 +157,7 @@ class Topics extends Component{
                         </View>
                     </View>
                     <View style={styles.topicTitle}>
-                        <Text style={styles.topicTitleText} numberOfLines={2}>{topic.title}</Text>
+                        <Text style={[styles.topicTitleText,{fontSize:preferredFontSize}]} numberOfLines={2}>{topic.title}</Text>
                     </View>
             </Animated.View>
             </TouchableOpacity>
