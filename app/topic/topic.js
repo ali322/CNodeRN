@@ -58,30 +58,30 @@ class Topic extends Component{
         if(!topic){
             return
         }
-        const {user} = this.props
-        if(!user){
+        const {authentication} = this.props
+        if(!authentication){
             this._alert.alert("请先登录","登录",[
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>navigationActions.pushScene("login")}
             ])
         }else{
-            this.props.actions.toggleCollect(id,user.accessToken,topic.is_collect)
+            this.props.actions.toggleCollect(id,authentication.accessToken,topic.is_collect)
         }
     }
     _toggleAgree(replyID){
-        const {navigationActions,user} = this.props
-        if(!user){
+        const {navigationActions,authentication} = this.props
+        if(!authentication){
             this._alert.alert("请先登录","",[
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>navigationActions.pushScene("login")}
             ])
         }else{
-            this.props.actions.toggleAgree(replyID,user.accessToken)
+            this.props.actions.toggleAgree(replyID,authentication.accessToken)
         }
     }
     _toReply(param){
-        const {navigationActions,user} = this.props
-        if(!user){
+        const {navigationActions,authentication} = this.props
+        if(!authentication){
             this._alert.alert("请先登录","",[
                 {text:"取消",style:"cancel"},
                 {text:"确定",onPress:()=>navigationActions.pushScene("login")}

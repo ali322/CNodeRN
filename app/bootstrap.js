@@ -14,7 +14,6 @@ import {fetchUserPrefs,saveUserPrefs,fetchAuthentication,saveAuthentication} fro
 import {userPrefsReducer,authenticationReducer} from "./common/reducer"
 import Storage from "./lib/storage"
 global.storage = new Storage()
-global.cache = new Storage()
 
 import topicScenes from "./topic/scene"
 import collectScenes from "./collect/scene"

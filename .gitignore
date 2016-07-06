@@ -22,6 +22,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+.nyc_output/
 
 # Android/IJ
 #
