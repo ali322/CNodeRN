@@ -10,7 +10,7 @@ var moduleForCompile = [
     "react-native-barcodescanner",
     "react-native-camera",
     "react-native-progress",
-    // "react-native-code-push",
+    "react-native-code-push",
     "react-native-scrollable-tab-view",
     "react-native-spinkit"
 ].map(moduleName=>new RegExp(`/node_modules/${moduleName}`))

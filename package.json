@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "NODE_ENV=test nyc ava --tap | tap-spec",
+    "test": "NODE_ENV=test ava --tap | tap-spec",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "ava": {

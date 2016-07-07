@@ -21,7 +21,7 @@ import preferredThemer from "../common/theme"
 
 @preferredThemer(defaultStyles)
 @offlineDecorator
-class Topics extends Component{
+export class Topics extends Component{
     constructor(props){
         super(props)
         this.state = {
