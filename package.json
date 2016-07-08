@@ -51,8 +51,10 @@
     "eslint": "^2.13.1",
     "eslint-plugin-react": "^5.2.2",
     "nyc": "^6.6.1",
+    "react-addons-test-utils": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-native-mock": "^0.2.4",
+    "sinon": "^1.17.4",
     "tap-spec": "^4.1.1"
   }
 }
