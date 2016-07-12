@@ -26,7 +26,8 @@ export default {
             }else{
                 // console.log("from fetch")
                 return fetch(url).then(ret=>ret.json()).then(ret=>{
-                    global.cache.setItem(cacheKey,ret)
+                    // console.log("ret",ret)
+                    global.storage.setItem(cacheKey,ret)
                     return ret
                 })
             }

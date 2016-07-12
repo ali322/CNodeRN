@@ -42,12 +42,19 @@ export default InnerComponent=>class extends Component{
             isConnected:null
         }
         this._handleNetInfoChange = this._handleNetInfoChange.bind(this)
+    }
+    componentDidMount() {
         NetInfo.isConnected.addEventListener("change",this._handleNetInfoChange)
+        NetInfo.isConnected.fetch().done(isConnected=>{
+            this.setState({isConnected})
+        })
     }
     _handleNetInfoChange(isConnected){
         this.setState({
             isConnected
         })
+    }
+    componentWillUnmount() {
         NetInfo.isConnected.removeEventListener('change',this._handleNetInfoChange)
     }
     render(){
