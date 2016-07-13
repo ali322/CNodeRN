@@ -99,7 +99,7 @@ class NavBar extends Component{
         }
         
         return (
-            <View style={styles.navigationBar}>
+            <View style={styles.navigationBar} name="navigationBar">
             {_leftButton}{_title}{_rightButton}
             </View>
         )
