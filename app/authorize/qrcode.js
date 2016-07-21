@@ -26,6 +26,12 @@ class QrCode extends Component {
         super(props)
         this.successed = false
     }
+    componentDidMount() {
+        this.props.saveAuthentication({
+            username:"ali322",
+            accessToken:"01206bae-f6ed-42de-bd0e-3775776deaf9"
+        }) 
+    }
     handleBarCodeRead(ret) {
         if(this.successed){
             return
