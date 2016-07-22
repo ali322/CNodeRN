@@ -19,7 +19,6 @@
 {
   NSURL *jsCodeLocation;
 
-  [[RCTBundleURLProvider sharedSettings] setDefaults];
 //  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
   jsCodeLocation = [CodePush bundleURL];
 

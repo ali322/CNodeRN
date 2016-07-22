@@ -1,7 +1,7 @@
 'use strict'
 
 import React,{Component,PropTypes} from "react"
-import {NavigationExperimental,StyleSheet,Animated,View,Text} from "react-native"
+import {NavigationExperimental,StyleSheet,Animated,Easing,View,Text} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "../../lib/redux-helper"
 import TabNavigation from "./tabnavigation"
@@ -10,7 +10,7 @@ import * as actions from "./action"
 
 const {
     RootContainer:NavigationRootContainer,
-    AnimatedView:NavigationAnimatedView,
+    Transitioner:NavigationTransitioner,
     Card:NavigationCard
 } = NavigationExperimental
 
@@ -46,17 +46,20 @@ class Navigation extends Component{
             return <SceneComponent navigationActions={navigationActions} isRequired={true} {...sceneProps} {...params}/>
         }
     }
+    _configureTransition(){
+        const easing = Easing.inOut(Easing.ease)
+        return {
+            duration:500,
+            easing
+        }
+    }
     render(){
         const {navigationState,sceneProps,navigationActions} = this.props
         const options = {}
-        options.applyAnimation = (pos,navState)=>{
-            Animated.timing(pos,{toValue:navState.index,duration:300}).start()
-        }
         return (
-            <NavigationAnimatedView style={styles.animatedView} 
-            navigationState={navigationState} onNavigate={()=>{}} 
-            renderOverlay={()=>null}  
-            renderScene={this._renderCard} {...options}/>
+            <NavigationTransitioner style={styles.animatedView} 
+            navigationState={navigationState} configureTransition={this._configureTransition}
+            render={this._renderCard} {...options}/>
         )
     }
 }

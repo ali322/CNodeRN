@@ -22,7 +22,7 @@
     "lodash": "^4.13.1",
     "moment": "^2.13.0",
     "react": "^15.2.1",
-    "react-native": "^0.29.2",
+    "react-native": "^0.30.0",
     "react-native-barcodescanner": "^3.0.0",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-code-push": "^1.13.5-beta",
