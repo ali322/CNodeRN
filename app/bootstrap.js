@@ -56,14 +56,14 @@ class App extends Component{
             <View style={{flex:1}}>
                 <Router initialSceneKey="tabs" sceneProps={sceneProps} 
                 navigationState={this.props.navigationState} dispatch={this.props.dispatch}>
-                    <Scene tabbar={true} key="tabs">
-                        <Scene key="tab_1" title="主题" iconName="coffee">{topicScenes}</Scene>
-                        <Scene key="tab_2" title="收藏" iconName="bookmark" onSelect={this._handleTabSelect}>{collectScenes}</Scene>
-                        <Scene key="tab_3" title="消息" iconName="envelope" iconTag={MessageCounter} onSelect={this._handleTabSelect}>{messageScenes}</Scene>
-                        <Scene key="tab_4" title="我的" iconName="user"  onSelect={this._handleTabSelect}>{mineScenes}</Scene>
+                    <Scene tabbar={true} key="tabs" name="tabs">
+                        <Scene key="tab_1" name="tab_1" title="主题" iconName="coffee">{topicScenes}</Scene>
+                        <Scene key="tab_2" name="tab_2" title="收藏" iconName="bookmark" onSelect={this._handleTabSelect}>{collectScenes}</Scene>
+                        <Scene key="tab_3" name="tab_3" title="消息" iconName="envelope" iconTag={MessageCounter} onSelect={this._handleTabSelect}>{messageScenes}</Scene>
+                        <Scene key="tab_4" name="tab_4" title="我的" iconName="user"  onSelect={this._handleTabSelect}>{mineScenes}</Scene>
                     </Scene>
-                    <Scene key="login" component={Login}/>
-                    <Scene key="qrcode" component={Qrcode}/>
+                    <Scene key="login" name="login" component={Login}/>
+                    <Scene key="qrcode" name="qrcode" component={Qrcode}/>
                 </Router>
                 <Alert ref={view=>this._alert=view}/>
             </View>

@@ -7,8 +7,8 @@ import Reply from "./reply"
 import Publish from "./publish"
 
 export default [
-    <Scene key="topics" component={Topics}/>,
-    <Scene key="topic"  hideTabBar={true} component={Topic}/>,
-    <Scene key="publish" hideTabBar={true} component={Publish}/>,
-    <Scene key="reply" hideTabBar={true} component={Reply}/>
+    <Scene key="topics" name="topics" component={Topics}/>,
+    <Scene key="topic" name="topic"  hideTabBar={true} component={Topic}/>,
+    <Scene key="publish" name="publish" hideTabBar={true} component={Publish}/>,
+    <Scene key="reply" name="reply" hideTabBar={true} component={Reply}/>
 ]

@@ -8,8 +8,8 @@ import Updater from "./updater"
 import FontSwitcher from "./font"
 
 export default [
-    <Scene key="mine" component={Mine}/>,
-    <Scene key="setup" component={Setup}/>,
-    <Scene key="updater" component={Updater}/>,
-    <Scene key="font" component={FontSwitcher}/>
+    <Scene key="mine" name="mine" component={Mine}/>,
+    <Scene key="setup" name="setup" component={Setup}/>,
+    <Scene key="updater" name="updater" component={Updater}/>,
+    <Scene key="font" name="font" component={FontSwitcher}/>
 ]

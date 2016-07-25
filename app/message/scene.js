@@ -5,5 +5,5 @@ import Message from "./message"
 import Reply from "../topic/reply"
 
 export default [
-    <Scene key="message" component={Message}/>
+    <Scene key="message" name="message" component={Message}/>
 ]

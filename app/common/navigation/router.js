@@ -29,9 +29,9 @@ class Router extends Component{
             let nextChildren = null
             if(child.props.children){
                 nextChildren = this._scenesListByChilren(child.props.children)
-                return {key:child.key,...child.props,routes:nextChildren}
+                return {key:child.props.name,...child.props,routes:nextChildren}
             }else{
-                return {key:child.key,...child.props}
+                return {key:child.props.name,...child.props}
             }
         })
         return Immutable(_scenes)
@@ -72,7 +72,7 @@ export class Scene extends Component{
     static propTypes = {
         tabbar:PropTypes.bool,
         component:PropTypes.any,
-        key:PropTypes.string
+        name:PropTypes.string
     }
     render(){
         return null
