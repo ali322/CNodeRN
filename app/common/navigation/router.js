@@ -15,7 +15,6 @@ class Router extends Component{
     constructor(props){
         super(props)
         this._scenes = this._scenesListByChilren(props.children)
-        // this._navigationState = initialStateFromScenes(this._scenes,props.initialSceneKey)
         let injectedActions = {}
         for(let actionName in actions){
             injectedActions[actionName] = (...args)=>{
