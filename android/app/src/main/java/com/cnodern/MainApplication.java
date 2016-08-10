@@ -14,7 +14,6 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.eguma.barcodescanner.BarcodeScannerPackage;
-
 import java.util.Arrays;
 import java.util.List;
 
