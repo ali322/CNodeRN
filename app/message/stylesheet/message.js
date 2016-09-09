@@ -54,7 +54,6 @@ const styles = {
     cellAccessoryText:{
         fontSize:12,
         color:"#FFF"
-        // lineHeight:15
     },
     cellTitle:{
         paddingHorizontal:8,
