@@ -53,10 +53,8 @@ const styles = {
     topicTagText:{
         fontSize:12,
         color:"#666"
-        // lineHeight:15
     },
     topicAccessory:{
-        // width:50
         paddingHorizontal:5
     },
     topicStatic:{
@@ -64,13 +62,11 @@ const styles = {
       color:"#666"  
     },
     topicReply:{
-    //   marginRight:8,
       color:"deeppink",
       fontSize:14,
       fontWeight:"700"  
     },
     topicTitle:{
-        // paddingHorizontal:8,
         paddingVertical:5
     },
     topicTitleText:{
