@@ -40,7 +40,7 @@ export function omit(obj,keys=[]){
 export function codepush(){
     NetInfo.fetch().then(info=>{
         if(__DEV__){
-            // return false
+            return false
         }
         if(Platform.OS === "ios" && info === "wifi"){
             codePush.sync({updateDialog:true},(status)=>{
