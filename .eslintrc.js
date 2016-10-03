@@ -22,7 +22,6 @@ module.exports = {
         "react"
     ],
     "rules": {
-        // "strict": [2, "never"],
         "no-shadow": 2,
         "no-shadow-restricted-names": 2,
         "no-unused-vars": [0, {
