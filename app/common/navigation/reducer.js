@@ -3,12 +3,16 @@
 import {NavigationExperimental} from "react-native"
 import * as constants from "./constant"
 import Immutable from "seamless-immutable"
+import _ from "lodash"
 
 const {
     StateUtils:NavigationStateUtils
 } = NavigationExperimental
 
 function navigationReducer(state={},action) {
+    if(action.type === constants.PUSH_SCENE || action.type === constants.POP_SCENE || action.type === constants.JUMPTO_SCENE){
+        state = _.cloneDeep(state)
+    }
     switch(action.type){
         case constants.PUSH_SCENE:
             if(state.routes[state.index].key === (action.state && action.state.key)){
