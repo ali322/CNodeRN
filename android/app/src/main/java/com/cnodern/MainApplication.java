@@ -20,6 +20,12 @@ import java.util.List;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+
+    @Override
+    protected String getJSBundleFile() {
+      return CodePush.getJSBundleFile();
+    }
+
     @Override
     protected boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -31,7 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),
-            new CodePush(null, this, BuildConfig.DEBUG),
+            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new RCTCameraPackage(),
             new BarcodeScannerPackage()
       );

@@ -29,6 +29,7 @@ module.exports = {
             "args": "after-used"
         }],
         "guard-for-in":0,
+        "no-case-declaration":0,
         "no-invalid-regexp": 2,
         "no-extra-semi": 2,
         "no-extra-boolean-cast": 0,
