@@ -10,6 +10,7 @@ const {
 } = NavigationExperimental
 
 function navigationReducer(state={},action) {
+    //recursion convert to mutable object
     if(action.type === constants.PUSH_SCENE || action.type === constants.POP_SCENE || action.type === constants.JUMPTO_SCENE){
         state = _.cloneDeep(state)
     }
