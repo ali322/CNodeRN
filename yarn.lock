@@ -364,7 +364,7 @@ babel-eslint@^6.1.0:
     lodash.assign "^4.0.0"
     lodash.pickby "^4.0.0"
 
-babel-generator@^6.1.0, babel-generator@^6.18.0:
+babel-generator@^6.1.0, babel-generator@^6.14.0, babel-generator@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.18.0.tgz#e4f104cb3063996d9850556a45aae4a022060a07"
   dependencies:
@@ -2525,7 +2525,7 @@ fast-levenshtein@~2.0.4:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.5.tgz#bd33145744519ab1c36c3ee9f31f08e9079b67f2"
 
-fb-watchman@^1.8.0:
+fb-watchman@^1.8.0, fb-watchman@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/fb-watchman/-/fb-watchman-1.9.0.tgz#6f268f1f347a6b3c875d1e89da7e1ed79adfc0ec"
   dependencies:
@@ -3566,6 +3566,15 @@ istextorbinary@^1.0.2:
     binaryextensions "~1.0.0"
     textextensions "~1.0.0"
 
+jest-haste-map@15.0.1:
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-15.0.1.tgz#1d1c342fa6f6d62d9bc2af76428d2e20f74a44d3"
+  dependencies:
+    fb-watchman "^1.9.0"
+    graceful-fs "^4.1.6"
+    multimatch "^2.1.0"
+    worker-farm "^1.3.1"
+
 jodid25519@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/jodid25519/-/jodid25519-1.0.2.tgz#06d4912255093419477d425633606e0e90782967"
@@ -3949,6 +3958,11 @@ lru-cache@^4.0.0, lru-cache@^4.0.1:
   dependencies:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
+
+lwansbrough/react-native-camera, "react-native-camera@git+https://github.com/lwansbrough/react-native-camera.git":
+  name react-native-camera
+  version "0.3.8"
+  resolved "git+https://github.com/lwansbrough/react-native-camera.git#fb3b12b4f1a2ed8d1b20cc21a9b52117878b2c35"
 
 makeerror@1.0.x:
   version "1.0.11"
@@ -4841,6 +4855,14 @@ re-emitter@^1.0.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/re-emitter/-/re-emitter-1.1.3.tgz#fa9e319ffdeeeb35b27296ef0f3d374dac2f52a7"
 
+react:
+  version "15.3.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
+  dependencies:
+    fbjs "^0.8.4"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+
 react-addons-create-fragment@=15.1.0:
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/react-addons-create-fragment/-/react-addons-create-fragment-15.1.0.tgz#3c2636ea92dda79994ef078a2f6e9dc7ed6a9eaa"
@@ -4881,13 +4903,85 @@ react-dom@^15.1.0:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
 
+react-native:
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.36.0.tgz#3ce19cebcf99e2dc5a889cbb74201ef63ecb6a55"
+  dependencies:
+    absolute-path "^0.0.0"
+    art "^0.10.0"
+    async "^2.0.1"
+    babel-core "^6.10.4"
+    babel-generator "^6.14.0"
+    babel-plugin-external-helpers "^6.8.0"
+    babel-plugin-syntax-trailing-function-commas "^6.5.0"
+    babel-plugin-transform-flow-strip-types "^6.6.5"
+    babel-plugin-transform-object-rest-spread "^6.6.5"
+    babel-polyfill "^6.9.1"
+    babel-preset-es2015-node "^6.1.0"
+    babel-preset-fbjs "^2.0.0"
+    babel-preset-react-native "^1.9.0"
+    babel-register "^6.6.0"
+    babel-types "^6.6.4"
+    babylon "^6.8.2"
+    base64-js "^1.1.2"
+    bser "^1.0.2"
+    chalk "^1.1.1"
+    commander "^2.9.0"
+    connect "^2.8.3"
+    core-js "^2.2.2"
+    debug "^2.2.0"
+    denodeify "^1.2.1"
+    event-target-shim "^1.0.5"
+    fbjs "^0.8.3"
+    fbjs-scripts "^0.7.0"
+    fs-extra "^0.26.2"
+    glob "^5.0.15"
+    graceful-fs "^4.1.3"
+    image-size "^0.3.5"
+    immutable "~3.7.6"
+    inquirer "^0.12.0"
+    jest-haste-map "15.0.1"
+    joi "^6.6.1"
+    json-stable-stringify "^1.0.1"
+    json5 "^0.4.0"
+    jstransform "^11.0.3"
+    lodash "^3.10.1"
+    mime "^1.3.4"
+    mime-types "2.1.11"
+    minimist "^1.2.0"
+    mkdirp "^0.5.1"
+    module-deps "^3.9.1"
+    node-fetch "^1.3.3"
+    npmlog "^2.0.4"
+    opn "^3.0.2"
+    optimist "^0.6.1"
+    plist "^1.2.0"
+    progress "^1.1.8"
+    promise "^7.1.1"
+    react-clone-referenced-element "^1.0.1"
+    react-timer-mixin "^0.13.2"
+    react-transform-hmr "^1.0.4"
+    rebound "^0.0.13"
+    regenerator-runtime "^0.9.5"
+    sane "~1.4.1"
+    semver "^5.0.3"
+    source-map "^0.5.6"
+    stacktrace-parser "^0.1.3"
+    temp "0.8.3"
+    uglify-js "^2.6.2"
+    whatwg-fetch "^1.0.0"
+    wordwrap "^1.0.0"
+    worker-farm "^1.3.1"
+    ws "^1.1.0"
+    xcode "^0.8.9"
+    xmldoc "^0.4.0"
+    yargs "^3.24.0"
+    yeoman-environment "1.5.3"
+    yeoman-generator "0.21.2"
+
 react-native-barcodescanner@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-native-barcodescanner/-/react-native-barcodescanner-3.1.1.tgz#99cdc4e89caac8ac6d5fd844fb6b72b9c4485928"
-
-"react-native-camera@git+https://github.com/lwansbrough/react-native-camera.git":
-  version "0.3.8"
-  resolved "git+https://github.com/lwansbrough/react-native-camera.git#fb3b12b4f1a2ed8d1b20cc21a9b52117878b2c35"
 
 react-native-code-push@^1.15.0-beta:
   version "1.15.0-beta"
@@ -4945,80 +5039,6 @@ react-native-vector-icons@^2.0.3:
     lodash "^4.0.0"
     yargs "^4.7.0"
 
-react-native@^0.35.0:
-  version "0.35.0"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.35.0.tgz#59a53e80109a728a7f6c7c9f0f0899c8b14c13b2"
-  dependencies:
-    absolute-path "^0.0.0"
-    art "^0.10.0"
-    async "^2.0.1"
-    babel-core "^6.10.4"
-    babel-plugin-external-helpers "^6.8.0"
-    babel-plugin-syntax-trailing-function-commas "^6.5.0"
-    babel-plugin-transform-flow-strip-types "^6.6.5"
-    babel-plugin-transform-object-rest-spread "^6.6.5"
-    babel-polyfill "^6.9.1"
-    babel-preset-es2015-node "^6.1.0"
-    babel-preset-fbjs "^2.0.0"
-    babel-preset-react-native "^1.9.0"
-    babel-register "^6.6.0"
-    babel-types "^6.6.4"
-    babylon "^6.8.2"
-    base64-js "^1.1.2"
-    bser "^1.0.2"
-    chalk "^1.1.1"
-    commander "^2.9.0"
-    connect "^2.8.3"
-    core-js "^2.2.2"
-    debug "^2.2.0"
-    denodeify "^1.2.1"
-    event-target-shim "^1.0.5"
-    fbjs "^0.8.3"
-    fbjs-scripts "^0.7.0"
-    fs-extra "^0.26.2"
-    glob "^5.0.15"
-    graceful-fs "^4.1.3"
-    image-size "^0.3.5"
-    immutable "~3.7.6"
-    inquirer "^0.12.0"
-    joi "^6.6.1"
-    json-stable-stringify "^1.0.1"
-    json5 "^0.4.0"
-    jstransform "^11.0.3"
-    lodash "^3.10.1"
-    mime "^1.3.4"
-    mime-types "2.1.11"
-    minimist "^1.2.0"
-    mkdirp "^0.5.1"
-    module-deps "^3.9.1"
-    node-fetch "^1.3.3"
-    npmlog "^2.0.4"
-    opn "^3.0.2"
-    optimist "^0.6.1"
-    plist "^1.2.0"
-    progress "^1.1.8"
-    promise "^7.1.1"
-    react-clone-referenced-element "^1.0.1"
-    react-timer-mixin "^0.13.2"
-    react-transform-hmr "^1.0.4"
-    rebound "^0.0.13"
-    regenerator-runtime "^0.9.5"
-    sane "~1.4.1"
-    semver "^5.0.3"
-    source-map "^0.4.4"
-    stacktrace-parser "^0.1.3"
-    temp "0.8.3"
-    uglify-js "^2.6.2"
-    whatwg-fetch "^1.0.0"
-    wordwrap "^1.0.0"
-    worker-farm "^1.3.1"
-    ws "^1.1.0"
-    xcode "^0.8.9"
-    xmldoc "^0.4.0"
-    yargs "^3.24.0"
-    yeoman-environment "1.5.3"
-    yeoman-generator "0.21.2"
-
 react-proxy@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-1.1.8.tgz#9dbfd9d927528c3aa9f444e4558c37830ab8c26a"
@@ -5049,14 +5069,6 @@ react-transform-hmr@^1.0.4:
   dependencies:
     global "^4.3.0"
     react-proxy "^1.1.7"
-
-react@^15.3.1:
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
-  dependencies:
-    fbjs "^0.8.4"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
@@ -5569,7 +5581,7 @@ source-map@^0.4.2, source-map@^0.4.4:
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@^0.5.0, source-map@^0.5.3, source-map@~0.5.0, source-map@~0.5.1:
+source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.0, source-map@~0.5.1:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
 
