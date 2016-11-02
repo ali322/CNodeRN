@@ -26,7 +26,7 @@
     "react-native-barcodescanner": "^3.0.0",
     "react-native-camera": "lwansbrough/react-native-camera",
     "react-native-code-push": "^1.15.0-beta",
-    "react-native-html-render": "git+https://github.com/ali322/react-native-html-render.git",
+    "react-native-html-render": "^1.0.5",
     "react-native-htmlview": "^0.5.0",
     "react-native-progress": "^3.0.0",
     "react-native-scrollable-tab-view": "^0.6.0",

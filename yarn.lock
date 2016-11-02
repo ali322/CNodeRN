@@ -4991,9 +4991,9 @@ react-native-code-push@^1.15.0-beta:
     inquirer "1.1.2"
     plist "1.2.0"
 
-"react-native-html-render@git+https://github.com/ali322/react-native-html-render.git":
-  version "1.0.3"
-  resolved "git+https://github.com/ali322/react-native-html-render.git#a2f026d8c58dcef719914e711093b08ad34cc1c5"
+react-native-html-render:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-html-render/-/react-native-html-render-1.0.5.tgz#929e7e49ce56a34d2c5073702beedaaa12c2e92f"
 
 react-native-htmlview@^0.5.0:
   version "0.5.0"
