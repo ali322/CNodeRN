@@ -4982,7 +4982,7 @@ react-native-camera@lwansbrough/react-native-camera:
   version "0.3.8"
   resolved "https://codeload.github.com/lwansbrough/react-native-camera/tar.gz/fb3b12b4f1a2ed8d1b20cc21a9b52117878b2c35"
 
-react-native-code-push@^1.15.0-beta:
+react-native-code-push:
   version "1.15.0-beta"
   resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-1.15.0-beta.tgz#6a766ebc950e12a552682e415f55c75a742f7221"
   dependencies:
@@ -4995,7 +4995,7 @@ react-native-html-render:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-html-render/-/react-native-html-render-1.0.5.tgz#929e7e49ce56a34d2c5073702beedaaa12c2e92f"
 
-react-native-htmlview@^0.5.0:
+react-native-htmlview:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-htmlview/-/react-native-htmlview-0.5.0.tgz#1f5fa3396259c1ae031804bf2589f6311e54c0a7"
 
