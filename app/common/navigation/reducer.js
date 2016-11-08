@@ -10,26 +10,43 @@ const {
 } = NavigationExperimental
 
 function navigationReducer(state={},action) {
-    //recursion convert to mutable object
-    if(action.type === constants.PUSH_SCENE || action.type === constants.POP_SCENE || action.type === constants.JUMPTO_SCENE){
-        state = _.cloneDeep(state)
-    }
+    let nextRoutes = state.routes
     switch(action.type){
         case constants.PUSH_SCENE:
             if(state.routes[state.index].key === (action.state && action.state.key)){
                 return state
             }
-            return NavigationStateUtils.push(state,action.state)
+            nextRoutes = nextRoutes.set(nextRoutes.length,action.state)
+            return {
+                ...state,
+                index:nextRoutes.length - 1,
+                routes:nextRoutes
+            }
+            // return NavigationStateUtils.push(state,action.state)
         case constants.POP_SCENE:
             if(state.index === 0 || state.routes.length === 1){
                 return state
             }
-            return NavigationStateUtils.pop(state)
+            nextRoutes = nextRoutes.slice(0,-1)
+            return {
+                ...state,
+                index:nextRoutes.length - 1,
+                routes:nextRoutes
+            }
+            // return NavigationStateUtils.pop(state)
         case constants.JUMPTO_SCENE:
             if(typeof action.key === "string"){
-                return NavigationStateUtils.jumpTo(state,action.key)
+                return {
+                    ...state,
+                    index:indexOfRoute(state,action.key)
+                }
+                // return NavigationStateUtils.jumpTo(state,action.key)
             }
-            return NavigationStateUtils.jumpToIndex(state,action.key)
+            return {
+                ...state,
+                index:action.key
+            }
+            // return NavigationStateUtils.jumpToIndex(state,action.key)
         case constants.RESET_SCENE:
             return {
                 ...state,
@@ -146,6 +163,14 @@ function resolvePath(navigationState,path=[]){
     return path
 }
 
+/**
+ * check route is exist in state
+ * @param {any} state
+ * @param {any} route
+ */
+function indexOfRoute(state,route){
+    return state.routes.map(route=>route.key).indexOf(route.key)
+}
 
 /**
  * focus scene in tabbar
