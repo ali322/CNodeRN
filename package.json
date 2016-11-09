@@ -41,19 +41,19 @@
     "shallowequal": "^0.2.2"
   },
   "devDependencies": {
-    "ava": "^0.15.2",
-    "babel-eslint": "^6.1.0",
+    "ava": "^0.16.0",
+    "babel-eslint": "^7.1.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-react-native": "^1.9.0",
     "codecov": "^1.0.1",
-    "enzyme": "^2.3.0",
-    "eslint": "^2.13.1",
-    "eslint-plugin-react": "^5.2.2",
-    "nyc": "^6.6.1",
-    "react-addons-test-utils": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-native-mock": "^0.2.4",
-    "sinon": "^1.17.4",
+    "enzyme": "^2.5.1",
+    "eslint": "^3.9.1",
+    "eslint-plugin-react": "^6.6.0",
+    "nyc": "^8.4.0",
+    "react-addons-test-utils": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-native-mock": "^0.2.7",
+    "sinon": "^1.17.6",
     "tap-spec": "^4.1.1"
   }
 }
