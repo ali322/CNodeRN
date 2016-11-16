@@ -92,7 +92,7 @@ const rootReducer = combineReducers({
 export default containerByComponent(App,rootReducer,dispatch=>({
     dispatch,
     actions:bindActionCreators({fetchUserPrefs,saveUserPrefs,fetchAuthentication,saveAuthentication},dispatch)
-}),null,state=>({
+}),{},state=>({
     ...state.authenticationReducer,
     ...state.userPrefsReducer,
     navigationState:state.navigationState
