@@ -4,11 +4,11 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
 import com.microsoft.codepush.react.CodePush;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -35,12 +35,12 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-           new RNSpinkitPackage(),
+          new RNSpinkitPackage(),
            new MainReactPackage(),
-            new RCTCameraPackage(),
-            new RNSpinkitPackage(),
             new VectorIconsPackage(),
+            new RNSpinkitPackage(),
             new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+            new RCTCameraPackage(),
             new BarcodeScannerPackage()
       );
     }
