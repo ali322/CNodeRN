@@ -4933,7 +4933,7 @@ react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
-react-dom:
+react-dom@15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
 
@@ -5001,7 +5001,7 @@ react-native-vector-icons:
     lodash "^4.0.0"
     yargs "^6.3.0"
 
-react-native@0.37.0:
+react-native@^0.37.0, react-native@0.37.0:
   version "0.37.0"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.37.0.tgz#d871c752b4d87e46b569fd8be2921d4f9248c87d"
   dependencies:
@@ -5461,6 +5461,13 @@ rimraf@~2.1.4:
 rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
+
+rn-navigation:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/rn-navigation/-/rn-navigation-1.0.9.tgz#2ed0115bb85faf86856dbb08681f5173dc133457"
+  dependencies:
+    react "15.3.2"
+    react-native "^0.37.0"
 
 rndm@1.2.0:
   version "1.2.0"

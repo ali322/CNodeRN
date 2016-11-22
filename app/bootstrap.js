@@ -4,8 +4,8 @@ import React,{Component} from "react"
 import {PropTypes,View,StyleSheet} from "react-native"
 import {combineReducers,bindActionCreators} from "redux"
 import containerByComponent from "./lib/redux-helper"
-import Router,{Scene} from "./common/navigation/router"
-import routerReducer from "./common/navigation/reducer"
+import {Router,routerReducer,Scene} from "rn-navigation"
+import TabBar from "./common/component/tabbar"
 import Alert from "./common/component/alert"
 import Splash from "./common/module/splash"
 import MessageCounter from "./common/module/messagecounter"
@@ -56,7 +56,7 @@ class App extends Component{
             <View style={{flex:1}}>
                 <Router initialSceneKey="tabs" sceneProps={sceneProps} 
                 navigationState={this.props.navigationState} dispatch={this.props.dispatch}>
-                    <Scene tabbar={true} key="tabs" name="tabs">
+                    <Scene tabbar={true} key="tabs" name="tabs" component={TabBar}>
                         <Scene key="tab_1" name="tab_1" title="主题" iconName="coffee">{topicScenes}</Scene>
                         <Scene key="tab_2" name="tab_2" title="收藏" iconName="bookmark" onSelect={this._handleTabSelect}>{collectScenes}</Scene>
                         <Scene key="tab_3" name="tab_3" title="消息" iconName="envelope" iconTag={MessageCounter} onSelect={this._handleTabSelect}>{messageScenes}</Scene>

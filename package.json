@@ -37,6 +37,7 @@
     "redux-logger": "^2.7.4",
     "redux-persist": "^4.0.0-alpha7",
     "redux-thunk": "^2.1.0",
+    "rn-navigation": "^1.0.9",
     "seamless-immutable": "^6.3.0",
     "shallowequal": "^0.2.2"
   },
@@ -51,7 +52,7 @@
     "eslint-plugin-react": "^6.6.0",
     "nyc": "^8.4.0",
     "react-addons-test-utils": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "react-dom": "15.3.2",
     "react-native-mock": "^0.2.7",
     "sinon": "^1.17.6",
     "tap-spec": "^4.1.1"
