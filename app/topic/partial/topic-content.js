@@ -3,6 +3,7 @@
 import React,{Component} from "react"
 import {View,Text,Image,StyleSheet} from "react-native"
 import HTMLRender from "../../common/component/htmlrender"
+import {HtmlView} from "nva-ui"
 
 class TopicContent extends Component{
     render(){
@@ -24,7 +25,7 @@ class TopicContent extends Component{
                     </View>
                 </View>
                 <View style={styles.topicDesc}>
-                    <HTMLRender value={topic.content.replace(/(\n|\r)+$/g,"")} style={htmlStyle}/>
+                    <HtmlView content={topic.content.replace(/(\n|\r)+$/g,"")} style={htmlStyle}/>
                 </View>
                 <View style={[styles.topicComments]}>
                     <Text style={[styles.topicCommentsStatus]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>

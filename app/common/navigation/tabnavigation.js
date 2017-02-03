@@ -2,7 +2,7 @@
 import React,{Component,PropTypes} from "react"
 import {StyleSheet,View,Text} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-import TabBar from "../component/tabbar"
+import TabBar from "./tabbar"
 import Navigation from "./navigation"
 import Router from "./router"
 
@@ -13,11 +13,12 @@ class TabNavigation extends Component{
     }
     render(){
         const {navigationState,navigationActions,sceneProps} = this.props
+        const TabBarComponent = this.props.component?this.props.component:TabBar
         return (
-            <TabBar {...sceneProps} activeIndex={navigationState.index} visible={navigationState.visible}>
+            <TabBarComponent {...sceneProps} activeIndex={navigationState.index} visible={navigationState.visible}>
                 {navigationState.routes.map((item,i)=>{
                     return (
-                        <TabBar.Item key={i} beforeSelect={()=>{
+                        <TabBarComponent.Item key={i} beforeSelect={()=>{
                             const selectable = item.onSelect?item.onSelect(navigationState,navigationActions):true
                             if(selectable){
                                 navigationActions.focusScene(item.key)
@@ -26,10 +27,10 @@ class TabNavigation extends Component{
                         }} 
                         title={item.title} iconName={item.iconName} iconTag={item.iconTag}>
                             <Navigation navigationState={item} navigationActions={navigationActions} sceneProps={sceneProps}/>
-                        </TabBar.Item>
+                        </TabBarComponent.Item>
                     )
                 })}
-            </TabBar>
+            </TabBarComponent>
         )
     }
 }

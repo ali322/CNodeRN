@@ -1,4 +1,3 @@
-'use strict'
 import * as constants from "./constant"
 
 export function pushScene(scenes,key,params){

@@ -1,5 +1,3 @@
-'use strict'
-
 export const PUSH_SCENE = "PUSH_SCENE"
 export const POP_SCENE = "POP_SCENE"
 export const FOCUS_SCENE = "FOCUS_SCENE"

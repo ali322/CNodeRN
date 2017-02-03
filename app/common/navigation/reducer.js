@@ -1,175 +1,174 @@
 'use strict'
 
-import {NavigationExperimental} from "react-native"
+import {
+    NavigationExperimental
+} from "react-native"
 import * as constants from "./constant"
 import Immutable from "seamless-immutable"
-import _ from "lodash"
+import _ from 'lodash'
 
 const {
-    StateUtils:NavigationStateUtils
+    StateUtils: NavigationStateUtils
 } = NavigationExperimental
 
-function navigationReducer(state={},action) {
+function navigationReducer(state = {}, action) {
     let nextRoutes = state.routes
-    switch(action.type){
+    switch (action.type) {
         case constants.PUSH_SCENE:
-            if(state.routes[state.index].key === (action.state && action.state.key)){
+            if (state.routes[state.index].key === (action.state && action.state.key)) {
                 return state
             }
-            nextRoutes = nextRoutes.set(nextRoutes.length,action.state)
-            return {
-                ...state,
-                index:nextRoutes.length - 1,
-                routes:nextRoutes
-            }
-            // return NavigationStateUtils.push(state,action.state)
-        case constants.POP_SCENE:
-            if(state.index === 0 || state.routes.length === 1){
-                return state
-            }
-            nextRoutes = nextRoutes.slice(0,-1)
-            return {
-                ...state,
-                index:nextRoutes.length - 1,
-                routes:nextRoutes
-            }
-            // return NavigationStateUtils.pop(state)
-        case constants.JUMPTO_SCENE:
-            if(typeof action.key === "string"){
-                return {
-                    ...state,
-                    index:indexOfRoute(state,action.key)
-                }
-                // return NavigationStateUtils.jumpTo(state,action.key)
-            }
-            return {
-                ...state,
-                index:action.key
-            }
-            // return NavigationStateUtils.jumpToIndex(state,action.key)
-        case constants.RESET_SCENE:
-            return {
-                ...state,
-                index:0,
-                routes:[]
-            }
-        case constants.RELOAD_SCENE:
-            return state.update("routes",children=>{
-                return children.map((child,i)=>{
-                    return {
-                        ...child,
-                        _mark:Date.now()
-                    }
-                })
+            nextRoutes = nextRoutes.set(nextRoutes.length, action.state)
+            return state.merge({
+                animationStyle:action.style,
+                index: nextRoutes.length - 1,
+                routes: nextRoutes
             })
+        case constants.POP_SCENE:
+        case constants.BACKTO_SCENE:
+            if (state.index === 0 || state.routes.length === 1) {
+                return state
+            }
+            nextRoutes = nextRoutes.slice(0, -1)
+            if (action.type === constants.BACKTO_SCENE) {
+                nextRoutes = _.takeWhile(nextRoutes, {
+                    key: action.key
+                })
+            }
+            return state.merge({
+                animationStyle:action.style,
+                index: nextRoutes.length - 1,
+                routes: nextRoutes
+            })
+        case constants.FOCUS_SCENE:
+            return focusScene(state, action.key)
+        case constants.JUMPTO_SCENE:
+            return jumpToScene(state, action)
+        case constants.REPLACE_SCENE:
+            nextRoutes = nextRoutes.set(nextRoutes.length - 1, action.state)
+            return state.merge({
+                animationStyle:action.style,
+                routes: nextRoutes
+            })
+        case constants.RESET_SCENE:
+            return state.merge({
+                index: 0,
+                routes: []
+            })
+        case constants.RELOAD_SCENE:
+            return state.update("routes", children => {
+                return children.flatMap(child => {
+                    return child.set('_mark', Date.now()).set('params', action.params)
+                })
+            }).set('animationStyle',action.style)
         default:
             return state
     }
 }
 
 let initialState = Immutable({
-    index:0,
-    key:"root",
-    routes:[]
+    index: 0,
+    key: "root",
+    routes: []
 })
-    
-export default function routerReducer(navigationState=initialState,action){
-    if(!Immutable.isImmutable(navigationState)){
-        navigationState = Immutable.from(navigationState)
+
+export default function routerReducer(navigationState = initialState, action) {
+    if (action.type === constants.RESET_SCENE || action.type === constants.FOCUS_SCENE) {
+        return navigationReducer(navigationState, action)
     }
-    let scene,path,nextScene
-    path = resolvePath(navigationState)
-    if(action.type === constants.PUSH_SCENE){
-        scene = locateScene(action.scenes,action.key)
-        if(!scene){
+    let scene = {}
+    if (action.type === constants.PUSH_SCENE || action.type === constants.REPLACE_SCENE) {
+        scene = locateScene(action.scenes, action.key)
+        if (!scene) {
             return navigationState
         }
-        nextScene = scene
         //initialize tabbar scene state
-        if(scene.tabbar){
-            nextScene = scene.set("routes",scene.routes.map((item,i)=>{
-                return {
-                    index:0,
-                    ...item,
-                    routes:[item.routes[0]]
-                }
-            })).set("index",0)
+        if (scene.tabbar) {
+            scene = scene.set("routes", scene.routes.flatMap((item, i) => {
+                return item.merge({
+                    index: 0,
+                    routes: item.routes.slice(0, 1)
+                })
+            })).set("index", 0)
         }
-        if(navigationState.routes.length === 0){
-            navigationState = navigationState.setIn(["routes",0],nextScene)
-            return navigationState
+        //push initial scene
+        if (navigationState.routes.length === 0) {
+            return navigationState.setIn(["routes", 0], scene)
         }
     }
-    if(action.type === constants.POP_SCENE){
-        nextScene = getInPath(navigationState,path).routes.slice(-2,-1)[0]
-    }
-    //toggle tabbar visible
-    if(path.length > 2 && (action.type === constants.POP_SCENE || action.type === constants.PUSH_SCENE)){
-        const tabbarPath = path.slice(0,-2)
-        const tabbarScene = getInPath(navigationState,tabbarPath)
-        if(tabbarScene){
+    let path = resolvePath(navigationState)
+        //toggle tabbar visible
+    if (path.length > 2 && (action.type === constants.POP_SCENE ||
+            action.type === constants.PUSH_SCENE ||
+            action.type === constants.JUMPTO_SCENE ||
+            action.type === constants.BACKTO_SCENE)) {
+        if (action.type === constants.POP_SCENE) {
+            scene = _.get(navigationState, path).routes.slice(-2, -1)[0]
+        }
+        if (action.type === constants.BACKTO_SCENE) {
+            scene = _.get(navigationState, path).routes.find(v => v.key === action.key)
+        }
+        const tabbarPath = path.slice(0, -2)
+        const tabbarScene = _.get(navigationState, tabbarPath)
+        if (tabbarScene) {
             navigationState = navigationState.updateIn(tabbarPath,
-                tabbarState=>tabbarState.set("visible",typeof nextScene.hideTabBar === "boolean"?!nextScene.hideTabBar:true)
+                tabbarState => tabbarState.set("visible", typeof scene.hideTabBar === "boolean" ? !scene.hideTabBar : true)
             )
         }
     }
-    //switch scene between tabs
-    if(action.type === constants.FOCUS_SCENE){
-        return focusScene(navigationState,action.key)
+
+    function nestReducer(navState, navAction, scenePath) {
+        return scenePath.length > 0 ? navState.updateIn(scenePath, nestNavState => navigationReducer(nestNavState, navAction)) :
+            navigationReducer(navState, navAction)
     }
-    function nestReducer(navState,navAction,scenePath){
-        return scenePath.length > 0?navState.updateIn(scenePath,nestNavState=>navigationReducer(nestNavState,navAction)):
-            navigationReducer(navState,navAction)
-    }
-    switch(action.type){
+
+    switch (action.type) {
+        case constants.REPLACE_SCENE:
         case constants.PUSH_SCENE:
             const injectedAction = {
-                type:action.type,
-                state:{
-                    params:action.params,
-                    ...nextScene,
-                    key:action.key
+                type: action.type,
+                style: action.style,
+                state: {
+                    params: action.params,
+                    ...scene,
+                    key: action.key
                 }
             }
-            navigationState = nestReducer(navigationState,injectedAction,path)
+            navigationState = nestReducer(navigationState, injectedAction, path)
             break
         case constants.POP_SCENE:
-        case constants.JUMPTO_SCENE:
+        case constants.BACKTO_SCENE:
         case constants.RELOAD_SCENE:
-            navigationState = nestReducer(navigationState,action,path)
+            navigationState = nestReducer(navigationState, action, path)
             break
-        case constants.RESET_SCENE:
-            navigationState = navigationReducer(navigationState,action)
+        case constants.JUMPTO_SCENE:
+            navigationState = nestReducer(navigationState, action, path.slice(0, -2))
             break
     }
     return navigationState
 }
 
 /**
- * resolve current scene path
- * @param {Object} navigationState
- * @param {Array<String>} [path=[]]
- * @returns Array<String>
+ * jumpTo siblings tab scene
  */
-function resolvePath(navigationState,path=[]){
-    if(navigationState.routes.length > 0){
-        const scene = navigationState.routes[navigationState.index]
-        if(scene.tabbar && scene.routes.length > 0){
-            path = resolvePath(scene.routes[scene.index],
-                [...path,"routes",navigationState.index,"routes",scene.index]
-            )
+function jumpToScene(navigationState, action) {
+    let tabIndex = 0,
+        subIndex = 0
+    navigationState.routes.forEach((tab, i) => {
+        const _index = tab.routes.findIndex(v => v.key == action.key)
+        if (_index >= 0) {
+            subIndex = _index
+            tabIndex = i
         }
-    }
-    return path
-}
-
-/**
- * check route is exist in state
- * @param {any} state
- * @param {any} route
- */
-function indexOfRoute(state,route){
-    return state.routes.map(route=>route.key).indexOf(route.key)
+    })
+    let nextState = navigationState.set('index', tabIndex)
+    nextState = nextState.updateIn(['routes', tabIndex], tab => {
+        let nextTab = tab.set('index', subIndex)
+        nextTab = nextTab.set('routes', nextTab.routes.slice(0, subIndex + 1))
+        nextTab = nextTab.updateIn(['routes', subIndex], v => v.set('params', action.params))
+        return nextTab
+    })
+    return nextState
 }
 
 /**
@@ -178,19 +177,19 @@ function indexOfRoute(state,route){
  * @param {String} key
  * @returns Object
  */
-function focusScene(navigationState,key){
-    return navigationState.set("routes",navigationState.routes.map((scene,i)=>{
-        if(scene.tabbar){
-            for(let j in scene.routes){
+function focusScene(navigationState, key) {
+    return navigationState.set("routes", navigationState.routes.map((scene, i) => {
+        if (scene.tabbar) {
+            for (let j in scene.routes) {
                 const subScene = scene.routes[j]
-                if(subScene.key === key){
-                    scene = scene.set("index",Number(j))
+                if (subScene.key === key) {
+                    scene = scene.set("index", Number(j))
                     break
                 }
-                for(let k in subScene.routes){
+                for (let k in subScene.routes) {
                     const innerScene = subScene.routes[k]
-                    if(innerScene.routes && innerScene.routes.length > 0){
-                        scene = scene.updateIn(["routes",j,"routes",k],nestScene=>focusScene(nestScene,key))
+                    if (innerScene.routes && innerScene.routes.length > 0) {
+                        scene = scene.updateIn(["routes", j, "routes", k], nestScene => focusScene(nestScene, key))
                     }
                 }
             }
@@ -199,28 +198,43 @@ function focusScene(navigationState,key){
     }))
 }
 
+/**
+ * resolve scene path
+ * @param {Object} navigationState
+ * @param {Array<String>} [path=[]]
+ * @returns {Array<String>} path
+ */
+function resolvePath(navigationState, key = '', path = []) {
+    if (navigationState.routes.length > 0) {
+        const scene = key ? navigationState.routes.find(v => v.key === key) : navigationState.routes[navigationState.index]
+        if (scene.tabbar && scene.routes.length > 0) {
+            path = resolvePath(scene.routes[scene.index], key, [...path, "routes", navigationState.index, "routes", scene.index])
+        }
+    }
+    return path
+}
 
 /**
- * get scene from sceneMap by key
+ * get specified scene from sceneTree
  * @param {Array<Object>} scenes
  * @param {String} key
  * @param {Array<String>} [path=[]]
- * @returns Object
+ * @returns {Object} scene
  */
-function locateScene(scenes,key,path=[]) {
+function locateScene(scenes, key, path = []) {
     let _scene = null
-    if(key){
-        for(let i in scenes){
+    if (key) {
+        for (let i in scenes) {
             const scene = scenes[i]
-            if(scene.key === key){
+            if (scene.key === key) {
                 _scene = scene
                 break
             }
-            if(scene.tabbar){
-                for(let j in scene.routes){
+            if (scene.tabbar) {
+                for (let j in scene.routes) {
                     const item = scene.routes[j]
-                    _scene = locateScene(item.routes,key,[...path,"routes",i,"routes",j])
-                    if(_scene){
+                    _scene = locateScene(item.routes, key, [...path, "routes", i, "routes", j])
+                    if (_scene) {
                         break
                     }
                 }
@@ -228,17 +242,4 @@ function locateScene(scenes,key,path=[]) {
         }
     }
     return _scene
-}
-
-/**
- * get scene by path
- * @param {Object} obj
- * @param {Array<String>} [path=[]]
- * @returns Object
- */
-function getInPath(obj,path=[]){
-    for(var i =0,l = path.length;obj!== null && i < l;i++){
-        obj = obj[path[i]]
-    }
-    return (i && i === l)?obj:null
 }

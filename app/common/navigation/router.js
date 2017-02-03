@@ -1,20 +1,17 @@
-'use strict'
-
-import React,{Component,PropTypes} from "react"
+import React,{Component,PropTypes,PureComponent} from "react"
 import {BackAndroid} from "react-native"
 import TabNavigation from "./tabnavigation"
 import Navigation from "./navigation"
-import {combineReducers,bindActionCreators} from "redux"
-import containerByComponent from "../../lib/redux-helper"
+import {bindActionCreators} from "redux"
 import routerReducer from "./reducer"
 import * as actions from "./action"
 import Immutable from "seamless-immutable"
 import _ from "lodash"
 
-class Router extends Component{
+class Router extends PureComponent{
     constructor(props){
         super(props)
-        this._scenes = this._scenesListByChilren(props.children)
+        this._scenes = this._sceneTree(props.children)
         let injectedActions = {}
         for(let actionName in actions){
             injectedActions[actionName] = (...args)=>{
@@ -22,6 +19,20 @@ class Router extends Component{
             }
         }
         this._navigationActions = bindActionCreators(injectedActions,props.dispatch)
+    }
+    _sceneTree(chilren){
+        const _scenes = React.Children.map(chilren,(child)=>{
+            let _scene
+            if(child.props.children){
+                _scene = {key:child.props.name,...child.props,routes:this._sceneTree(child.props.children)}
+            }else{
+                _scene = {key:child.props.name,...child.props}
+            }
+            delete _scene['name']
+            delete _scene['children']
+            return _scene
+        })
+        return Immutable(_scenes)
     }
     _scenesListByChilren(chilren){
         const _scenes = React.Children.map(chilren,(child)=>{
@@ -44,16 +55,6 @@ class Router extends Component{
             this._navigationActions.popScene()
             return true
         })
-    }
-    componentWillReceiveProps(nextProps){
-        const sceneProps = this.props.sceneProps
-        const nextSceneProps = nextProps.sceneProps
-        if(_.isEqual(sceneProps,nextSceneProps) === false){
-            this._navigationActions.reloadScene()
-        }
-        if(nextProps.navigationState.routes.length === 0){
-            this._navigationActions.pushScene(this.props.initialSceneKey)
-        }
     }
     render(){
         const {navigationState,sceneProps,initialSceneKey} = this.props
