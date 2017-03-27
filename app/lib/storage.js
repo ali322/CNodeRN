@@ -1,5 +1,3 @@
-'use strict'
-
 import {AsyncStorage} from "react-native"
 
 class Storge{

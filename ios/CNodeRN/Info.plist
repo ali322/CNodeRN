@@ -4,10 +4,12 @@
   <dict>
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>CNodeRN</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
-    <string>org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)</string>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
@@ -20,16 +22,17 @@
     <string>????</string>
     <key>CFBundleVersion</key>
     <string>1</string>
-    <key>CodePushDeploymentKey</key>
-    <string>Ek6vUb1FKsWFfYOt1k24N80yszoR4JhlxojfW</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
     <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
       <key>NSExceptionDomains</key>
       <dict>
+        <key>cnodejs.org</key>
+        <dict>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key>
+          <true/>
+        </dict>
         <key>localhost</key>
         <dict>
           <key>NSExceptionAllowsInsecureHTTPLoads</key>
@@ -38,11 +41,11 @@
       </dict>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>we need open your iphone's camera</string>
+    <string>need access camera</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>we need your iphone's Micro privacy</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>need access photo</string>
     <key>UIAppFonts</key>
     <array>
       <string>Entypo.ttf</string>
@@ -50,11 +53,14 @@
       <string>FontAwesome.ttf</string>
       <string>Foundation.ttf</string>
       <string>Ionicons.ttf</string>
+      <string>MaterialCommunityIcons.ttf</string>
       <string>MaterialIcons.ttf</string>
       <string>Octicons.ttf</string>
       <string>SimpleLineIcons.ttf</string>
       <string>Zocial.ttf</string>
     </array>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
     <array>
       <string>armv7</string>
@@ -67,5 +73,7 @@
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
+    <key>CodePushDeploymentKey</key>
+    <string>deployment-key-here</string>
   </dict>
 </plist>

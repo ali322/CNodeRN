@@ -1,0 +1,8 @@
+export const START_LOGIN = "START_LOGIN"
+export const FINISH_LOGIN = "FINISH_LOGIN"
+
+export const REQUEST_AUTH = "REQUEST_AUTH"
+export const RESPONSE_AUTH = "RESPONSE_AUTH"
+
+export const START_SAVEAUTH = "START_SAVEAUTH"
+export const FINISH_SAVEAUTH = "FINISH_SAVEAUTH"

@@ -1,19 +1,16 @@
 package com.cnodern;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
 import com.microsoft.codepush.react.CodePush;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.eguma.barcodescanner.BarcodeScannerPackage;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,26 +25,30 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     @Override
-    protected boolean getUseDeveloperSupport() {
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new RNSpinkitPackage(),
-           new MainReactPackage(),
-            new VectorIconsPackage(),
-            new RNSpinkitPackage(),
+          new MainReactPackage(),
             new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-            new RCTCameraPackage(),
-            new BarcodeScannerPackage()
+            new RNSpinkitPackage(),
+            new VectorIconsPackage(),
+            new RCTCameraPackage()
       );
     }
   };
 
   @Override
   public ReactNativeHost getReactNativeHost() {
-      return mReactNativeHost;
+    return mReactNativeHost;
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
   }
 }

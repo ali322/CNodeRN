@@ -1,5 +1,3 @@
-'use strict'
-
 const apiHost = "http://cnodejs.org/api/v1"
 
 export default {
