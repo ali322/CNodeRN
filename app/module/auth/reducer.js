@@ -1,7 +1,9 @@
 import * as constants from "./constant"
 
-export function authReducer(state = {}, action) {
-    let user = null
+export function authReducer(state = {
+    auth: { isLogined: false }
+}, action) {
+    let auth = { ...state.auth }
     switch (action.type) {
         case constants.START_LOGIN:
             return {
@@ -10,7 +12,7 @@ export function authReducer(state = {}, action) {
             }
         case constants.FINISH_LOGIN:
             if (action.payload.ret.success) {
-                user = {
+                auth = {
                     username: action.payload.ret.loginname,
                     accessToken: action.payload.token
                 }
@@ -19,7 +21,7 @@ export function authReducer(state = {}, action) {
                 ...state,
                 isLogining: false,
                 isLogined: action.payload.ret.success,
-                user
+                auth
             }
         case constants.REQUEST_AUTH:
             return {
@@ -28,11 +30,14 @@ export function authReducer(state = {}, action) {
                 authFetched: false
             }
         case constants.RESPONSE_AUTH:
+            if(action.ret){
+                auth = action.ret
+            }
             return {
                 ...state,
                 authFetched: true,
                 authFetching: false,
-                auth: action.ret
+                auth
             }
         case constants.START_SAVEAUTH:
             return {

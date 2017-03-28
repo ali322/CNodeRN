@@ -1,4 +1,4 @@
-export const constants = {
+export const styleConstants = {
     loadingColor:"#333333",
     loadMoreColor:"#333333",
     collectIconColor:"#333333",
@@ -23,3 +23,5 @@ export const htmlStyles = {
     h6:{color:"#333",fontSize:14},
     li:{color:"#333",fontSize:14}
 }
+
+export const styles = {}

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Platform } from 'react-native'
+import SplashScreen from 'react-native-splash-screen'
 import { StackNavigator, addNavigationHelpers } from 'react-navigation'
 import container from 'redux-container'
 import { combineReducers } from 'redux'
@@ -39,18 +40,26 @@ const rootReducer = combineReducers({
     nav: state.navReducer
 }))
 class App extends React.Component {
+    static childContextTypes = {
+        auth: PropTypes.object.isRequired,
+        userPrefs: PropTypes.object.isRequired
+    }
+    getChildContext() {
+        const { userPrefs, auth } = this.props.root
+        return { auth, userPrefs }
+    }
     componentDidMount() {
         const { fetchAuth, fetchUserPrefs, fetchMessageCount } = this.props.actions
         fetchAuth()
         fetchUserPrefs()
         fetchMessageCount()
+        SplashScreen.hide()
     }
     render() {
-        const { userPrefs, auth } = this.props.root
         return <AppNavigator navigation={addNavigationHelpers({
             dispatch:this.props.dispatch,
             state:this.props.nav
-        })} screenProps={{userPrefs,auth}}/>
+        })}/>
     }
 }
 

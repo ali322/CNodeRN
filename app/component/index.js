@@ -1,4 +1,4 @@
-export HtmlRender from './html-render'
+export HtmlView from './html-view.js'
 export Tabs from './tab.js'
 export Scanner from './scanner'
 export Toast from './toast'

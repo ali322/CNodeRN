@@ -5,7 +5,6 @@ import ScrollabelTabView from 'react-native-scrollable-tab-view'
 import container from 'redux-container'
 import { topicsReducer } from './reducer'
 import { fetchTopics, filterTopics } from './action'
-import { mapProps } from '../../lib/hoc'
 import preferredThemer from '../../theme/'
 import defaultStyles from './stylesheet/topics'
 import { Tabs,LoadMore,Loading } from '../../component/'
@@ -39,7 +38,6 @@ const initialState = {
     ]
 }
 
-@mapProps('screenProps')
 @preferredThemer(defaultStyles)
 @container(topicsReducer, initialState, { fetchTopics, filterTopics },state=>({
     ...state,
@@ -134,7 +132,7 @@ class Topics extends React.Component {
         )
     }
     render() {
-        const { styles, categories, styleConstants, selected ,topicsFetching,userPrefs} = this.props
+        const { styles, categories, styleConstants, selected ,topicsFetching} = this.props
         const renderTabBar = () => (
             <Tabs style={styles.tab} 
                 selectedStyle={styles.selectedTab}>
@@ -151,7 +149,7 @@ class Topics extends React.Component {
             onRefresh={this.handleRefresh}/>
         )
         const renderFooter = () => categories[selected].list.length > 0 ?
-            <LoadMore active={topicsFetching} userPrefs={userPrefs}/> : null
+            <LoadMore active={topicsFetching}/> : null
         const renderSeparator = (sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
         return (
             <View style={styles.container}>

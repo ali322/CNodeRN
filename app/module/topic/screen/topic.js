@@ -4,12 +4,10 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import container from 'redux-container'
 import { topicReducer } from '../reducer'
 import { fetchTopic,toggleAgree,toggleCollect } from '../action'
-import { mapProps } from '../../../lib/hoc'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/topic'
-import { HTMLRender, Loading, Alert,Header } from '../../../component/'
+import { HtmlView, Loading, Alert,Header } from '../../../component/'
 
-@mapProps('screenProps')
 @preferredThemer(defaultStyles)
 @container(topicReducer, {}, { fetchTopic,toggleAgree,toggleCollect })
 class Topic extends React.Component {
@@ -99,7 +97,7 @@ class Topic extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <View style={[styles.topicDesc]}>
-                    <Text>{reply.content.replace(/(\n|\r)+$/g,"")}</Text>
+                    <HtmlView value={reply.content.replace(/(\n|\r)+$/g,"")} style={htmlStyles}/>
                 </View>
             </View>
         )
@@ -124,7 +122,7 @@ class Topic extends React.Component {
                 </View>
                 <Text style={styles.topicTitle}>{topic.title}</Text>
                 <View style={styles.topicDesc}>
-                    <Text>{topic.content.replace(/(\n|\r)+$/g,"")}</Text>
+                    <HtmlView value={topic.content.replace(/(\n|\r)+$/g,"")} style={htmlStyles}/>
                 </View>
                 <View style={[styles.topicComments]}>
                     <Text style={[styles.topicCommentsStatus]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
@@ -160,14 +158,14 @@ class Topic extends React.Component {
         )
     }
     render() {
-        const { styles, topic, styleConstants,userPrefs } = this.props
+        const { styles, topic, styleConstants } = this.props
         const {goBack} = this.props.navigation
         if (!topic) {
             return <Loading color={styleConstants.loadingColor}/>
         }
         return (
             <View style={styles.container}>
-                <Header title="详情" userPrefs={userPrefs} onLeftButtonClick={()=>goBack(null)} rightButton={this.renderHeaderButtons()}/>
+                <Header title="详情" onLeftButtonClick={()=>goBack(null)} rightButton={this.renderHeaderButtons()}/>
                 <ListView dataSource={this.state.replyDataSource} renderRow={this.renderReply}
                 renderHeader={this.renderContent}/>
                 <Alert ref={view=>this._alert=view} />

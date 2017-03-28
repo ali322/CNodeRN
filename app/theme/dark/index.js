@@ -2,7 +2,7 @@ import common from "./common"
 import listview from "./listview"
 import modules from "./modules"
 
-export {constants} from "./constant"
+export {constants as styleConstants} from "./constant"
 export {htmlStyles} from "./html-style"
 
 

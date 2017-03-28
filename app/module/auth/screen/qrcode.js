@@ -4,9 +4,7 @@ import { Toast, Scanner } from '../../../component/'
 import { connected } from 'redux-container'
 import { login, saveAuth } from '../action'
 import { Header } from '../../../component/'
-import { mapProps } from '../../../lib/hoc'
 
-@mapProps('screenProps')
 @connected({ login, saveAuth })
 class QrCode extends React.Component {
     constructor(props) {
@@ -35,12 +33,10 @@ class QrCode extends React.Component {
         }
     }
     render() {
-        const { userPrefs } = this.props
         const { goBack } = this.props.navigation
-        console.log(this.props)
         return (
             <View style={styles.container}>
-                <Header leftButton="返回" onLeftButtonClick={()=>goBack(null)} userPrefs={userPrefs}/>
+                <Header leftButton="返回" onLeftButtonClick={()=>goBack(null)}/>
                 <Scanner onBarCodeRead={this.handleBarCodeRead.bind(this)}/>
                 <Toast ref={(view)=>this.toast=view}/>
             </View>

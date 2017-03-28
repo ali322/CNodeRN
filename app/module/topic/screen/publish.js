@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
-import { mapProps } from '../../../lib/hoc'
 import container from 'redux-container'
 import { topicReducer } from '../reducer'
 import { saveTopic } from '../action'
@@ -15,7 +14,6 @@ const topicTabs = {
     "job": "招聘"
 }
 
-@mapProps('screenProps')
 @preferredThemer(defaultStyles)
 @container(topicReducer, { topic: { tab: "ask", title: "", content: "" } }, { saveTopic })
 class Publish extends React.Component {

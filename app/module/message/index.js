@@ -1,7 +1,6 @@
-import React from 'react'
+import React,{PropTypes} from 'react'
 import { View, Text, ListView, TouchableOpacity, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { mapProps } from '../../lib/hoc'
 import preferredThemer from '../../theme/'
 import container from 'redux-container'
 import { messageReducer } from './reducer'
@@ -10,10 +9,12 @@ import defaultStyles from './stylesheet'
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
 import { HtmlRender, Tabs } from '../../component/'
 
-@mapProps('screenProps')
 @preferredThemer(defaultStyles)
 @container(messageReducer, {}, actions)
 class Mine extends React.Component {
+    static contextTypes = {
+        auth: PropTypes.object.isRequired
+    }
     constructor(props) {
         super(props)
         this.state = {
@@ -30,7 +31,10 @@ class Mine extends React.Component {
     }
     componentDidMount() {
         const { fetchMessages } = this.props.actions
-        fetchMessages("01206bae-f6ed-42de-bd0e-3775776deaf9")
+        const { auth} = this.context
+        if(auth.isLogined){
+            fetchMessages(auth.accessToken)
+        }
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.messagesFetched) {

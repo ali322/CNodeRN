@@ -3,7 +3,7 @@ import {StyleSheet, Platform} from "react-native"
 const styles = {
     container:{
         flex:1,
-        backgroundColor:"#FFF"
+        backgroundColor:"red"
     },
     navigationBarButton:{
         marginRight:8,

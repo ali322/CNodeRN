@@ -133,6 +133,8 @@ const styles = {
     },
     setup:{
         position: 'absolute',
+        width:21,
+        height:21,
         top:30,
         right:12
     }

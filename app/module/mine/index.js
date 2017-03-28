@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { View, Text, ListView, TouchableOpacity, Image, Animated } from 'react-native'
-import { mapProps } from '../../lib/hoc'
 import preferredThemer from '../../theme/'
 import container from 'redux-container'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -9,12 +8,14 @@ import * as actions from './action'
 import defaultStyles from './stylesheet/mine'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import { HtmlRender, Tabs } from '../../component/'
-import {formatTime} from '../../lib/'
+import { formatTime } from '../../lib/'
 
-@mapProps('screenProps')
 @preferredThemer(defaultStyles)
 @container(userReducer, {}, actions)
 class Mine extends React.Component {
+    static contextTypes = {
+        auth: PropTypes.object.isRequired
+    }
     constructor(props) {
         super(props)
         this.state = {
@@ -33,15 +34,21 @@ class Mine extends React.Component {
         this.renderBreif = this.renderBreif.bind(this)
     }
     componentDidMount() {
-        const {auth} = this.props
+        const { auth } = this.context
         const { fetchUser } = this.props.actions
-        fetchUser(auth.username)
+        if (auth.isLogined) {
+            fetchUser(auth.username)
+        }
     }
     renderBreif() {
         const { user, styles } = this.props
+        const { navigate } = this.props.navigation
         if (!user) return null
         return (
             <View style={styles.mineBreif}>
+                <TouchableOpacity style={styles.setup} onPress={()=>navigate('setup')}>
+                    <Icon name='cog' size={22} color="#999" />
+                </TouchableOpacity>
                 <View style={styles.mineAuthorize}>
                     <Image source={{ uri: user.avatar_url }} style={styles.mineAvatar}/>
                     <Text style={styles.mineAuthorizeText}>{user.loginname}</Text>
@@ -106,13 +113,9 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const {styles} = this.props
-        const {navigate} = this.props.navigation
+        const { styles } = this.props
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.setup} onPress={()=>navigate('collect')}>
-                    <Icon name='cog' size={20} color="#999" />
-                </TouchableOpacity>
                 {this.renderBreif()}
                 {this.renderTrends()}
             </View>

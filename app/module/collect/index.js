@@ -1,7 +1,6 @@
-import React from 'react'
+import React,{PropTypes} from 'react'
 import { View, Text, ListView, TouchableOpacity, Animated, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { mapProps } from '../../lib/hoc'
 import preferredThemer from '../../theme/'
 import container from 'redux-container'
 import { collectReducer } from './reducer'
@@ -9,10 +8,12 @@ import * as actions from './action'
 import defaultStyles from './stylesheet'
 import { Header } from '../../component/'
 
-@mapProps('screenProps')
 @preferredThemer(defaultStyles)
 @container(collectReducer, {}, actions)
 class Collect extends React.Component {
+    static contextTypes = {
+        auth: PropTypes.object.isRequired
+    }
     constructor(props) {
         super(props)
         this.state = {
@@ -31,7 +32,10 @@ class Collect extends React.Component {
     }
     componentDidMount(){
         const {fetchCollect} = this.props.actions
-        fetchCollect('ali322')
+        const {auth} = this.context
+        if(auth.isLogined){
+            fetchCollect(auth.username)
+        }
     }
     renderRow(topic) {
         const { styles } = this.props
@@ -66,7 +70,7 @@ class Collect extends React.Component {
     render() {
         return (
             <View>
-                <Header title="收藏" leftButton={null} userPrefs={this.props.userPrefs}/>
+                <Header title="收藏" leftButton={null}/>
                 <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}/>
             </View>
         )
