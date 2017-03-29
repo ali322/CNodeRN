@@ -45,6 +45,7 @@ const homeNavigator = TabNavigator({
     tabBarComponent: TabBar,
     initialRouteName: 'topic',
     tabBarPosition: 'bottom',
+    lazyLoad: true,
     tabBarOptions: {
         labelStyle: {
             fontSize: 12

@@ -7,9 +7,11 @@ import { userReducer, cacheReducer } from './reducer'
 import * as actions from './action'
 import defaultStyles from './stylesheet/mine'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-import { HtmlRender, Tabs } from '../../component/'
+import { HtmlRender, Tabs,Loading } from '../../component/'
 import { formatTime } from '../../lib/'
+import {loginRequired} from '../common/hoc'
 
+@loginRequired()
 @preferredThemer(defaultStyles)
 @container(userReducer, {}, actions)
 class Mine extends React.Component {
@@ -113,7 +115,10 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const { styles } = this.props
+        const { styles,userFetching,styleConstants } = this.props
+        if(userFetching){
+            return <View style={styles.container}><Loading color={styleConstants.loadingColor}/></View>
+        }
         return (
             <View style={styles.container}>
                 {this.renderBreif()}

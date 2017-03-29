@@ -5,13 +5,13 @@ import { isEqual } from 'lodash'
 
 const stylesForAll = {
     header: {
-        height: 40,
+        height: Platform.OS === 'ios' ? 60 : 40,
         borderBottomColor: "#DDD",
         borderBottomWidth: 0.5,
         backgroundColor: "#FFF"
     },
     navigationBar: {
-        // marginTop: Platform.OS === "ios" ? 20 : 0,
+        marginTop: Platform.OS === "ios" ? 20 : 0,
         flexDirection: "row",
         alignItems: "center",
         flex: 1
@@ -97,7 +97,7 @@ class Header extends React.Component {
         const { styles } = this.props
         return (
             <View style={styles.header}>
-            {Platform.OS === "ios"?<StatusBar />:null}
+            {Platform.OS === "ios"?<StatusBar hidden={false}/>:null}
             {this.renderHeader()}
             </View>
         )

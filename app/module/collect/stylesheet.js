@@ -5,8 +5,7 @@ const styles = {
     ...listview,
     container:{
         flex:1,
-        backgroundColor:"#FFF",
-        marginBottom:49
+        backgroundColor:"#FFF"
     },
     topicCell:{
         flex: 1,

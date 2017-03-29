@@ -1,30 +1,38 @@
-import React from 'react'
-import { View,TouchableOpacity,Text,Switch,TouchableHighlight } from 'react-native'
+import React, { PropTypes } from 'react'
+import { View, TouchableOpacity, Text, Switch, TouchableHighlight } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { combineReducers } from 'redux'
 import defaultStyles from '../stylesheet/setup'
 import preferredThemer from '../../../theme/'
-import { mapProps } from '../../../lib/hoc'
-import container from 'redux-container'
+import { connected } from 'redux-container'
 import * as reducers from '../reducer'
 import * as actions from '../action'
 import { saveAuth } from '../../auth/action'
 import { saveUserPrefs } from '../../common/action'
 import { Header, Alert, Toast } from '../../../component/'
+import { mapProps,nav } from '../../common/hoc'
 
 const rootReducer = combineReducers(reducers)
 
+@nav()
 @mapProps('screenProps')
 @preferredThemer(defaultStyles)
-@container(rootReducer, {}, { ...actions, saveAuth, saveUserPrefs }, state => ({
+@connected({ ...actions, saveUserPrefs,saveAuth }, state => ({
     ...state.userReducer,
     ...state.cacheReducer
 }))
 class Setup extends React.Component {
+    static contextTypes = {
+        userPrefs: PropTypes.object.isRequired
+    }
     constructor(props) {
         super(props)
         this.handleLogout = this.handleLogout.bind(this)
         this.handleChangeTheme = this.handleChangeTheme.bind(this)
+        const { preferredTheme } = props.userPrefs
+        this.state = {
+            nightMode: preferredTheme === 'dark'
+        }
     }
     handleLogout() {
         const { goBack } = this.props.navigation
@@ -34,16 +42,21 @@ class Setup extends React.Component {
             {
                 text: "确定",
                 onPress: () => {
-                    saveAuth(null)
-                    goBack()
+                    saveAuth({isLogined:false})
+                    goBack(null)
                 }
             }
         ])
     }
     handleChangeTheme(nightMode) {
-        const {saveUserPrefs} = this.props.actions
-        let userPrefs = { ...this.props.userPrefs, preferredTheme: nightMode ? 'dark' : 'default' }
-        saveUserPrefs(userPrefs)
+        const {goBack} = this.props.navigation
+        const { saveUserPrefs } = this.props.actions
+        let userPrefs = { ...this.context.userPrefs, preferredTheme: nightMode ? 'dark' : 'default' }
+        this.setState({
+            nightMode: !this.state.nightMode
+        },()=>{
+            saveUserPrefs(userPrefs)
+        })
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.cacheErased) {
@@ -51,7 +64,7 @@ class Setup extends React.Component {
         }
     }
     _preferredFontSize() {
-        const { userPrefs } = this.props
+        const { userPrefs } = this.context
         let _fontSize = "小"
         switch (userPrefs["preferredFontSize"]) {
             case 14:
@@ -67,13 +80,14 @@ class Setup extends React.Component {
         return _fontSize
     }
     render() {
-        const { styles, userPrefs, actions } = this.props
+        const { styles, actions } = this.props
+        const { userPrefs } = this.context
         const { goBack, navigate } = this.props.navigation
         return (
             <View style={styles.container}>
-                <Header title="设置" onLeftButtonClick={()=>goBack(null)} userPrefs={userPrefs}/>
+                <Header title="设置" onLeftButtonClick={()=>goBack(null)}/>
                 <View style={styles.setupPanel}>
-                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]} onPress={actions.eraseCache}>
+                <TouchableOpacity style={[styles.setupRow]} onPress={actions.eraseCache}>
                     <View style={styles.setupRowLabel}>
                         <Text style={styles.setupRowLabelText}>清除缓存</Text>
                     </View>
@@ -81,16 +95,16 @@ class Setup extends React.Component {
                         <Text style={[styles.setupRowLabelText]}><Icon name="angle-right" size={22} color="#666"/></Text>
                     </View>
                 </TouchableOpacity>
-                <View style={[styles.setupRow,{borderBottomWidth:0.5}]}>
+                <View style={[styles.setupRow]}>
                     <View style={styles.setupRowLabel}>
                         <Text style={styles.setupRowLabelText}>夜间模式</Text>
                     </View>
                     <View style={styles.setupAccessory}>
                         <Switch style={{marginBottom:1}} onValueChange={this.handleChangeTheme} 
-                        value={userPrefs && userPrefs["preferredTheme"] === "dark"}/>
+                        value={this.state.nightMode}/>
                     </View>
                 </View>
-                <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]} onPress={()=>navigate("font")}>
+                <TouchableOpacity style={[styles.setupRow]} onPress={()=>navigate("font")}>
                     <View style={styles.setupRowLabel}>
                         <Text style={styles.setupRowLabelText}>字体大小</Text>
                     </View>
@@ -109,7 +123,7 @@ class Setup extends React.Component {
                 </TouchableOpacity>
             </View>
             <View style={styles.setupPanel}>
-                <TouchableHighlight style={styles.setupRow} onPress={this.handleLogout}>
+                <TouchableHighlight style={[styles.setupRow,styles.setupSingleRow]} onPress={this.handleLogout}>
                     <Text style={[styles.setupRowLabelText,{color:"#FF3300"}]}>切换用户</Text>
                 </TouchableHighlight>
             </View>

@@ -1,12 +1,14 @@
+import {StyleSheet} from 'react-native'
+
 export default {
     listCell: {
         flexDirection: "row",
         flex: 1,
         padding: 10,
-        backgroundColor:"#FFF"
+        backgroundColor:"transparent"
     },
     cellSeparator:{
-        height:0.5,
+        height:StyleSheet.hairlineWidth,
         backgroundColor:"#DDD"
     },
     cellImage: {

@@ -1,4 +1,4 @@
-import React,{PropTypes} from 'react'
+import React, { PropTypes } from 'react'
 import { View, Text, ListView, TouchableOpacity, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import preferredThemer from '../../theme/'
@@ -7,8 +7,11 @@ import { messageReducer } from './reducer'
 import * as actions from './action'
 import defaultStyles from './stylesheet'
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
-import { HtmlRender, Tabs } from '../../component/'
+import { HtmlView, Tabs,Loading } from '../../component/'
+import { loginRequired,mapProps } from '../common/hoc'
 
+@mapProps('screenProps')
+@loginRequired()
 @preferredThemer(defaultStyles)
 @container(messageReducer, {}, actions)
 class Mine extends React.Component {
@@ -31,12 +34,12 @@ class Mine extends React.Component {
     }
     componentDidMount() {
         const { fetchMessages } = this.props.actions
-        const { auth} = this.context
-        if(auth.isLogined){
+        const { auth } = this.context
+        if (auth.isLogined) {
             fetchMessages(auth.accessToken)
         }
     }
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.messagesFetched) {
             this.setState({
                 unreadDataSource: this.state.unreadDataSource.cloneWithRows(nextProps.messages.hasnot_read_messages),
@@ -63,10 +66,13 @@ class Mine extends React.Component {
                     <Text style={styles.cellSubtitleText}>评论了<Text style={styles.repliedTopicTitle}>{message.topic.title}</Text></Text>
                 </View>
                 <View style={[styles.cellTitle]}>
-                    <HtmlRender value={message.reply.content.replace(/(\n|\r)+$/g,"")} style={htmlStyles}/>
+                    <HtmlView value={message.reply.content.replace(/(\n|\r)+$/g,"")} style={htmlStyles}/>
                 </View>
             </View>
         )
+    }
+    shouldComponentUpdate(){
+        return true
     }
     renderTimeline() {
         const { styles } = this.props
@@ -85,10 +91,10 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const {styles} = this.props
+        const { styles,styleConstants,messagesFetching } = this.props
         return (
             <View style={styles.container}>
-                {this.renderTimeline()}
+                {messagesFetching?<Loading color={styleConstants.loadingColor}/>:this.renderTimeline()}
             </View>
         )
     }

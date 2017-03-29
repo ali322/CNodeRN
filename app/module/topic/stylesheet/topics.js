@@ -37,7 +37,7 @@ const styles = {
     topicCell: {
         flex: 1,
         padding: 10,
-        backgroundColor: "#FFF",
+        backgroundColor: "transparent",
         flexDirection: "column"
     },
     topicImage: {

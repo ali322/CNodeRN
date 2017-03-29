@@ -6,8 +6,10 @@ import container from 'redux-container'
 import { collectReducer } from './reducer'
 import * as actions from './action'
 import defaultStyles from './stylesheet'
-import { Header } from '../../component/'
+import { Header,Loading } from '../../component/'
+import {loginRequired} from '../common/hoc'
 
+@loginRequired()
 @preferredThemer(defaultStyles)
 @container(collectReducer, {}, actions)
 class Collect extends React.Component {
@@ -68,10 +70,14 @@ class Collect extends React.Component {
         )
     }
     render() {
+        const {styles,collectFetching,styleConstants} = this.props
+        const renderSeparator = (sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
         return (
-            <View>
+            <View style={styles.container}>
                 <Header title="收藏" leftButton={null}/>
-                <ListView dataSource={this.state.dataSource} renderRow={this.renderRow}/>
+                {collectFetching?<Loading color={styleConstants.loadingColor}/>:(
+                <ListView dataSource={this.state.dataSource} renderRow={this.renderRow} renderSeparator={renderSeparator}/>
+                )}
             </View>
         )
     }

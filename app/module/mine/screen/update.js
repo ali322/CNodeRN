@@ -6,9 +6,7 @@ import * as Progress from 'react-native-progress'
 import { Header,Toast } from '../../../component/'
 import defaultStyles from '../stylesheet/update'
 import preferredThemer from '../../../theme/'
-import { mapProps } from '../../../lib/hoc'
 
-@mapProps('screenProps')
 @preferredThemer(defaultStyles)
 class Update extends React.Component {
     constructor(props) {
@@ -89,11 +87,11 @@ class Update extends React.Component {
         return <Progress.Bar progress={scale} width={200} color="#666" borderColor="#666"/>
     }
     render() {
-        const {styles,userPrefs} = this.props
+        const {styles} = this.props
         const {goBack} = this.props.navigation
         return (
             <View style={styles.container}>
-                <Header title="更新" onLeftButtonClick={()=>goBack(null)} userPrefs={userPrefs}/>
+                <Header title="更新" onLeftButtonClick={()=>goBack(null)}/>
                 <View style={styles.updaterContainer}>
                 <View style={styles.updaterBreif}>{this.state.progress?this.renderProgress():<Text style={styles.updaterBreifText}>{this.state.syncMessage}</Text>}</View>
                 <View style={styles.updaterButtons}>

@@ -12,14 +12,18 @@ function preferredTheme(userPrefs, defaultStyles) {
     let themeName = userPrefs['preferredTheme']
     let fontSize = userPrefs['preferredFontSize']
     let theme = themes[themeName] ? themes[themeName] : { styles: {}, htmlStyles: {}, constants: {} }
-    theme.styles = mergeWith({...theme.styles}, defaultStyles, (dest, src) => {
-        return [dest,src]
+    let styles = mergeWith({...theme.styles}, defaultStyles, (dest, src) => {
+        return [src,dest]
     })
-    theme.htmlStyles = mapValues(theme.htmlStyles, (v, k) => {
+    let htmlStyles = mapValues(theme.htmlStyles, (v, k) => {
         v = { ...v, fontSize }
         return v
     })
-    return theme
+    return {
+        ...theme,
+        styles,
+        htmlStyles
+    }
 }
 
 const preferredThemer = defaultStyles => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{PropTypes} from 'react'
 import { View, Text, ListView, TouchableOpacity, Animated, Image, RefreshControl, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ScrollabelTabView from 'react-native-scrollable-tab-view'
@@ -44,6 +44,9 @@ const initialState = {
     ...state.screenProps
 }))
 class Topics extends React.Component {
+    static contextTypes = {
+        auth:PropTypes.object.isRequired
+    }
     constructor(props) {
         super(props)
         this.state = {
@@ -159,7 +162,7 @@ class Topics extends React.Component {
                         {v.list.length === 0 && topicsFetching ?<Loading color={loadingColor}/>:(
                             <ListView dataSource={this.state.dataSources[i]} renderRow={this.renderRow} enableEmptySections={true}
                             refreshControl={refreshControl}
-                            onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={6}
+                            onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={8} pageSize={1}
                             renderSeparator={renderSeparator}
                             renderFooter={renderFooter}
                             />

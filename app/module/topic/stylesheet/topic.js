@@ -1,9 +1,11 @@
-import {StyleSheet, Platform} from "react-native"
+import {StyleSheet, Platform,Dimensions} from "react-native"
+
+const screenHeight = Dimensions.get('window').height
 
 const styles = {
     container:{
         flex:1,
-        backgroundColor:"red"
+        backgroundColor:"#FFF"
     },
     navigationBarButton:{
         marginRight:8,
@@ -75,6 +77,9 @@ const styles = {
         marginTop:8,
         paddingVertical:8,
         paddingHorizontal:8
+    },
+    topicContent:{
+        paddingTop:12
     },
     topicContentWeb:{
         flex:1

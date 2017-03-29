@@ -1,6 +1,9 @@
 export default {
-    topicCell:{
+    container:{
         backgroundColor:"#333"
+    },
+    topicCell:{
+        backgroundColor:"transparent"
     },
     topicMintitleText:{
         color:"#999"

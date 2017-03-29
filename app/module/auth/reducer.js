@@ -13,6 +13,7 @@ export function authReducer(state = {
         case constants.FINISH_LOGIN:
             if (action.payload.ret.success) {
                 auth = {
+                    isLogined: true,
                     username: action.payload.ret.loginname,
                     accessToken: action.payload.token
                 }
@@ -31,7 +32,7 @@ export function authReducer(state = {
             }
         case constants.RESPONSE_AUTH:
             if(action.ret){
-                auth = action.ret
+                auth = action.payload
             }
             return {
                 ...state,
@@ -47,7 +48,7 @@ export function authReducer(state = {
         case constants.FINISH_SAVEAUTH:
             return {
                 ...state,
-                auth: action.ret,
+                auth: action.payload,
                 authSaving: false,
                 authSaved: true
             }

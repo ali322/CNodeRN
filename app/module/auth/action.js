@@ -22,6 +22,8 @@ export function login(token){
         dispatch(startLogin())
         request.post(`${api.authorize}`,{accesstoken:token}).then((ret)=>{
             dispatch(finishLogin({ret,token}))
+        }).catch(err=>{
+            // console.log(err)
         })
     }
 }
@@ -32,10 +34,10 @@ function requestAuth() {
     }
 }
 
-function responseAuth(ret){
+function responseAuth(payload){
     return {
         type:constants.RESPONSE_AUTH,
-        ret,
+        payload,
         respondAt:Date.now()
     }
 }
@@ -43,7 +45,7 @@ function responseAuth(ret){
 export function fetchAuth(){
     return dispatch=>{
         dispatch(requestAuth())
-        global.storage.getItem("user").then(ret=>{
+        global.storage.getItem("auth").then(ret=>{
             dispatch(responseAuth(ret))
         })
     }
@@ -55,19 +57,19 @@ function startSaveAuth() {
     }
 }
 
-function finishSaveAuth(ret){
+function finishSaveAuth(payload){
     return {
         type:constants.FINISH_SAVEAUTH,
-        ret,
+        payload,
         finishAt:Date.now()
     }
 }
 
-export function saveAuth(user){
+export function saveAuth(auth){
     return dispatch=>{
         dispatch(startSaveAuth())
-        global.storage.setItem("user",user).then(ret=>{
-            dispatch(finishSaveAuth(user))
+        global.storage.setItem("auth",auth).then(ret=>{
+            dispatch(finishSaveAuth(auth))
         })
     }
 }

@@ -109,7 +109,7 @@ class Topic extends React.Component {
             avatarURL = 'http:' + avatarURL
         }
         return (
-            <View>
+            <View style={styles.topicContent}>
                 <View style={styles.topicBreif}>
                     <Image source={{uri:avatarURL}} style={styles.topicImage}/>
                     <View style={styles.topicSubtitle}>

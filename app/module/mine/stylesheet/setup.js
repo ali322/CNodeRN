@@ -21,13 +21,18 @@ const styles = {
         backgroundColor:"#FFF",
         marginVertical:8
     },
+    setupSingleRow:{
+        paddingVertical:10,
+        borderBottomWidth:0
+    },
     setupRow:{
         flexDirection:"row",
         alignItems:"center",
         justifyContent:"center",
-        borderColor:"#DDD",
+        borderBottomColor:"#DDD",
+        borderBottomWidth:StyleSheet.hairlineWidth,
         paddingHorizontal:12,
-        paddingVertical:15
+        paddingVertical:10
     },
     setupRowLabel:{
         flex:1

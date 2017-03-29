@@ -4,8 +4,7 @@ import listview from "../../common/stylesheet/listview"
 const styles = {
     container:{
         flex:1,
-        backgroundColor:"#FFF",
-        marginBottom:49
+        backgroundColor:"#FFF"
     },
     navigationBarButton:{
         marginRight:8,
