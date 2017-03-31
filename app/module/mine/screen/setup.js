@@ -10,17 +10,17 @@ import * as actions from '../action'
 import { saveAuth } from '../../auth/action'
 import { saveUserPrefs } from '../../common/action'
 import { Header, Alert, Toast } from '../../../component/'
-import { mapProps,nav } from '../../common/hoc'
+import { navUtil } from '../../common/hoc'
 
 const rootReducer = combineReducers(reducers)
 
-@nav()
-@mapProps('screenProps')
-@preferredThemer(defaultStyles)
-@connected({ ...actions, saveUserPrefs,saveAuth }, state => ({
+@navUtil()
+@connected(state => ({
+    ...state.userPrefsReducer,
     ...state.userReducer,
     ...state.cacheReducer
-}))
+}), { ...actions, saveUserPrefs, saveAuth })
+@preferredThemer(defaultStyles)
 class Setup extends React.Component {
     static contextTypes = {
         userPrefs: PropTypes.object.isRequired
@@ -42,19 +42,19 @@ class Setup extends React.Component {
             {
                 text: "确定",
                 onPress: () => {
-                    saveAuth({isLogined:false})
+                    saveAuth({ isLogined: false })
                     goBack(null)
                 }
             }
         ])
     }
     handleChangeTheme(nightMode) {
-        const {goBack} = this.props.navigation
+        const { goBack } = this.props.navigation
         const { saveUserPrefs } = this.props.actions
-        let userPrefs = { ...this.context.userPrefs, preferredTheme: nightMode ? 'dark' : 'default' }
+        let userPrefs = { ...this.props.userPrefs, preferredTheme: nightMode ? 'dark' : 'default' }
         this.setState({
             nightMode: !this.state.nightMode
-        },()=>{
+        }, () => {
             saveUserPrefs(userPrefs)
         })
     }
@@ -64,7 +64,7 @@ class Setup extends React.Component {
         }
     }
     _preferredFontSize() {
-        const { userPrefs } = this.context
+        const { userPrefs } = this.props
         let _fontSize = "小"
         switch (userPrefs["preferredFontSize"]) {
             case 14:
@@ -81,11 +81,11 @@ class Setup extends React.Component {
     }
     render() {
         const { styles, actions } = this.props
-        const { userPrefs } = this.context
+        const { userPrefs } = this.props
         const { goBack, navigate } = this.props.navigation
         return (
             <View style={styles.container}>
-                <Header title="设置" onLeftButtonClick={()=>goBack(null)}/>
+                <Header title="设置" onLeftButtonClick={()=>goBack(null)} userPrefs={userPrefs}/>
                 <View style={styles.setupPanel}>
                 <TouchableOpacity style={[styles.setupRow]} onPress={actions.eraseCache}>
                     <View style={styles.setupRowLabel}>

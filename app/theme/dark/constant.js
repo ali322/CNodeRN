@@ -1,4 +1,4 @@
-export const constants = {
+export default {
     loadingColor:"#FFFFFF",
     loadMoreColor:"#999999",
     collectIconColor:"#FF3300",

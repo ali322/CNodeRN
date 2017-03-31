@@ -30,7 +30,8 @@ const styles = {
     },
     topicSubtitleText:{
         fontSize:13,
-        lineHeight:20
+        lineHeight:20,
+        color:"#666"
     },
     topicMintitle:{
         flexDirection:"row",

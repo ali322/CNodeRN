@@ -1,4 +1,4 @@
-export const htmlStyles = {
+export default {
     p:{
         color:"#999",fontSize:14
     },

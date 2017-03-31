@@ -17,7 +17,7 @@ export function mapProps(...propNames) {
     }
 }
 
-export function nav(options = {}) {
+export function navUtil(options = {}) {
     return Component => {
         return class extends React.Component {
             static navigationOptions = options

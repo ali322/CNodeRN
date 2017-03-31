@@ -1,7 +1,40 @@
 import { View, Text, StyleSheet, TouchableOpacity, Animated, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
+import preferredThemer from '../theme/'
+import {connected} from 'redux-container'
 
-const TabBarIcon = ({ scene, navigation, navigationState, position, renderIcon, activeTintColor, inactiveTintColor }) => {
+const defaultStyles = StyleSheet.create({
+    tabBarContainer: {
+        flexDirection: "row",
+        height: 48,
+        backgroundColor: "#F7F7F7",
+        borderTopColor: "#DDD",
+        borderTopWidth: 1
+    },
+    tabBarTab: {
+        marginVertical: 4,
+        flex: 1,
+        alignItems: 'stretch',
+        justifyContent: 'flex-end'
+    },
+    tabBarIcon: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tabBarLabel: {
+        textAlign: 'center',
+        fontSize: 10,
+        marginBottom: 1.5,
+        backgroundColor: 'transparent',
+    }
+})
+
+const TabBarIcon = ({ scene, navigation, navigationState, position, renderIcon, activeTintColor, inactiveTintColor,styles }) => {
     const { route, index } = scene
     const { routes } = navigationState
     const inputRange = [-1, ...routes.map((x, i) => i)];
@@ -15,7 +48,7 @@ const TabBarIcon = ({ scene, navigation, navigationState, position, renderIcon, 
     })
     return (
         <View style={{flexGrow:1}}>
-            <Animated.View style={[styles.icon, { opacity: activeOpacity }]}>
+            <Animated.View style={[styles.tabBarIcon, { opacity: activeOpacity }]}>
             {renderIcon({
                 route,
                 index,
@@ -23,7 +56,7 @@ const TabBarIcon = ({ scene, navigation, navigationState, position, renderIcon, 
                 tintColor: activeTintColor,
             })}
             </Animated.View>
-            <Animated.View style={[styles.icon, { opacity: inactiveOpacity }]}>
+            <Animated.View style={[styles.tabBarIcon, { opacity: inactiveOpacity }]}>
             {renderIcon({
                 route,
                 index,
@@ -35,6 +68,8 @@ const TabBarIcon = ({ scene, navigation, navigationState, position, renderIcon, 
     )
 }
 
+@connected(state=>({...state.userPrefsReducer}))
+@preferredThemer(defaultStyles)
 class TabBar extends React.PureComponent {
     static defaultProps = {
         activeTintColor: '#3478f6', // Default active tint color in iOS 10
@@ -61,11 +96,12 @@ class TabBar extends React.PureComponent {
             inactiveTintColor,
             style
         } = this.props
+        const { styles } = this.props
         const { routes } = navigation.state
 
         function _renderIcon(scene) {
             if (!showIcon) return null
-            return <TabBarIcon position={position} navigation={navigation} navigationState={navigationState} 
+            return <TabBarIcon position={position} navigation={navigation} navigationState={navigationState} styles={styles}
             activeTintColor={activeTintColor} inactiveTintColor={inactiveTintColor} renderIcon={renderIcon} scene={scene}/>
         }
 
@@ -84,7 +120,7 @@ class TabBar extends React.PureComponent {
             const label = getLabel(scene);
             if (typeof label === 'string') {
                 return (
-                    <Animated.Text style={[styles.label, { color }, labelStyle]}>{label}</Animated.Text>
+                    <Animated.Text style={[styles.tabBarLabel, { color }, labelStyle]}>{label}</Animated.Text>
                 );
             }
             if (typeof label === 'function') {
@@ -95,7 +131,7 @@ class TabBar extends React.PureComponent {
 
         const inputRange = [-1, ...routes.map((x, i) => i)];
         return (
-            <View style={[styles.container,style]}>
+            <View style={[styles.tabBarContainer,style]}>
                 {routes.map((route,index)=>{
                     const outputRange = inputRange.map((inputIndex) =>
                         (inputIndex === index ? activeBackgroundColor : inactiveBackgroundColor)
@@ -107,7 +143,7 @@ class TabBar extends React.PureComponent {
                     const justifyContent = this.props.showIcon ? 'flex-end' : 'center';
                     return (
                         <TouchableWithoutFeedback onPress={()=>jumpToIndex(index)} key={route.routeName}>
-                            <Animated.View style={[styles.tab, { backgroundColor, justifyContent }]}>
+                            <Animated.View style={[styles.tabBarTab, { backgroundColor,justifyContent }]}>
                             {_renderIcon({route,index})}
                             {_renderLabel({route,index})}
                             </Animated.View>
@@ -119,36 +155,5 @@ class TabBar extends React.PureComponent {
 
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        height: 48,
-        backgroundColor: "#F7F7F7",
-        borderTopColor: "#DDD",
-        borderTopWidth: 1
-    },
-    tab: {
-        marginVertical: 4,
-        flex: 1,
-        alignItems: 'stretch',
-        justifyContent: 'flex-end'
-    },
-    icon: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    label: {
-        textAlign: 'center',
-        fontSize: 10,
-        marginBottom: 1.5,
-        backgroundColor: 'transparent',
-    }
-})
 
 export default TabBar

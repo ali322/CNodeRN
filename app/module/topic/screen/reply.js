@@ -1,15 +1,15 @@
 import React from 'react'
-import { View, Text,TextInput } from 'react-native'
+import { View, Text, TextInput } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import container from 'redux-container'
-import {topicReducer} from '../reducer'
-import {saveReply} from '../action'
+import { connected } from 'redux-container'
+import { topicReducer } from '../reducer'
+import { saveReply } from '../action'
 import { Header, Picker, Alert } from '../../../component/'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/topic'
 
+@connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer }), { saveReply })
 @preferredThemer(defaultStyles)
-@container(topicReducer,{},{saveReply})
 class Reply extends React.Component {
     constructor(props) {
         super(props)
@@ -40,11 +40,11 @@ class Reply extends React.Component {
         }
     }
     render() {
-        const { styles,replyTo,styleConstants } = this.props
+        const { styles, replyTo, styleConstants,userPrefs } = this.props
         const { goBack } = this.props.navigation
         return (
             <View style={styles.container}>
-                <Header title="发表回复" rightButton="确定" onRightButtonClick={this.handleSave} onLeftButtonClick={()=>goBack(null)}/>
+                <Header title="发表回复" rightButton="确定" onRightButtonClick={this.handleSave} onLeftButtonClick={()=>goBack(null)} userPrefs={userPrefs}/>
                 <View style={styles.replyWrap}>
                 <TextInput placeholder="回复内容不超过50字" onChangeText={(content)=>this.setState({content})} 
                 placeholderTextColor={styleConstants.publishLabelColor} 

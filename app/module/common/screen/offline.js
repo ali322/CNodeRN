@@ -1,4 +1,4 @@
-import React,{Component} from "react"
+import React from "react"
 import {View,Text,StyleSheet,NetInfo} from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
 import preferredThemer from "../../../theme/"
@@ -33,7 +33,7 @@ class OffLine extends Component{
     }
 }
 
-export default InnerComponent=>class extends Component{
+export default Component=>class extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -59,6 +59,6 @@ export default InnerComponent=>class extends Component{
         if(this.state.isConnected === null){
             return null
         }
-        return !this.state.isConnected?<OffLine {...this.props}/>:<InnerComponent {...this.props}/>
+        return !this.state.isConnected?<OffLine {...this.props}/>:<Component {...this.props}/>
     }
 }

@@ -12,8 +12,8 @@ function preferredTheme(userPrefs, defaultStyles) {
     let themeName = userPrefs['preferredTheme']
     let fontSize = userPrefs['preferredFontSize']
     let theme = themes[themeName] ? themes[themeName] : { styles: {}, htmlStyles: {}, constants: {} }
-    let styles = mergeWith({...theme.styles}, defaultStyles, (dest, src) => {
-        return [src,dest]
+    let styles = mergeWith({ ...theme.styles }, defaultStyles, (dest, src) => {
+        return [src, dest]
     })
     let htmlStyles = mapValues(theme.htmlStyles, (v, k) => {
         v = { ...v, fontSize }
@@ -31,15 +31,27 @@ const preferredThemer = defaultStyles => {
         static contextTypes = {
             userPrefs: PropTypes.object.isRequired
         }
-        componentWillMount(){
-            const { userPrefs } = this.context
-            this.setState({
-                theme: preferredTheme(userPrefs,defaultStyles)
-            })
+        constructor(props) {
+            super(props)
+            if (props.userPrefs) {
+                this.state = {
+                    theme: preferredTheme(props.userPrefs, defaultStyles)
+                }
+            }
+        }
+        componentWillMount() {
+            if (!this.state) {
+                this.setState({
+                    theme: preferredTheme(this.context.userPrefs, defaultStyles)
+                })
+            }
         }
         componentWillReceiveProps(nextProps, nextContext) {
-            if (nextContext.userPrefs && !isEqual(nextContext.userPrefs, this.context.userPrefs)) {
-                this.setState({ theme: preferredTheme(nextContext.userPrefs,defaultStyles) })
+            if (nextProps.userPrefs && !isEqual(nextProps.userPrefs, this.props.userPrefs)) {
+                this.setState({ theme: preferredTheme(nextProps.userPrefs, defaultStyles) })
+            }
+            if(!isEqual(nextContext.userPrefs, this.context.userPrefs)){
+                this.setState({ theme: preferredTheme(nextContext.userPrefs, defaultStyles) })
             }
         }
         render() {

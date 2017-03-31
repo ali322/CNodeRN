@@ -1,7 +1,36 @@
 import * as constants from './constant'
 import {fromNow} from '../../lib/'
 
-export function topicsReducer(state = {}, action) {
+const initialState = {
+    selected: 0,
+    categories: [{
+            code: "",
+            name: "全部",
+            pageIndex: 1,
+            list: []
+        },
+        {
+            code: "good",
+            name: "精华",
+            pageIndex: 1,
+            list: []
+        },
+        {
+            code: "share",
+            name: "分享",
+            pageIndex: 1,
+            list: []
+        },
+        {
+            code: 'job',
+            name: "招聘",
+            pageIndex: 1,
+            list: []
+        }
+    ]
+}
+
+export function topicsReducer(state = initialState, action) {
     let categories = [ ...state.categories ]
     switch (action.type) {
         case constants.REQUEST_TOPICS:

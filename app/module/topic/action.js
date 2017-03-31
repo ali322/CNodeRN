@@ -152,7 +152,7 @@ export function toggleCollect(params) {
             topic_id: topicID
         }).then((ret) => {
             dispatch(finishToggleCollect({ isCollected, ret }))
-        })
+        }).catch(err=>{console.log(err)})
     }
 }
 

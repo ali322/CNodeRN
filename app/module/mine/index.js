@@ -1,23 +1,24 @@
 import React, { PropTypes } from 'react'
 import { View, Text, ListView, TouchableOpacity, Image, Animated } from 'react-native'
 import preferredThemer from '../../theme/'
-import container from 'redux-container'
+import { connected } from 'redux-container'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { userReducer, cacheReducer } from './reducer'
 import * as actions from './action'
 import defaultStyles from './stylesheet/mine'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-import { HtmlRender, Tabs,Loading } from '../../component/'
+import { HtmlRender, Tabs, Loading } from '../../component/'
 import { formatTime } from '../../lib/'
-import {loginRequired} from '../common/hoc'
+import { loginRequired } from '../common/hoc'
 
 @loginRequired()
+@connected(state => ({
+    ...state.userReducer,
+    ...state.authReducer,
+    ...state.userPrefsReducer
+}), actions)
 @preferredThemer(defaultStyles)
-@container(userReducer, {}, actions)
 class Mine extends React.Component {
-    static contextTypes = {
-        auth: PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
@@ -36,7 +37,7 @@ class Mine extends React.Component {
         this.renderBreif = this.renderBreif.bind(this)
     }
     componentDidMount() {
-        const { auth } = this.context
+        const { auth } = this.props
         const { fetchUser } = this.props.actions
         if (auth.isLogined) {
             fetchUser(auth.username)
@@ -115,8 +116,8 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const { styles,userFetching,styleConstants } = this.props
-        if(userFetching){
+        const { styles, userFetching, styleConstants } = this.props
+        if (userFetching) {
             return <View style={styles.container}><Loading color={styleConstants.loadingColor}/></View>
         }
         return (

@@ -1,12 +1,14 @@
 import React from 'react'
-import { View,TouchableOpacity,Text } from 'react-native'
+import { View, TouchableOpacity, Text } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
+import { connected } from 'redux-container'
 import CodePush from "react-native-code-push"
 import * as Progress from 'react-native-progress'
-import { Header,Toast } from '../../../component/'
+import { Header, Toast } from '../../../component/'
 import defaultStyles from '../stylesheet/update'
 import preferredThemer from '../../../theme/'
 
+@connected(state => ({ ...state.userPrefsReducer }))
 @preferredThemer(defaultStyles)
 class Update extends React.Component {
     constructor(props) {
@@ -87,8 +89,8 @@ class Update extends React.Component {
         return <Progress.Bar progress={scale} width={200} color="#666" borderColor="#666"/>
     }
     render() {
-        const {styles} = this.props
-        const {goBack} = this.props.navigation
+        const { styles } = this.props
+        const { goBack } = this.props.navigation
         return (
             <View style={styles.container}>
                 <Header title="更新" onLeftButtonClick={()=>goBack(null)}/>

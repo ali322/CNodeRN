@@ -56,15 +56,19 @@ class Header extends React.Component {
         this.renderHeader = this.renderHeader.bind(this)
     }
     componentWillReceiveProps(nextProps, nextContext) {
-        if (nextContext.userPrefs && !isEqual(nextContext.userPrefs, this.context.userPrefs)) {
-            if (Platform.OS === "ios") {
+        if (Platform.OS === "ios") {
+            if (nextContext.userPrefs && !isEqual(nextContext.userPrefs, this.context.userPrefs)) {
                 StatusBar.setBarStyle((nextContext.userPrefs["preferredTheme"] === "dark") ? "light-content" : "default")
+            }
+            if (nextProps.userPrefs && !isEqual(nextProps.userPrefs, this.props.userPrefs)) {
+                StatusBar.setBarStyle((nextProps.userPrefs["preferredTheme"] === "dark") ? "light-content" : "default")
             }
         }
     }
     componentDidMount() {
         if (Platform.OS === "ios") {
-            StatusBar.setBarStyle((this.context.userPrefs["preferredTheme"] === "dark") ? "light-content" : "default")
+            const userPrefs = this.props.userPrefs || this.context.userPrefs
+            StatusBar.setBarStyle(userPrefs["preferredTheme"] === "dark" ? "light-content" : "default")
         }
     }
     renderHeader() {

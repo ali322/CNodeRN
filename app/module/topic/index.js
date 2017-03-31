@@ -1,52 +1,17 @@
-import React,{PropTypes} from 'react'
+import React, { PropTypes } from 'react'
 import { View, Text, ListView, TouchableOpacity, Animated, Image, RefreshControl, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ScrollabelTabView from 'react-native-scrollable-tab-view'
-import container from 'redux-container'
+import { connected } from 'redux-container'
 import { topicsReducer } from './reducer'
 import { fetchTopics, filterTopics } from './action'
 import preferredThemer from '../../theme/'
 import defaultStyles from './stylesheet/topics'
-import { Tabs,LoadMore,Loading } from '../../component/'
+import { Tabs, LoadMore, Loading } from '../../component/'
 
-const initialState = {
-    selected: 0,
-    categories: [{
-            code: "",
-            name: "全部",
-            pageIndex: 1,
-            list: []
-        },
-        {
-            code: "good",
-            name: "精华",
-            pageIndex: 1,
-            list: []
-        },
-        {
-            code: "share",
-            name: "分享",
-            pageIndex: 1,
-            list: []
-        },
-        {
-            code: 'job',
-            name: "招聘",
-            pageIndex: 1,
-            list: []
-        }
-    ]
-}
-
+@connected(state => ({...state.topicsReducer,...state.userPrefsReducer}), { fetchTopics, filterTopics })
 @preferredThemer(defaultStyles)
-@container(topicsReducer, initialState, { fetchTopics, filterTopics },state=>({
-    ...state,
-    ...state.screenProps
-}))
 class Topics extends React.Component {
-    static contextTypes = {
-        auth:PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
@@ -108,7 +73,7 @@ class Topics extends React.Component {
             avatarURL = 'http:' + avatarURL
         }
         let { styles } = this.props
-        let {navigate} = this.props.navigation
+        let { navigate } = this.props.navigation
         return (
             <TouchableOpacity onPress={()=>navigate('topic',{id:topic.id})}>
             <Animated.View style={styles["topicCell"]}>
@@ -135,9 +100,9 @@ class Topics extends React.Component {
         )
     }
     render() {
-        const { styles, categories, styleConstants, selected ,topicsFetching} = this.props
+        const { styles, categories, styleConstants, selected, topicsFetching } = this.props
         const renderTabBar = () => (
-            <Tabs style={styles.tab} 
+            <Tabs style={styles.tab}
                 selectedStyle={styles.selectedTab}>
                     {categories.map(v=>(
                         <Text style={styles.unselectedTab} key={v.name}>{v.name}</Text>
@@ -146,14 +111,14 @@ class Topics extends React.Component {
         )
         const loadingColor = styleConstants.loadingColor
         const refreshControl = (
-            <RefreshControl refreshing={this.state.refreshing} 
-            title="下拉刷新" 
-            titleColor={loadingColor} 
+            <RefreshControl refreshing={this.state.refreshing}
+            title="下拉刷新"
+            titleColor={loadingColor}
             onRefresh={this.handleRefresh}/>
         )
         const renderFooter = () => categories[selected].list.length > 0 ?
             <LoadMore active={topicsFetching}/> : null
-        const renderSeparator = (sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
+        const renderSeparator = (sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
         return (
             <View style={styles.container}>
                 <ScrollabelTabView renderTabBar={renderTabBar} onChangeTab={this.handleTabChange} prerenderingSiblingsNumber={0}>

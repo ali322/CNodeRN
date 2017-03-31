@@ -22,11 +22,11 @@ export default {
     searchBarButtonText:{
         color:"#FFF"
     },
-    tabBar:{
+    tabBarContainer:{
         borderTopColor:"#000",
         backgroundColor:"#444"
     },
-    tabBarItemText:{
+    tabBarLabel:{
         color:"#FFF"
     },
     tabBarSelectedItemText:{

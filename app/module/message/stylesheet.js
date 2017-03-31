@@ -35,7 +35,8 @@ const styles = {
     },
     cellSubtitleText:{
         fontSize:13,
-        lineHeight:20
+        lineHeight:20,
+        color:'#666'
     },
     cellMintitleText:{
         fontSize:12,

@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { View, Text, ListView, Image, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import container from 'redux-container'
-import { topicReducer } from '../reducer'
-import { fetchTopic,toggleAgree,toggleCollect } from '../action'
+import { connected } from 'redux-container'
+import { fetchTopic, toggleAgree, toggleCollect } from '../action'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/topic'
-import { HtmlView, Loading, Alert,Header } from '../../../component/'
+import { HtmlView, Loading, Alert, Header } from '../../../component/'
 
+@connected(state => ({
+    ...state.topicReducer,
+    ...state.userPrefsReducer
+}), { fetchTopic, toggleAgree, toggleCollect })
 @preferredThemer(defaultStyles)
-@container(topicReducer, {}, { fetchTopic,toggleAgree,toggleCollect })
 class Topic extends React.Component {
+    static contextTypes = {
+        auth: PropTypes.object.isRequired
+    }
     constructor(props) {
         super(props)
         this.state = {
@@ -37,40 +42,41 @@ class Topic extends React.Component {
         fetchTopic(state.params.id)
     }
     toggleCollect() {
-        const {auth,topic} = this.props
-        const {navigate,state} = this.props.navigation
-        const {toggleCollect} = this.props.actions
-        if(!auth){
-            this._alert.alert("请先登录","登录",[
-                {text:"取消",style:"cancel"},
-                {text:"确定",onPress:()=>navigate("login")}
+        const { auth } = this.context
+        const { topic } = this.props
+        const { navigate, state } = this.props.navigation
+        const { toggleCollect } = this.props.actions
+        if (!auth.isLogined) {
+            this._alert.alert("请先登录", "登录", [
+                { text: "取消", style: "cancel" },
+                { text: "确定", onPress: () => navigate("login") }
             ])
-        }else{
+        } else {
             toggleCollect({
-                topicId:state.params.id,
-                accessToken:authentication.accessToken,
-                isCollected:topic.is_collect
+                topicId: state.params.id,
+                accessToken: auth.accessToken,
+                isCollected: topic.is_collect
             })
         }
     }
     toggleAgree(id) {
-        const {auth} = this.props
-        const {navigate} = this.props.navigation
-        const {toggleAgree} = this.props.actions
-        if(!auth){
-            this._alert.alert("请先登录","登录",[
-                {text:"取消",style:"cancel"},
-                {text:"确定",onPress:()=>navigate("login")}
+        const { auth } = this.context
+        const { navigate } = this.props.navigation
+        const { toggleAgree } = this.props.actions
+        if (!auth.isLogined) {
+            this._alert.alert("请先登录", "登录", [
+                { text: "取消", style: "cancel" },
+                { text: "确定", onPress: () => navigate("login") }
             ])
-        }else{
+        } else {
             toggleAgree({
-                replyID:id,
-                accessToken:authentication.accessToken
+                replyID: id,
+                accessToken: auth.accessToken
             })
         }
     }
     renderReply(reply) {
-        const { styles, styleConstants, topic ,htmlStyles} = this.props
+        const { styles, styleConstants, topic, htmlStyles } = this.props
         let avatarURL = reply.author.avatar_url
         if (/^\/\/.*/.test(avatarURL)) {
             avatarURL = 'http:' + avatarURL
@@ -130,20 +136,20 @@ class Topic extends React.Component {
             </View>
         )
     }
-    toReply(id,replyTo){
-        const {auth} = this.props
-        const {navigate} = this.props.navigation
-        if(!auth){
-            this._alert.alert("请先登录","登录",[
-                {text:"取消",style:"cancel"},
-                {text:"确定",onPress:()=>navigate("login")}
+    toReply(id, replyTo) {
+        const { auth } = this.context
+        const { navigate } = this.props.navigation
+        if (!auth) {
+            this._alert.alert("请先登录", "登录", [
+                { text: "取消", style: "cancel" },
+                { text: "确定", onPress: () => navigate("login") }
             ])
-        }else{
-            navigate('reply',{id,replyTo})
+        } else {
+            navigate('reply', { id, replyTo })
         }
     }
-    renderHeaderButtons(){
-        const {styles,styleConstants,topic} = this.props
+    renderHeaderButtons() {
+        const { styles, styleConstants, topic } = this.props
         const unselectedIcon = styleConstants.uncollectIconColor
         const selectedIcon = styleConstants.uncollectIconColor
         return (
@@ -158,14 +164,14 @@ class Topic extends React.Component {
         )
     }
     render() {
-        const { styles, topic, styleConstants } = this.props
-        const {goBack} = this.props.navigation
-        if (!topic) {
+        const { styles, topic, styleConstants, topicFetched, userPrefs } = this.props
+        const { goBack } = this.props.navigation
+        if (!topicFetched) {
             return <Loading color={styleConstants.loadingColor}/>
         }
         return (
             <View style={styles.container}>
-                <Header title="详情" onLeftButtonClick={()=>goBack(null)} rightButton={this.renderHeaderButtons()}/>
+                <Header title="详情" onLeftButtonClick={()=>goBack(null)} rightButton={this.renderHeaderButtons()} userPrefs={userPrefs}/>
                 <ListView dataSource={this.state.replyDataSource} renderRow={this.renderReply}
                 renderHeader={this.renderContent}/>
                 <Alert ref={view=>this._alert=view} />

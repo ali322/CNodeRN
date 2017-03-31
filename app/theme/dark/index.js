@@ -1,13 +1,3 @@
-import common from "./common"
-import listview from "./listview"
-import modules from "./modules"
-
-export {constants as styleConstants} from "./constant"
-export {htmlStyles} from "./html-style"
-
-
-export const styles = {
-    ...common,
-    ...listview,
-    ...modules
-}
+export styles from "./module/"
+export styleConstants from "./constant"
+export htmlStyles from "./html-style"

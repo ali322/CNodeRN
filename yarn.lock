@@ -1412,10 +1412,6 @@ decamelize@^1.0.0, decamelize@^1.1.1:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/decamelize/download/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
-deep-diff@0.3.4:
-  version "0.3.4"
-  resolved "http://registry.npm.taobao.org/deep-diff/download/deep-diff-0.3.4.tgz#aac5c39952236abe5f037a2349060ba01b00ae48"
-
 deep-is@~0.1.3:
   version "0.1.3"
   resolved "http://registry.npm.taobao.org/deep-is/download/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
@@ -2654,7 +2650,7 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
-lodash-es@^4.2.0, lodash-es@^4.2.1:
+lodash-es@^4.2.1:
   version "4.17.4"
   resolved "http://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
@@ -3296,10 +3292,6 @@ react-native-drawer-layout@~1.1.5:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-html-render@^1.0.5:
-  version "1.0.5"
-  resolved "http://registry.npm.taobao.org/react-native-html-render/download/react-native-html-render-1.0.5.tgz#929e7e49ce56a34d2c5073702beedaaa12c2e92f"
-
 react-native-htmlview@^0.8.0:
   version "0.8.0"
   resolved "http://registry.npm.taobao.org/react-native-htmlview/download/react-native-htmlview-0.8.0.tgz#077ef73c3105bde1c0063cce8a789d6f995aac10"
@@ -3443,16 +3435,6 @@ react-redux@^4.4.6:
     lodash "^4.2.0"
     loose-envify "^1.1.0"
 
-react-redux@^5.0.3:
-  version "5.0.3"
-  resolved "http://registry.npm.taobao.org/react-redux/download/react-redux-5.0.3.tgz#86c3b68d56e74294a42e2a740ab66117ef6c019f"
-  dependencies:
-    hoist-non-react-statics "^1.0.3"
-    invariant "^2.0.0"
-    lodash "^4.2.0"
-    lodash-es "^4.2.0"
-    loose-envify "^1.1.0"
-
 react-test-renderer@~15.4.1:
   version "15.4.2"
   resolved "http://registry.npm.taobao.org/react-test-renderer/download/react-test-renderer-15.4.2.tgz#27e1dff5d26d0e830f99614c487622bc831416f3"
@@ -3540,24 +3522,17 @@ reduce-component@1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/reduce-component/download/reduce-component-1.0.1.tgz#e0c93542c574521bea13df0f9488ed82ab77c5da"
 
-redux-container@^1.0.19:
-  version "1.0.19"
-  resolved "http://registry.npm.taobao.org/redux-container/download/redux-container-1.0.19.tgz#39117c77f7cc01b25846d6838f8a2798c64e725e"
+redux-container@^1.0.25:
+  version "1.0.25"
+  resolved "http://registry.npm.taobao.org/redux-container/download/redux-container-1.0.25.tgz#2c5ef965e1e39ad61bc1e63f8480aac4a7295937"
   dependencies:
     react-redux "^4.4.6"
     redux-devtools-extension "^2.13.0"
-    redux-logger "^2.7.4"
     redux-thunk "^2.1.0"
 
 redux-devtools-extension@^2.13.0:
   version "2.13.0"
   resolved "http://registry.npm.taobao.org/redux-devtools-extension/download/redux-devtools-extension-2.13.0.tgz#c8300d72630c00999302526204d47c360cc0637f"
-
-redux-logger@^2.7.4:
-  version "2.10.2"
-  resolved "http://registry.npm.taobao.org/redux-logger/download/redux-logger-2.10.2.tgz#3c5a5f0a6f32577c1deadf6655f257f82c6c3937"
-  dependencies:
-    deep-diff "0.3.4"
 
 redux-thunk@^2.1.0:
   version "2.2.0"

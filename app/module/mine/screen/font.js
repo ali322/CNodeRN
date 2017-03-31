@@ -1,5 +1,5 @@
-import React,{PropTypes} from 'react'
-import { View,Text,TouchableOpacity } from 'react-native'
+import React, { PropTypes } from 'react'
+import { View, Text, TouchableOpacity } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { Header } from '../../../component/'
 import defaultStyles from '../stylesheet/setup'
@@ -7,12 +7,9 @@ import preferredThemer from '../../../theme/'
 import { connected } from 'redux-container'
 import { saveUserPrefs } from '../../common/action'
 
+@connected(state => ({ ...state.userPrefsReducer }), { saveUserPrefs })
 @preferredThemer(defaultStyles)
-@connected({saveUserPrefs})
 class Font extends React.Component {
-    static contextTypes = {
-        userPrefs:PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.handleChangeFont = this.handleChangeFont.bind(this)
@@ -20,17 +17,16 @@ class Font extends React.Component {
     handleChangeFont(size) {
         const { saveUserPrefs } = this.props.actions
         saveUserPrefs({
-            ...this.context.userPrefs,
+            ...this.props.userPrefs,
             preferredFontSize: size
         })
     }
     render() {
-        const {userPrefs} = this.context
-        const { styles } = this.props
+        const { styles, userPrefs } = this.props
         const { goBack } = this.props.navigation
         return (
             <View style={styles.container}>
-                <Header title="字体大小" onLeftButtonClick={()=>goBack(null)}/>
+                <Header title="字体大小" onLeftButtonClick={()=>goBack(null)} userPrefs={userPrefs}/>
                 <View style={styles.setupPanel}>
                 <TouchableOpacity style={[styles.setupRow,{borderBottomWidth:0.5}]} onPress={()=>this.handleChangeFont(14)}>
                     <View style={styles.setupRowLabel}>

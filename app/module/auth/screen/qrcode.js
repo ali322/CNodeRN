@@ -4,11 +4,11 @@ import { View, Text, StyleSheet } from 'react-native'
 import { Toast, Scanner } from '../../../component/'
 import { connected } from 'redux-container'
 import { login, saveAuth } from '../action'
-import { nav } from '../../common/hoc'
+import { navUtil } from '../../common/hoc'
 import { Header } from '../../../component/'
 
-@nav()
-@connected({ login, saveAuth })
+@navUtil()
+@connected(state => state, { login, saveAuth })
 class QrCode extends React.Component {
     constructor(props) {
         super(props)

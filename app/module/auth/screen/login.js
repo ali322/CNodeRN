@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { View, Text } from 'react-native'
 import Anonymous from '../../common/screen/anonymous'
+import { connected } from 'redux-container'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet'
 import { Header } from '../../../component/'
@@ -12,7 +13,7 @@ class Login extends React.Component {
         const { styles } = this.props
         return (
             <View style={styles.container}>
-                <Header leftButton="" rightButton="关闭" onRightButtonClick={()=>goBack(null)}/>
+                <Header leftButton="" rightButton="关闭" onRightButtonClick={()=>goBack()}/>
                 <Anonymous toLogin={()=>navigate('qrcode')}/>
             </View>
         )

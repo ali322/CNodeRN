@@ -1,21 +1,17 @@
-import React,{PropTypes} from 'react'
+import React, { PropTypes } from 'react'
 import { View, Text, ListView, TouchableOpacity, Animated, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import preferredThemer from '../../theme/'
-import container from 'redux-container'
-import { collectReducer } from './reducer'
+import { connected } from 'redux-container'
 import * as actions from './action'
 import defaultStyles from './stylesheet'
-import { Header,Loading } from '../../component/'
-import {loginRequired} from '../common/hoc'
+import preferredThemer from '../../theme/'
+import { Header, Loading } from '../../component/'
+import { loginRequired } from '../common/hoc'
 
 @loginRequired()
+@connected(state => ({ ...state.collectReducer, ...state.authReducer, ...state.userPrefsReducer }), actions)
 @preferredThemer(defaultStyles)
-@container(collectReducer, {}, actions)
 class Collect extends React.Component {
-    static contextTypes = {
-        auth: PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
@@ -32,10 +28,10 @@ class Collect extends React.Component {
             })
         }
     }
-    componentDidMount(){
-        const {fetchCollect} = this.props.actions
-        const {auth} = this.context
-        if(auth.isLogined){
+    componentDidMount() {
+        const { fetchCollect } = this.props.actions
+        const { auth } = this.props
+        if (auth.isLogined) {
             fetchCollect(auth.username)
         }
     }
@@ -70,11 +66,11 @@ class Collect extends React.Component {
         )
     }
     render() {
-        const {styles,collectFetching,styleConstants} = this.props
-        const renderSeparator = (sectionId,rowId)=><View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
+        const { styles, collectFetching, styleConstants, userPrefs } = this.props
+        const renderSeparator = (sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
         return (
             <View style={styles.container}>
-                <Header title="收藏" leftButton={null}/>
+                <Header title="收藏" leftButton={null} userPrefs={userPrefs}/>
                 {collectFetching?<Loading color={styleConstants.loadingColor}/>:(
                 <ListView dataSource={this.state.dataSource} renderRow={this.renderRow} renderSeparator={renderSeparator}/>
                 )}

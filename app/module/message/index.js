@@ -2,22 +2,17 @@ import React, { PropTypes } from 'react'
 import { View, Text, ListView, TouchableOpacity, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import preferredThemer from '../../theme/'
-import container from 'redux-container'
-import { messageReducer } from './reducer'
+import { connected } from 'redux-container'
 import * as actions from './action'
 import defaultStyles from './stylesheet'
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
-import { HtmlView, Tabs,Loading } from '../../component/'
-import { loginRequired,mapProps } from '../common/hoc'
+import { HtmlView, Tabs, Loading } from '../../component/'
+import { loginRequired, mapProps } from '../common/hoc'
 
-@mapProps('screenProps')
 @loginRequired()
+@connected(state => ({ ...state.messageReducer, ...state.authReducer,...state.userPrefsReducer }), actions)
 @preferredThemer(defaultStyles)
-@container(messageReducer, {}, actions)
 class Mine extends React.Component {
-    static contextTypes = {
-        auth: PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
@@ -34,12 +29,12 @@ class Mine extends React.Component {
     }
     componentDidMount() {
         const { fetchMessages } = this.props.actions
-        const { auth } = this.context
+        const { auth } = this.props
         if (auth.isLogined) {
             fetchMessages(auth.accessToken)
         }
     }
-    componentWillReceiveProps(nextProps, nextContext) {
+    componentWillReceiveProps(nextProps) {
         if (nextProps.messagesFetched) {
             this.setState({
                 unreadDataSource: this.state.unreadDataSource.cloneWithRows(nextProps.messages.hasnot_read_messages),
@@ -71,9 +66,6 @@ class Mine extends React.Component {
             </View>
         )
     }
-    shouldComponentUpdate(){
-        return true
-    }
     renderTimeline() {
         const { styles } = this.props
         const renderTabBar = () => (
@@ -91,7 +83,7 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const { styles,styleConstants,messagesFetching } = this.props
+        const { styles, styleConstants, messagesFetching } = this.props
         return (
             <View style={styles.container}>
                 {messagesFetching?<Loading color={styleConstants.loadingColor}/>:this.renderTimeline()}

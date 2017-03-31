@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
-import container from 'redux-container'
-import { topicReducer } from '../reducer'
+import { connected } from 'redux-container'
+import { loginRequired } from '../../common/hoc'
 import { saveTopic } from '../action'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/publish'
@@ -14,8 +14,9 @@ const topicTabs = {
     "job": "招聘"
 }
 
+@loginRequired()
+@connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer }), { saveTopic })
 @preferredThemer(defaultStyles)
-@container(topicReducer, { topic: { tab: "ask", title: "", content: "" } }, { saveTopic })
 class Publish extends React.Component {
     constructor(props) {
         super(props)
@@ -39,7 +40,7 @@ class Publish extends React.Component {
     }
     handleSave() {
         const { auth } = this.props
-        this.props.actions.saveTopic({...this.state.topic, accesstoken: auth.accessToken})
+        this.props.actions.saveTopic({ ...this.state.topic, accesstoken: auth.accessToken })
     }
     componentWillReceiveProps(nextProps) {
         if (!nextProps.topicSaving && this.props.topicSaving) {

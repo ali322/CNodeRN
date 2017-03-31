@@ -1,5 +1,6 @@
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import React from 'react'
+import {Platform} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Topics from './module/topic/screen/'
 import Mine from './module/mine/screen/'
@@ -51,13 +52,12 @@ const homeNavigator = TabNavigator({
             fontSize: 12
         },
         style: {
-            height: 50,
-            backgroundColor: "#F7F7F7"
+            height: 50
         }
     }
 })
 
-const routes = {
+const AppNavigator = StackNavigator({
     home: {
         screen: homeNavigator
     },
@@ -67,6 +67,10 @@ const routes = {
     qrcode: {
         screen: Qrcode
     }
-}
+}, {
+    initialRouteName: 'home',
+    headerMode: "none",
+    mode: Platform.OS === 'ios' ? 'modal' : 'card'
+})
 
-export default routes
+export default AppNavigator
