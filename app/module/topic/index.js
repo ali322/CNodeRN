@@ -8,7 +8,9 @@ import { fetchTopics, filterTopics } from './action'
 import preferredThemer from '../../theme/'
 import defaultStyles from './stylesheet/topics'
 import { Tabs, LoadMore, Loading } from '../../component/'
+import offline from '../common/screen/offline'
 
+@offline
 @connected(state => ({...state.topicsReducer,...state.userPrefsReducer}), { fetchTopics, filterTopics })
 @preferredThemer(defaultStyles)
 class Topics extends React.Component {

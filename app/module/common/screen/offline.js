@@ -19,7 +19,7 @@ const defaultStyles = StyleSheet.create({
 })
 
 @preferredThemer(defaultStyles)
-class OffLine extends Component{
+class OffLine extends React.Component{
     render(){
         const {styles,styleConstants} = this.props
         return (

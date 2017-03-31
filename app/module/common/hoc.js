@@ -38,22 +38,18 @@ export function navUtil(options = {}) {
     }
 }
 
-export function loginRequired() {
-    return Component => {
-        return class extends React.Component {
-            static contextTypes = {
-                auth: PropTypes.object.isRequired
-            }
-            componentWillMount() {
-                const { auth } = this.context
-                const { navigate } = this.props.navigation
-                if (!auth.isLogined) {
-                    navigate('login')
-                }
-            }
-            render() {
-                return <Component {...this.props}/>
-            }
+export const  loginRequired = Component=>class extends React.Component{
+    static contextTypes = {
+        auth: PropTypes.object.isRequired
+    }
+    componentWillMount() {
+        const { auth } = this.context
+        const { navigate } = this.props.navigation
+        if (!auth.isLogined) {
+            navigate('login')
         }
+    }
+    render() {
+        return <Component {...this.props}/>
     }
 }

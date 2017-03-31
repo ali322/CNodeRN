@@ -14,7 +14,7 @@ const topicTabs = {
     "job": "招聘"
 }
 
-@loginRequired()
+@loginRequired
 @connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer }), { saveTopic })
 @preferredThemer(defaultStyles)
 class Publish extends React.Component {

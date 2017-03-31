@@ -8,7 +8,7 @@ import preferredThemer from '../../theme/'
 import { Header, Loading } from '../../component/'
 import { loginRequired } from '../common/hoc'
 
-@loginRequired()
+@loginRequired
 @connected(state => ({ ...state.collectReducer, ...state.authReducer, ...state.userPrefsReducer }), actions)
 @preferredThemer(defaultStyles)
 class Collect extends React.Component {

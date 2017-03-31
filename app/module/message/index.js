@@ -9,7 +9,7 @@ import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-vi
 import { HtmlView, Tabs, Loading } from '../../component/'
 import { loginRequired, mapProps } from '../common/hoc'
 
-@loginRequired()
+@loginRequired
 @connected(state => ({ ...state.messageReducer, ...state.authReducer,...state.userPrefsReducer }), actions)
 @preferredThemer(defaultStyles)
 class Mine extends React.Component {

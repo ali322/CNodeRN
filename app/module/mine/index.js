@@ -11,7 +11,7 @@ import { HtmlRender, Tabs, Loading } from '../../component/'
 import { formatTime } from '../../lib/'
 import { loginRequired } from '../common/hoc'
 
-@loginRequired()
+@loginRequired
 @connected(state => ({
     ...state.userReducer,
     ...state.authReducer,
