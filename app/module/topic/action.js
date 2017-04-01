@@ -1,6 +1,7 @@
 import * as constants from './constant'
 import { request } from '../../lib/'
 import api from '../../lib/api'
+import { failRequest } from '../common/action'
 
 function clearTopics(code) {
     return {
@@ -24,15 +25,12 @@ function responseTopics(payload) {
 }
 
 export function fetchTopics(params = {}) {
-    let { code = "", pageIndex = 1, pageSize = 10, options = {} } = params
-    options = {
-        ...options,
-        keyPrefix: "topics."
+    let { code = "", pageIndex = 1, pageSize = 10, clear = false } = params
+    if (clear) {
+        dispatch(clearTopics())
     }
+
     return (dispatch) => {
-        if (options.caching === false) {
-            dispatch(clearTopics(code))
-        }
         dispatch(requestTopics())
         request.get(api.topics, {
             params: {
@@ -43,7 +41,7 @@ export function fetchTopics(params = {}) {
         }).then(ret => {
             dispatch(responseTopics({ ret: ret.data, code, pageIndex }))
         }).catch(err => {
-            // console.error(err)
+            dispatch(failRequest(err))
         })
     }
 }
@@ -67,8 +65,8 @@ export function fetchTopic(id) {
         dispatch(requestTopic())
         request.get(`${api.topic}/${id}`)
             .then((ret) => {
-                dispatch(responseTopic({ ret:ret.data, id }))
-            })
+                dispatch(responseTopic({ ret: ret.data, id }))
+            }).catch(err => dispatch(failRequest(err)))
     }
 }
 
@@ -89,12 +87,13 @@ function finishSaveReply(payload) {
 export function saveReply({ id, reply }) {
     return (dispatch) => {
         dispatch(startSaveReply())
-        request.post(`${api.reply2topic}/${id}/replies`, {...reply}).then((ret) => {
+        request.post(`${api.reply2topic}/${id}/replies`, { ...reply }).then((ret) => {
+            ret = ret.data
             dispatch(finishSaveReply(ret))
-        }).catch(err=>{
+        }).catch(err => {
             dispatch(finishSaveReply({
-                success:false,
-                err_msg:'回复失败'
+                success: false,
+                err_msg: '回复失败'
             }))
         })
     }
@@ -117,7 +116,8 @@ function finishSaveTopic(payload) {
 export function saveTopic(topic) {
     return dispatch => {
         dispatch(startSaveTopic())
-        request.post(api.topics, {...topic}).then((ret) => {
+        request.post(api.topics, { ...topic }).then((ret) => {
+            ret = ret.data
             dispatch(finishSaveTopic(ret))
         }).catch((err) => {
             dispatch(finishSaveTopic({
@@ -143,16 +143,22 @@ function finishToggleCollect(payload) {
 }
 
 export function toggleCollect(params) {
-    let { topicID, accessToken, isCollected = true } = params
+    let { topicId, accessToken, isCollected = true } = params
     return dispatch => {
         dispatch(startToggleCollect())
         const apiURL = !isCollected ? api.addCollect : api.delCollect
-        request.post(`${apiURL}`, {
+        request.post(apiURL, {
             accesstoken: accessToken,
-            topic_id: topicID
+            topic_id: topicId
         }).then((ret) => {
-            dispatch(finishToggleCollect({ isCollected, ret }))
-        }).catch(err=>{console.log(err)})
+            ret = ret.data
+            dispatch(finishToggleCollect({ isCollected, ...ret }))
+        }).catch(err => {
+            dispatch(finishToggleCollect({
+                success: false,
+                err_msg: "收藏失败"
+            }))
+        })
     }
 }
 
@@ -176,7 +182,13 @@ export function toggleAgree({ replyID, accessToken }) {
         request.post(`${api.agreeReply}/${replyID}/ups`, {
             accesstoken: accessToken
         }).then((ret) => {
-            dispatch(finishToggleAgree({ replyID, accessToken, ret }))
+            ret = ret.data
+            dispatch(finishToggleAgree({ replyID, accessToken, ret, success: ret.success }))
+        }).catch(err => {
+            dispatch(finishToggleAgree({
+                success: false,
+                err_msg: "点赞失败"
+            }))
         })
     }
 }

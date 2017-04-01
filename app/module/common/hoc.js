@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
 import { NavigationActions } from 'react-navigation'
+import OffLine from './screen/offline'
+import BadRequest from './screen/badrequest'
 
 export function mapProps(...propNames) {
     return Component => {
@@ -38,7 +40,7 @@ export function navUtil(options = {}) {
     }
 }
 
-export const  loginRequired = Component=>class extends React.Component{
+export const loginRequired = Component => class extends React.Component {
     static contextTypes = {
         auth: PropTypes.object.isRequired
     }
@@ -51,5 +53,46 @@ export const  loginRequired = Component=>class extends React.Component{
     }
     render() {
         return <Component {...this.props}/>
+    }
+}
+
+export const offline = Component => class extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isConnected: null
+        }
+        this._handleNetInfoChange = this._handleNetInfoChange.bind(this)
+    }
+    componentDidMount() {
+        NetInfo.isConnected.addEventListener("change", this._handleNetInfoChange)
+        NetInfo.isConnected.fetch().done(isConnected => {
+            this.setState({ isConnected })
+        })
+    }
+    _handleNetInfoChange(isConnected) {
+        this.setState({
+            isConnected
+        })
+    }
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('change', this._handleNetInfoChange)
+    }
+    render() {
+        if (this.state.isConnected === null) {
+            return null
+        }
+        return !this.state.isConnected ? <OffLine {...this.props}/> : <Component {...this.props}/>
+    }
+}
+
+export const badRequest = Component => class extends React.Component {
+    render() {
+        const { requestFailed } = this.props
+        console.log('requestFailed',requestFailed)
+        if (requestFailed) {
+            return <BadRequest />
+        }
+        return <Component {...this.props} />
     }
 }

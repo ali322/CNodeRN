@@ -31,31 +31,14 @@ const preferredThemer = defaultStyles => {
         static contextTypes = {
             userPrefs: PropTypes.object.isRequired
         }
-        constructor(props) {
-            super(props)
-            if (props.userPrefs) {
-                this.state = {
-                    theme: preferredTheme(props.userPrefs, defaultStyles)
-                }
-            }
-        }
-        componentWillMount() {
-            if (!this.state) {
-                this.setState({
-                    theme: preferredTheme(this.context.userPrefs, defaultStyles)
-                })
-            }
-        }
-        componentWillReceiveProps(nextProps, nextContext) {
-            if (nextProps.userPrefs && !isEqual(nextProps.userPrefs, this.props.userPrefs)) {
-                this.setState({ theme: preferredTheme(nextProps.userPrefs, defaultStyles) })
-            }
-            if(!isEqual(nextContext.userPrefs, this.context.userPrefs)){
-                this.setState({ theme: preferredTheme(nextContext.userPrefs, defaultStyles) })
-            }
-        }
+        // shouldComponentUpdate(nextProps,nextState,nextContext){
+        //     console.log('nextProps',!isEqual(nextProps,this.props))
+        //     return !isEqual(nextProps,this.props) || !isEqual(nextContext,this.context)
+        // }
         render() {
-            return <Component {...this.props} {...this.state.theme} />
+            const userPrefs = this.props.userPrefs || this.context.userPrefs
+            const theme = preferredTheme(userPrefs, defaultStyles)
+            return <Component {...this.props} {...theme}/>
         }
     }
 }

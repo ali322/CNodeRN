@@ -15,7 +15,7 @@ const topicTabs = {
 }
 
 @loginRequired
-@connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer }), { saveTopic })
+@connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer, ...state.authReducer }), { saveTopic })
 @preferredThemer(defaultStyles)
 class Publish extends React.Component {
     constructor(props) {

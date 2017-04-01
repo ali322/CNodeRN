@@ -128,7 +128,6 @@ class TabBar extends React.PureComponent {
             }
             return label;
         }
-
         const inputRange = [-1, ...routes.map((x, i) => i)];
         return (
             <View style={[styles.tabBarContainer,style]}>

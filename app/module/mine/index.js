@@ -116,8 +116,8 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const { styles, userFetching, styleConstants } = this.props
-        if (userFetching) {
+        const { styles, userFetched, styleConstants } = this.props
+        if (!userFetched) {
             return <View style={styles.container}><Loading color={styleConstants.loadingColor}/></View>
         }
         return (

@@ -19,18 +19,21 @@ const defaultStyles = StyleSheet.create({
 })
 
 @preferredThemer(defaultStyles)
-class OffLine extends React.Component {
+class BadRequest extends React.Component {
+    static defaultProps = {
+        reason: '请求失败'
+    }
     render() {
-        const { styles, styleConstants } = this.props
+        const { styles, styleConstants, reason } = this.props
         return (
             <View style={styles.offlineWrapper}>
                 <Icon name="warning" color={styleConstants.loadingColor} size={20}/>
                 <View style={styles.offLineInfo}>
-                    <Text style={styles.offLineInfoText}>网络无法连接..</Text>
+                    <Text style={styles.offLineInfoText}>{reason}</Text>
                 </View>
             </View>
         )
     }
 }
 
-export default OffLine
+export default BadRequest

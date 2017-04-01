@@ -1,5 +1,5 @@
 import * as constants from './constant'
-import {fromNow} from '../../lib/'
+import { fromNow } from '../../lib/'
 
 const initialState = {
     selected: 0,
@@ -31,17 +31,18 @@ const initialState = {
 }
 
 export function topicsReducer(state = initialState, action) {
-    let categories = [ ...state.categories ]
+    let categories = [...state.categories]
     switch (action.type) {
         case constants.REQUEST_TOPICS:
             return {
                 ...state,
-                topicsFetching: true
+                topicsFetching: true,
+                topicsFetched: false
             }
         case constants.RESPONSE_TOPICS:
             let index = 0
-            categories = categories.map((category,i)=>{
-                if(category.code === action.payload.code){
+            categories = categories.map((category, i) => {
+                if (category.code === action.payload.code) {
                     index = i
                     category.list = [].concat(category.list, action.payload.ret.data.map((v) => {
                         v.create_at = fromNow(v.create_at)
@@ -55,12 +56,12 @@ export function topicsReducer(state = initialState, action) {
                 ...state,
                 topicsFetching: false,
                 topicsFetched: action.payload.ret.success,
-                selected:index,
+                selected: index,
                 categories
             }
         case constants.CLEAR_TOPICS:
-            categories = categories.map(category=>{
-                if(category.code === action.code){
+            categories = categories.map(category => {
+                if (category.code === action.code) {
                     category.list = []
                     category.pageIndex = 1
                 }
@@ -123,9 +124,10 @@ export function topicReducer(state = {
                 collectToggling: false,
                 topic: {
                     ...state.topic,
-                    is_collect: action.payload.ret.success ? !state.topic.is_collect : state.topic.is_collect
+                    is_collect: action.payload.success ? !state.topic.is_collect : state.topic.is_collect
                 },
-                collectToggled: action.payload.ret.success
+                collectToggled: action.payload.success,
+                errMsg: action.payload.err_msg
             }
         case constants.START_TOGGLEAGREE:
             return {
@@ -133,26 +135,29 @@ export function topicReducer(state = {
                 agreeToggling: true
             }
         case constants.FINISH_TOGGLEAGREE:
-            let _topic = Object.assign({}, state.topic)
+            let _topic = { ...state.topic }
             let _replies = []
-            _topic.replies.forEach((reply) => {
-                let _reply = Object.assign({}, reply)
-                if (_reply.id === action.payload.replyID) {
-                    if (action.payload.ret.action === "up") {
-                        _reply.ups.push(action.payload.accessToken)
+            if (action.payload.success) {
+                _topic.replies.forEach((reply) => {
+                    let _reply = { ...reply }
+                    if (_reply.id === action.payload.replyID) {
+                        if (action.payload.ret.action === "up") {
+                            _reply.ups.push(action.payload.accessToken)
+                        } else {
+                            _reply.ups.pop()
+                        }
                         _reply.agreeStatus = action.payload.ret.action
-                    } else {
-                        _reply.ups.pop()
                     }
-                }
-                _replies.push(_reply)
-            })
-            _topic.replies = _replies
+                    _replies.push(_reply)
+                })
+                _topic.replies = _replies
+            }
             return {
                 ...state,
                 agreeToggling: false,
-                agreeToggled: action.payload.ret.success,
-                agreeStatus: action.payload.ret.action,
+                agreeToggled: action.payload.success,
+                agreeStatus: action.payload.ret && action.payload.ret.action,
+                errMsg: action.payload.err_msg,
                 topic: _topic
             }
         case constants.START_SAVEREPLY:

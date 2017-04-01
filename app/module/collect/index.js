@@ -66,12 +66,12 @@ class Collect extends React.Component {
         )
     }
     render() {
-        const { styles, collectFetching, styleConstants, userPrefs } = this.props
+        const { styles, collectFetched, styleConstants, userPrefs } = this.props
         const renderSeparator = (sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
         return (
             <View style={styles.container}>
                 <Header title="收藏" leftButton={null} userPrefs={userPrefs}/>
-                {collectFetching?<Loading color={styleConstants.loadingColor}/>:(
+                {!collectFetched?<Loading color={styleConstants.loadingColor}/>:(
                 <ListView dataSource={this.state.dataSource} renderRow={this.renderRow} renderSeparator={renderSeparator}/>
                 )}
             </View>

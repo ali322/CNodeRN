@@ -54,3 +54,15 @@ export function userPrefsReducer(state = {
             return state
     }
 }
+
+export function commonReducer(state = {}, action) {
+    switch (action.type) {
+        case constants.FAIL_REQUEST:
+            return {
+                ...state,
+                requestFailed: true
+            }
+        default:
+            return state
+    }
+}

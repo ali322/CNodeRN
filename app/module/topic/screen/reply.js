@@ -7,8 +7,10 @@ import { saveReply } from '../action'
 import { Header, Picker, Alert } from '../../../component/'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/topic'
+import { loginRequired } from '../../common/hoc'
 
-@connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer }), { saveReply })
+@loginRequired
+@connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer, ...state.authReducer }), { saveReply })
 @preferredThemer(defaultStyles)
 class Reply extends React.Component {
     constructor(props) {
@@ -16,7 +18,9 @@ class Reply extends React.Component {
         this.handleSave = this.handleSave.bind(this)
     }
     handleSave() {
-        const { auth, replyTo, id } = this.props
+        const { state } = this.props.navigation
+        const { id, replyTo } = state.params
+        const { auth } = this.props
         const { saveReply } = this.props.actions
         const reply = {
             content: this.state.content,
@@ -40,7 +44,7 @@ class Reply extends React.Component {
         }
     }
     render() {
-        const { styles, replyTo, styleConstants,userPrefs } = this.props
+        const { styles, replyTo, styleConstants, userPrefs } = this.props
         const { goBack } = this.props.navigation
         return (
             <View style={styles.container}>

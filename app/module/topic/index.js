@@ -3,22 +3,20 @@ import { View, Text, ListView, TouchableOpacity, Animated, Image, RefreshControl
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ScrollabelTabView from 'react-native-scrollable-tab-view'
 import { connected } from 'redux-container'
-import { topicsReducer } from './reducer'
 import { fetchTopics, filterTopics } from './action'
 import preferredThemer from '../../theme/'
 import defaultStyles from './stylesheet/topics'
 import { Tabs, LoadMore, Loading } from '../../component/'
-import offline from '../common/screen/offline'
+import { isEqual } from 'lodash'
+import { badRequest } from '../common/hoc'
 
-@offline
-@connected(state => ({...state.topicsReducer,...state.userPrefsReducer}), { fetchTopics, filterTopics })
+@connected(state => ({ ...state.topicsReducer,...state.commonReducer }), { fetchTopics, filterTopics })
 @preferredThemer(defaultStyles)
+@badRequest
 class Topics extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            loading: false,
-            refreshing: false,
             dataSources: props.categories.map(category => {
                 return new ListView.DataSource({
                     rowHasChanged(r1, r2) {
@@ -32,6 +30,9 @@ class Topics extends React.Component {
         this.handleLoadMore = this.handleLoadMore.bind(this)
         this.handleRefresh = this.handleRefresh.bind(this)
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state)
+    }
     handleTabChange({ i, tab }) {
         const { categories } = this.props
         const { fetchTopics } = this.props.actions
@@ -42,8 +43,7 @@ class Topics extends React.Component {
         const { categories, selected } = this.props
         const { fetchTopics } = this.props.actions
         let code = categories[selected].code
-        // this.setState({ refreshing: false })
-        fetchTopics({ code, pageIndex: 1, pageSize: 10, options: { caching: false } })
+        fetchTopics({ code, pageIndex: 1, pageSize: 10, clear: true })
     }
     handleLoadMore() {
         const { categories, selected } = this.props
@@ -102,7 +102,8 @@ class Topics extends React.Component {
         )
     }
     render() {
-        const { styles, categories, styleConstants, selected, topicsFetching } = this.props
+        const { styles, categories, styleConstants, selected, topicsFetched, topicsFetching } = this.props
+        const loadingColor = styleConstants.loadingColor
         const renderTabBar = () => (
             <Tabs style={styles.tab}
                 selectedStyle={styles.selectedTab}>
@@ -111,22 +112,20 @@ class Topics extends React.Component {
                     ))}
                 </Tabs>
         )
-        const loadingColor = styleConstants.loadingColor
         const refreshControl = (
-            <RefreshControl refreshing={this.state.refreshing}
+            <RefreshControl refreshing={false}
             title="下拉刷新"
             titleColor={loadingColor}
             onRefresh={this.handleRefresh}/>
         )
-        const renderFooter = () => categories[selected].list.length > 0 ?
-            <LoadMore active={topicsFetching}/> : null
+        const renderFooter = () => <LoadMore active={topicsFetching}/>
         const renderSeparator = (sectionId, rowId) => <View key={`${sectionId}-${rowId}`} style={styles["cellSeparator"]}/>
         return (
             <View style={styles.container}>
                 <ScrollabelTabView renderTabBar={renderTabBar} onChangeTab={this.handleTabChange} prerenderingSiblingsNumber={0}>
                     {categories.map((v,i)=>(
                         <View style={styles.tabContainer} key={v.name}>
-                        {v.list.length === 0 && topicsFetching ?<Loading color={loadingColor}/>:(
+                        {!topicsFetched ?<Loading color={loadingColor}/>:(
                             <ListView dataSource={this.state.dataSources[i]} renderRow={this.renderRow} enableEmptySections={true}
                             refreshControl={refreshControl}
                             onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={8} pageSize={1}

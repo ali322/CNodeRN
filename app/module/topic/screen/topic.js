@@ -5,13 +5,15 @@ import { connected } from 'redux-container'
 import { fetchTopic, toggleAgree, toggleCollect } from '../action'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/topic'
-import { HtmlView, Loading, Alert, Header } from '../../../component/'
+import { HtmlView, Loading, Alert, Header, Toast } from '../../../component/'
+import { badRequest } from '../../common/hoc'
 
 @connected(state => ({
     ...state.topicReducer,
-    ...state.userPrefsReducer
+    ...state.commonReducer
 }), { fetchTopic, toggleAgree, toggleCollect })
 @preferredThemer(defaultStyles)
+@badRequest
 class Topic extends React.Component {
     static contextTypes = {
         auth: PropTypes.object.isRequired
@@ -34,6 +36,9 @@ class Topic extends React.Component {
             this.setState({
                 replyDataSource: this.state.replyDataSource.cloneWithRows(nextProps.topic.replies)
             })
+        }
+        if (nextProps.errMsg && nextProps.errMsg !== this.props.errMsg) {
+            this._toast.show(nextProps.errMsg)
         }
     }
     componentDidMount() {
@@ -75,6 +80,18 @@ class Topic extends React.Component {
             })
         }
     }
+    toReply(id, replyTo) {
+        const { auth } = this.context
+        const { navigate } = this.props.navigation
+        if (!auth) {
+            this._alert.alert("请先登录", "登录", [
+                { text: "取消", style: "cancel" },
+                { text: "确定", onPress: () => navigate("login") }
+            ])
+        } else {
+            navigate('reply', { id, replyTo })
+        }
+    }
     renderReply(reply) {
         const { styles, styleConstants, topic, htmlStyles } = this.props
         let avatarURL = reply.author.avatar_url
@@ -92,12 +109,12 @@ class Topic extends React.Component {
                         <Text style={styles.topicMintitleText}>{reply.create_at}</Text>
                     </View>
                     <TouchableOpacity style={styles.topicCommentBadge} onPress={()=>{
-                        this._toReply({id:topic.id,replyTo:reply})
+                        this.toReply(topic.id,reply)
                     }}>
                         <Icon name="mail-reply" size={15} color="#AAA"/>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.topicCommentBadge,styles.topicAgreeBadge]} 
-                    onPress={()=>toggleAgree(reply.id)}>
+                    onPress={()=>this.toggleAgree(reply.id)}>
                         <Icon name="thumbs-up" size={15} color={reply.agreeStatus === "up"?selectedIcon:unselectedIcon}/>
                         <Text style={[styles.topicAgreeBadgeText,{color:reply.agreeStatus === "up"?selectedIcon:unselectedIcon}]}> +{reply.ups.length}</Text>
                     </TouchableOpacity>
@@ -109,7 +126,7 @@ class Topic extends React.Component {
         )
     }
     renderContent() {
-        const { styles, topic, userPrefs, htmlStyles } = this.props
+        const { styles, topic, htmlStyles } = this.props
         let avatarURL = topic.author.avatar_url
         if (/^\/\/.*/.test(avatarURL)) {
             avatarURL = 'http:' + avatarURL
@@ -136,18 +153,6 @@ class Topic extends React.Component {
             </View>
         )
     }
-    toReply(id, replyTo) {
-        const { auth } = this.context
-        const { navigate } = this.props.navigation
-        if (!auth) {
-            this._alert.alert("请先登录", "登录", [
-                { text: "取消", style: "cancel" },
-                { text: "确定", onPress: () => navigate("login") }
-            ])
-        } else {
-            navigate('reply', { id, replyTo })
-        }
-    }
     renderHeaderButtons() {
         const { styles, styleConstants, topic } = this.props
         const unselectedIcon = styleConstants.uncollectIconColor
@@ -164,17 +169,18 @@ class Topic extends React.Component {
         )
     }
     render() {
-        const { styles, topic, styleConstants, topicFetched, userPrefs } = this.props
+        const { styles, topic, styleConstants, topicFetched } = this.props
         const { goBack } = this.props.navigation
         if (!topicFetched) {
             return <Loading color={styleConstants.loadingColor}/>
         }
         return (
             <View style={styles.container}>
-                <Header title="详情" onLeftButtonClick={()=>goBack(null)} rightButton={this.renderHeaderButtons()} userPrefs={userPrefs}/>
-                <ListView dataSource={this.state.replyDataSource} renderRow={this.renderReply}
+                <Header title="详情" onLeftButtonClick={()=>goBack(null)} rightButton={this.renderHeaderButtons()} />
+                <ListView dataSource={this.state.replyDataSource} renderRow={this.renderReply} enableEmptySections={true}
                 renderHeader={this.renderContent}/>
                 <Alert ref={view=>this._alert=view} />
+                <Toast ref={view=>this._toast=view} />
             </View>
         )
     }

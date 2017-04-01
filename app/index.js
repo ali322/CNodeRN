@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Platform,View } from 'react-native'
+import { Platform, View } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { StackNavigator, addNavigationHelpers, NavigationActions } from 'react-navigation'
 import { configureStore, wrapper, connected } from 'redux-container'
@@ -8,11 +8,13 @@ import AppNavigator from './route'
 import { fetchAuth } from './module/auth/action'
 import { fetchUserPrefs, fetchMessageCount } from './module/common/action'
 import reducers from './reducer'
-
 import { isEqual } from 'lodash'
+import { injectRequest } from './lib/'
 
 import Storage from './lib/storage'
 global.storage = new Storage()
+
+injectRequest()
 
 const navReducer = (state, action) => {
     const nextState = AppNavigator.router.getStateForAction(action, state)
@@ -53,9 +55,12 @@ class App extends React.Component {
     }
     componentDidMount() {
         const { fetchAuth, fetchUserPrefs, fetchMessageCount } = this.props.actions
+        const {auth} = this.props.root
         fetchAuth()
         fetchUserPrefs()
-        fetchMessageCount()
+        if(auth.isLogined){
+            fetchMessageCount(auth.accessToken)
+        }
         SplashScreen.hide()
     }
     componentWillReceiveProps(nextProps) {

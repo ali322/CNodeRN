@@ -83,10 +83,10 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const { styles, styleConstants, messagesFetching } = this.props
+        const { styles, styleConstants, messagesFetched } = this.props
         return (
             <View style={styles.container}>
-                {messagesFetching?<Loading color={styleConstants.loadingColor}/>:this.renderTimeline()}
+                {!messagesFetched?<Loading color={styleConstants.loadingColor}/>:this.renderTimeline()}
             </View>
         )
     }
