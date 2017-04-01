@@ -1,5 +1,6 @@
 package com.cnodern;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.cboy.rn.splashscreen.SplashScreen;
 
