@@ -11,13 +11,13 @@ import { HtmlRender, Tabs, Loading } from '../../component/'
 import { formatTime } from '../../lib/'
 import { loginRequired } from '../common/hoc'
 
-@loginRequired
 @connected(state => ({
     ...state.userReducer,
     ...state.authReducer,
     ...state.userPrefsReducer
 }), actions)
 @preferredThemer(defaultStyles)
+@loginRequired
 class Mine extends React.Component {
     constructor(props) {
         super(props)
@@ -116,7 +116,7 @@ class Mine extends React.Component {
         )
     }
     render() {
-        const { styles, userFetched, styleConstants } = this.props
+        const { styles, userFetched, styleConstants,auth } = this.props
         if (!userFetched) {
             return <View style={styles.container}><Loading color={styleConstants.loadingColor}/></View>
         }

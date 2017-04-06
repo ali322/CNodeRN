@@ -5,7 +5,7 @@ import { connected } from 'redux-container'
 import { fetchTopic, toggleAgree, toggleCollect } from '../action'
 import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/topic'
-import { HtmlView, Loading, Alert, Header, Toast } from '../../../component/'
+import { HtmlView, Loading, Alert, Header, Toast,WebView } from '../../../component/'
 import { badRequest } from '../../common/hoc'
 
 @connected(state => ({
@@ -145,7 +145,7 @@ class Topic extends React.Component {
                 </View>
                 <Text style={styles.topicTitle}>{topic.title}</Text>
                 <View style={styles.topicDesc}>
-                    <HtmlView value={topic.content.replace(/(\n|\r)+$/g,"")} style={htmlStyles}/>
+                    <WebView source={{html:topic.content.replace(/(\n|\r)+$/g,"")}}/>
                 </View>
                 <View style={[styles.topicComments]}>
                     <Text style={[styles.topicCommentsStatus]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>

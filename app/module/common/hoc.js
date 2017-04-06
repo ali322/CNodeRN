@@ -52,6 +52,10 @@ export const loginRequired = Component => class extends React.Component {
         }
     }
     render() {
+        const { auth } = this.context
+        if(!auth.isLogined){
+            return null
+        }
         return <Component {...this.props}/>
     }
 }
@@ -89,7 +93,6 @@ export const offline = Component => class extends React.Component {
 export const badRequest = Component => class extends React.Component {
     render() {
         const { requestFailed } = this.props
-        console.log('requestFailed',requestFailed)
         if (requestFailed) {
             return <BadRequest />
         }

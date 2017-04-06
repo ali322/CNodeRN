@@ -21,6 +21,7 @@ export function login(token){
     return (dispatch)=>{
         dispatch(startLogin())
         request.post(`${api.authorize}`,{accesstoken:token}).then((ret)=>{
+            ret = ret.data
             dispatch(finishLogin({ret,token}))
         }).catch(err=>{
             // console.log(err)

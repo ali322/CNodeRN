@@ -29,6 +29,7 @@ class Topics extends React.Component {
         this.handleTabChange = this.handleTabChange.bind(this)
         this.handleLoadMore = this.handleLoadMore.bind(this)
         this.handleRefresh = this.handleRefresh.bind(this)
+        this.toTopic = this.toTopic.bind(this)
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state)
@@ -69,6 +70,13 @@ class Topics extends React.Component {
             })
         }
     }
+    componentWillUnmount(){
+        cancelAnimationFrame(this.raf)
+    }
+    toTopic(id){
+        const {navigate} = this.props.navigation
+        this.raf = requestAnimationFrame(()=>navigate('topic',{id}))
+    }
     renderRow(topic) {
         let avatarURL = topic.author.avatar_url
         if (/^\/\/.*/.test(avatarURL)) {
@@ -77,7 +85,7 @@ class Topics extends React.Component {
         let { styles } = this.props
         let { navigate } = this.props.navigation
         return (
-            <TouchableOpacity onPress={()=>navigate('topic',{id:topic.id})}>
+            <TouchableOpacity onPress={()=>this.toTopic(topic.id)}>
             <Animated.View style={styles["topicCell"]}>
                     <View style={styles.topicBreif}>
                         <Image source={{uri:avatarURL}} style={styles.topicImage}/>
@@ -125,10 +133,10 @@ class Topics extends React.Component {
                 <ScrollabelTabView renderTabBar={renderTabBar} onChangeTab={this.handleTabChange} prerenderingSiblingsNumber={0}>
                     {categories.map((v,i)=>(
                         <View style={styles.tabContainer} key={v.name}>
-                        {!topicsFetched ?<Loading color={loadingColor}/>:(
+                        {!topicsFetched && v.list.length === 0 ?<Loading color={loadingColor}/>:(
                             <ListView dataSource={this.state.dataSources[i]} renderRow={this.renderRow} enableEmptySections={true}
                             refreshControl={refreshControl}
-                            onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={8} pageSize={1}
+                            onEndReached={this.handleLoadMore.bind(this)} onEndReachedThreshold={10} initialListSize={8} pageSize={1}  
                             renderSeparator={renderSeparator}
                             renderFooter={renderFooter}
                             />

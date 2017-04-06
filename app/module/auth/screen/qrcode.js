@@ -8,7 +8,7 @@ import { navUtil } from '../../common/hoc'
 import { Header } from '../../../component/'
 
 @navUtil()
-@connected(state => state, { login, saveAuth })
+@connected(state => ({...state.authReducer}), { login, saveAuth })
 class QrCode extends React.Component {
     constructor(props) {
         super(props)
@@ -22,15 +22,12 @@ class QrCode extends React.Component {
         this.successed = true
         this.props.actions.login(ret.data)
     }
-    componentDidMount() {
-        this.props.actions.saveAuth({ isLogined: true, username: 'ali322', accessToken: ' 01206bae-f6ed-42de-bd0e-3775776deaf9' })
-        this.props.navigation.reset()
-    }
     componentWillReceiveProps(nextProps) {
         if (!nextProps.isLogining && this.props.isLogining) {
             if (nextProps.isLogined) {
                 this.toast.show('登陆成功!')
                 this.props.actions.saveAuth(nextProps.auth)
+                this.props.navigation.reset()
             } else {
                 this.toast.show('登陆失败!')
             }

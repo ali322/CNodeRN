@@ -188,34 +188,34 @@ class HtmlView extends React.Component {
             }
         }).catch(err => console.log(err))
     }
-    _onImageLoadEnd(uri,index){
-        const {maxImageWidth} = this.props
-        Image.getSize(uri,(w,h)=>{
-            if(w >= maxImageWidth){
+    _onImageLoadEnd(uri, index) {
+        const { maxImageWidth } = this.props
+        Image.getSize(uri, (w, h) => {
+            if (w >= maxImageWidth) {
                 w = maxImageWidth
-                h = (maxImageWidth / w) *h
+                h = (maxImageWidth / w) * h
             }
             this._images[index] && this._images[index].setNativeProps({
-                style:{
-                    width:w,
-                    height:h
+                style: {
+                    width: w,
+                    height: h
                 }
             })
-        },err=>{})
+        }, err => {})
     }
     _renderNode(node, index) {
         if (node.name == 'iframe') {
             return (
-                <View key={index} style={{width: 200, height: 200}}>
+                <View key={'iframe_'+index} style={{width: 200, height: 200}}>
                 <Text>{node.attribs.src}</Text>
                 </View>
             )
         }
-        if(node.name === 'img'){
+        if (node.name === 'img') {
             const uri = node.attribs.src
             return (
                 <Image source={{uri:uri}} style={this._styles.image} resizeMode="center"
-                 key={index} onLoadEnd={()=>this._onImageLoadEnd(uri,index)}/>
+                 key={'img_'+index} onLoadEnd={()=>this._onImageLoadEnd(uri,index)}/>
             )
         }
     }

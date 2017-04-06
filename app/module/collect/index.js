@@ -37,8 +37,9 @@ class Collect extends React.Component {
     }
     renderRow(topic) {
         const { styles } = this.props
+        const {navigate} = this.props.navigation
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigate("topic",{id:topic.id})}>
                 <Animated.View style={[styles.topicCell,{
                     // opacity: this.state.rowScale,
                     // transform: [{ scaleX: this.state.rowScale }]

@@ -44,6 +44,7 @@ class Mine extends React.Component {
     }
     renderRow(message) {
         const { styles, htmlStyles } = this.props
+        const {navigate} = this.props.navigation
         return (
             <View style={styles.topicCell}>
                 <View style={styles.cellRow}>
@@ -52,8 +53,7 @@ class Mine extends React.Component {
                         <Text style={styles.cellSubtitleText}>{message.author.loginname}</Text>
                         <Text style={styles.cellMintitleText}>{message.reply.create_at}</Text>
                     </View>
-                    <TouchableOpacity style={styles.cellAccessory} 
-                    onPress={()=>this.props.navigationActions.pushScene("reply",{id:message.topic.id,replyTo:{...message.reply,author:message.author}})}>
+                    <TouchableOpacity style={styles.cellAccessory} onPress={()=>navigate('reply',{id:message.topic.id,replyTo:{...message.reply,author:message.author}})}>
                     <Text style={styles.cellAccessoryText}>回复</Text>
                     </TouchableOpacity>
                 </View>

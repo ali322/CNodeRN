@@ -43,7 +43,7 @@ class Setup extends React.Component {
                 text: "确定",
                 onPress: () => {
                     saveAuth({ isLogined: false })
-                    goBack(null)
+                    goBack()
                 }
             }
         ])

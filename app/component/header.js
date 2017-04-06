@@ -49,7 +49,9 @@ class Header extends React.Component {
         userPrefs: PropTypes.object.isRequired
     }
     static defaultProps = {
-        leftButton: "返回"
+        leftButton: "返回",
+        onLeftButtonClick: ()=>{},
+        onRightButtonClick: ()=>{}
     }
     constructor(props) {
         super(props)
@@ -71,8 +73,17 @@ class Header extends React.Component {
             StatusBar.setBarStyle(userPrefs["preferredTheme"] === "dark" ? "light-content" : "default")
         }
     }
+    componentWillUnmount(){
+        cancelAnimationFrame(this.raf)
+    }
     renderHeader() {
-        const { title, leftButton, rightButton, onLeftButtonClick, onRightButtonClick, styles } = this.props
+        const { title, leftButton, rightButton, styles } = this.props
+        const onLeftButtonClick = () => {
+            this.raf = requestAnimationFrame(() => this.props.onLeftButtonClick())
+        }
+        const onRightButtonClick = () => {
+            this.raf = requestAnimationFrame(() => this.props.onRightButtonClick())
+        }
         let _title = (
             <View style={styles.navigationBarTitle}>
             {React.isValidElement(title)?title:<Text style={styles.navigationBarTitleText}>{title}</Text>}
@@ -80,13 +91,13 @@ class Header extends React.Component {
         )
 
         let _leftButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onLeftButtonClick || (()=>{})}>
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onLeftButtonClick}>
             {React.isValidElement(leftButton)?leftButton:<Text style={styles.navigationBarButtonText}>{leftButton}</Text>}
             </TouchableOpacity>
         )
 
         let _rightButton = (
-            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onRightButtonClick || (()=>{})}>
+            <TouchableOpacity style={[styles.navigationBarButton,{marginLeft:5}]} onPress={onRightButtonClick}>
             {React.isValidElement(rightButton)?rightButton:<Text style={styles.navigationBarButtonText}>{rightButton}</Text>}
             </TouchableOpacity>
         )
