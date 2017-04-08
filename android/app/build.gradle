@@ -91,18 +91,20 @@ android {
         applicationId "com.cnodern"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 23
-        versionName "1.1.1"
+        versionCode 1
+        versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
     }
     signingConfigs {
         release {
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
         }
     }
     splits {
@@ -136,10 +138,10 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-splash-screen')
-    compile project(':react-native-code-push')
-    compile project(':react-native-spinkit')
     compile project(':react-native-vector-icons')
+    compile project(':react-native-splash-screen')
+    compile project(':react-native-spinkit')
+    compile project(':react-native-code-push')
     compile project(':react-native-camera')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

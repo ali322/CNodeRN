@@ -3,10 +3,10 @@ package com.cnodern;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.microsoft.codepush.react.CodePush;
-import com.react.rnspinkit.RNSpinkitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.microsoft.codepush.react.CodePush;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -34,10 +34,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new SplashScreenReactPackage(),
-            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-            new RNSpinkitPackage(),
             new VectorIconsPackage(),
+            new SplashScreenReactPackage(),
+            new RNSpinkitPackage(),
+            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new RCTCameraPackage()
       );
     }

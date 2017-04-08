@@ -33,6 +33,7 @@ run unit test in app/__test__
 ## Packages in using
 CNodeRN build on following packages
 
+* [react-navigation](https://github.com/react-community/react-navigation)
 * [react-native-camera](https://github.com/lwansbrough/react-native-camera)
 * [react-native-htmlview](https://github.com/jsdf/react-native-htmlview)
 * [react-native-scrollable-tab-view](https://github.com/brentvatne/react-native-scrollable-tab-view)
