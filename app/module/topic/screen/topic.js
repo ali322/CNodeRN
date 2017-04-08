@@ -83,7 +83,7 @@ class Topic extends React.Component {
     toReply(id, replyTo) {
         const { auth } = this.context
         const { navigate } = this.props.navigation
-        if (!auth) {
+        if (!auth.isLogined) {
             this._alert.alert("请先登录", "登录", [
                 { text: "取消", style: "cancel" },
                 { text: "确定", onPress: () => navigate("login") }
@@ -145,7 +145,7 @@ class Topic extends React.Component {
                 </View>
                 <Text style={styles.topicTitle}>{topic.title}</Text>
                 <View style={styles.topicDesc}>
-                    <WebView source={{html:topic.content.replace(/(\n|\r)+$/g,"")}}/>
+                    <HtmlView value={topic.content.replace(/(\n|\r)+$/g,"")}/>
                 </View>
                 <View style={[styles.topicComments]}>
                     <Text style={[styles.topicCommentsStatus]}>{topic.reply_count} 回复 | 最后回复: {topic.last_reply_at}</Text>
@@ -158,11 +158,11 @@ class Topic extends React.Component {
         const unselectedIcon = styleConstants.uncollectIconColor
         const selectedIcon = styleConstants.uncollectIconColor
         return (
-            <View style={[styles.navigationBarButton,{marginRight:5}]}>
-                <TouchableOpacity onPress={this.toggleCollect}>
+            <View style={[styles.navigationBarButton,styles.headerButtons]}>
+                <TouchableOpacity onPress={this.toggleCollect} style={styles.headerButton}>
                     <Icon name={topic.is_collect?"heart":"heart-o"} size={20} color={topic.is_collect?selectedIcon:unselectedIcon}/>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>this.toReply(topic.id)} style={{marginLeft:8}}>
+                <TouchableOpacity onPress={()=>this.toReply(topic.id)} style={styles.headerButton}>
                     <Icon name="mail-reply" size={20} color="#999"/>
                 </TouchableOpacity>
             </View>

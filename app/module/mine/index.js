@@ -17,7 +17,6 @@ import { loginRequired } from '../common/hoc'
     ...state.userPrefsReducer
 }), actions)
 @preferredThemer(defaultStyles)
-@loginRequired
 class Mine extends React.Component {
     constructor(props) {
         super(props)

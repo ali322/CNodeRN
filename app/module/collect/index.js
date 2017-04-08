@@ -8,7 +8,6 @@ import preferredThemer from '../../theme/'
 import { Header, Loading } from '../../component/'
 import { loginRequired } from '../common/hoc'
 
-@loginRequired
 @connected(state => ({ ...state.collectReducer, ...state.authReducer, ...state.userPrefsReducer }), actions)
 @preferredThemer(defaultStyles)
 class Collect extends React.Component {
@@ -30,10 +29,6 @@ class Collect extends React.Component {
     }
     componentDidMount() {
         const { fetchCollect } = this.props.actions
-        const { auth } = this.props
-        if (auth.isLogined) {
-            fetchCollect(auth.username)
-        }
     }
     renderRow(topic) {
         const { styles } = this.props

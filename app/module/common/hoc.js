@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { NavigationActions } from 'react-navigation'
+import { NetInfo } from 'react-native'
 import OffLine from './screen/offline'
 import BadRequest from './screen/badrequest'
 
@@ -40,38 +41,20 @@ export function navUtil(options = {}) {
     }
 }
 
-export const loginRequired = Component => class extends React.Component {
-    static contextTypes = {
-        auth: PropTypes.object.isRequired
-    }
-    componentWillMount() {
-        const { auth } = this.context
-        const { navigate } = this.props.navigation
-        if (!auth.isLogined) {
-            navigate('login')
-        }
-    }
-    render() {
-        const { auth } = this.context
-        if(!auth.isLogined){
-            return null
-        }
-        return <Component {...this.props}/>
-    }
-}
-
 export const offline = Component => class extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            isConnected: null
+            isConnected: true
         }
         this._handleNetInfoChange = this._handleNetInfoChange.bind(this)
     }
     componentDidMount() {
         NetInfo.isConnected.addEventListener("change", this._handleNetInfoChange)
         NetInfo.isConnected.fetch().done(isConnected => {
-            this.setState({ isConnected })
+            if (!isConnected) {
+                // this.setState({ isConnected })
+            }
         })
     }
     _handleNetInfoChange(isConnected) {
@@ -83,9 +66,6 @@ export const offline = Component => class extends React.Component {
         NetInfo.isConnected.removeEventListener('change', this._handleNetInfoChange)
     }
     render() {
-        if (this.state.isConnected === null) {
-            return null
-        }
         return !this.state.isConnected ? <OffLine {...this.props}/> : <Component {...this.props}/>
     }
 }

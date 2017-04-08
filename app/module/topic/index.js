@@ -99,7 +99,7 @@ class Topics extends React.Component {
                             </View>
                         </View>
                         <View style={styles.topicAccessory}>
-                            <Text style={styles.topicStatic}><Text style={styles.topicReply}>{topic.reply_count}</Text> /{topic.visit_count}</Text>
+                            <Text style={styles.topicStatic}><Text style={styles.topicReply}>{topic.reply_count}</Text> /<Text>{topic.visit_count}</Text></Text>
                         </View>
                     </View>
                     <View style={styles.topicTitle}>

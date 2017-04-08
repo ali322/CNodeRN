@@ -68,7 +68,7 @@ const TabBarIcon = ({ scene, navigation, navigationState, position, renderIcon, 
     )
 }
 
-@connected(state=>({...state.userPrefsReducer}))
+@connected(state=>({...state.userPrefsReducer,...state.authReducer}))
 @preferredThemer(defaultStyles)
 class TabBar extends React.PureComponent {
     static defaultProps = {
@@ -94,7 +94,9 @@ class TabBar extends React.PureComponent {
             navigationState,
             activeTintColor,
             inactiveTintColor,
-            style
+            style,
+            loginRequired,
+            auth
         } = this.props
         const { styles } = this.props
         const { routes } = navigation.state
@@ -128,6 +130,13 @@ class TabBar extends React.PureComponent {
             }
             return label;
         }
+        function _handleTabClick(route,index){
+            if(Array.isArray(loginRequired) && loginRequired.indexOf(route.routeName) > -1 && !auth.isLogined){
+                navigation.navigate('login')
+                return
+            }
+            jumpToIndex(index)
+        }
         const inputRange = [-1, ...routes.map((x, i) => i)];
         return (
             <View style={[styles.tabBarContainer,style]}>
@@ -141,7 +150,7 @@ class TabBar extends React.PureComponent {
                     });
                     const justifyContent = this.props.showIcon ? 'flex-end' : 'center';
                     return (
-                        <TouchableWithoutFeedback onPress={()=>jumpToIndex(index)} key={route.routeName}>
+                        <TouchableWithoutFeedback onPress={()=>_handleTabClick(route,index)} key={route.routeName}>
                             <Animated.View style={[styles.tabBarTab, { backgroundColor,justifyContent }]}>
                             {_renderIcon({route,index})}
                             {_renderLabel({route,index})}

@@ -8,7 +8,6 @@ const styles = {
         backgroundColor:"#FFF"
     },
     navigationBarButton:{
-        marginRight:8,
         flexDirection:"row",
         alignItems:"center",
         justifyContent:"center",
@@ -18,6 +17,15 @@ const styles = {
         fontSize:16,
         color:"#666"
         // paddingLeft:3 
+    },
+    headerButtons:{
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    headerButton:{
+        flex:1,
+        // paddingHorizontal:8
     },
     topicTitle:{
         textAlign:'center',

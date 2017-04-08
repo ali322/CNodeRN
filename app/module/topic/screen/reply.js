@@ -9,7 +9,6 @@ import preferredThemer from '../../../theme/'
 import defaultStyles from '../stylesheet/topic'
 import { loginRequired } from '../../common/hoc'
 
-@loginRequired
 @connected(state => ({ ...state.topicReducer, ...state.userPrefsReducer, ...state.authReducer }), { saveReply })
 @preferredThemer(defaultStyles)
 class Reply extends React.Component {

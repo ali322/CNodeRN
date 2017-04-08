@@ -1,6 +1,6 @@
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator, NavigationActions } from 'react-navigation'
 import React from 'react'
-import {Platform} from 'react-native'
+import { Platform } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Topics from './module/topic/screen/'
 import Mine from './module/mine/screen/'
@@ -48,6 +48,7 @@ const homeNavigator = TabNavigator({
     tabBarPosition: 'bottom',
     lazyLoad: true,
     tabBarOptions: {
+        loginRequired: ['collect','publish','message','mine'],
         labelStyle: {
             fontSize: 12
         },

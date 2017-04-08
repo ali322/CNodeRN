@@ -11,7 +11,7 @@ import {navUtil} from '../../common/hoc'
 @preferredThemer(defaultStyles)
 class Login extends React.Component {
     render() {
-        const { navigate,reset } = this.props.navigation
+        const { navigate,reset,goBack } = this.props.navigation
         const { styles } = this.props
         return (
             <View style={styles.container}>
