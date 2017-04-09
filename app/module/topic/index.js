@@ -13,7 +13,7 @@ import { badRequest } from '../common/hoc'
 @connected(state => ({ ...state.topicsReducer,...state.commonReducer }), { fetchTopics, filterTopics })
 @preferredThemer(defaultStyles)
 @badRequest
-class Topics extends React.Component {
+export class Topics extends React.Component {
     constructor(props) {
         super(props)
         this.state = {

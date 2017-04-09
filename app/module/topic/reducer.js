@@ -1,7 +1,7 @@
 import * as constants from './constant'
 import { fromNow } from '../../lib/'
 
-const initialState = {
+export const initialState = {
     selected: 0,
     categories: [{
             code: "",
