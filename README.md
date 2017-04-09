@@ -28,7 +28,7 @@ run unit test in app/__test__
 
 ## Screenshots
 
-![cnode-1](http://7xvyds.com2.z0.glb.qiniucdn.com/ipic/2017-04-09-2017-04-09-14_01_21.gif)
+![cnode-1](http://7xvyds.com2.z0.glb.qiniucdn.com/ipic/2017-04-09-2017-04-09-14_08_14.gif)
 
 ## Packages in using
 CNodeRN build on following packages
