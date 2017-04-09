@@ -27,8 +27,8 @@ run unit test in app/__test__
 `npm test`
 
 ## Screenshots
-
-![cnode-1](http://7xvyds.com2.z0.glb.qiniucdn.com/ipic/2017-04-09-2017-04-09-14_08_14.gif)
+![cnode-1](http://7xvyds.com2.z0.glb.qiniucdn.com/ipic/2017-04-09-2017-04-09-14_26_14.gif)
+![cnode-2](http://7xvyds.com2.z0.glb.qiniucdn.com/ipic/2017-04-09-2017-04-09-14_22_39.gif)
 
 ## Packages in using
 CNodeRN build on following packages
