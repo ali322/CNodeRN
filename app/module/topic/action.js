@@ -32,7 +32,7 @@ export function fetchTopics(params = {}) {
 
     return (dispatch) => {
         dispatch(requestTopics())
-        request.get(api.topics, {
+        return request.get(api.topics, {
             params: {
                 tab: code,
                 page: pageIndex,
@@ -63,7 +63,7 @@ function responseTopic(payload) {
 export function fetchTopic(id) {
     return (dispatch) => {
         dispatch(requestTopic())
-        request.get(`${api.topic}/${id}`)
+        return request.get(`${api.topic}/${id}`)
             .then((ret) => {
                 dispatch(responseTopic({ ret: ret.data, id }))
             }).catch(err => dispatch(failRequest(err)))
