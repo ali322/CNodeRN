@@ -4,7 +4,7 @@ import SplashScreen from 'react-native-splash-screen'
 import { StackNavigator, addNavigationHelpers, NavigationActions } from 'react-navigation'
 import { configureStore, wrapper, connected } from 'redux-container'
 import { combineReducers } from 'redux'
-import AppNavigator from './route'
+import Navigator from './navigator'
 import { fetchAuth } from './module/auth/action'
 import { fetchUserPrefs, fetchMessageCount } from './module/common/action'
 import reducers from './reducer'
@@ -69,7 +69,7 @@ class App extends React.Component {
         }
     }
     render() {
-        return <AppNavigator ref={nav => { this.navigator = nav; }} navigation={addNavigationHelpers({
+        return <Navigator ref={nav => { this.navigator = nav; }} navigation={addNavigationHelpers({
             dispatch:this.props.dispatch,
             state:this.props.nav
         })} screenProps={this.props.root}/>
