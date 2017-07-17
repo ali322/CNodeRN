@@ -9,22 +9,20 @@ export default StackNavigator({
     topics: {
         screen: Topics,
         navigationOptions: {
-            tabBar: ({ state }) => ({
-                label: "主题",
-                icon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="coffee" />
-            })
+            tabBarLabel: '主题',
+            tabBarIcon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="coffee" />
         }
     },
     topic: {
         screen: Topic,
         navigationOptions: {
-            tabBar: ({ state }) => ({ visible: false })
+            tabBarVisble: false
         }
     },
     reply: {
         screen: Reply,
         navigationOptions: {
-            tabBar: ({ state }) => ({ visible: false })
+            tabBarVisble: false
         }
     }
 }, { initialRouteName: 'topics', headerMode: "none" })

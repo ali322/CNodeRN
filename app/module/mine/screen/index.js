@@ -10,28 +10,26 @@ export default StackNavigator({
     mine: {
         screen: Mine,
         navigationOptions: {
-            tabBar: ({ state }) => ({
-                label: "我的",
-                icon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="user" />
-            })
+            tabBarLabel: '我的',
+            tabBarIcon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="user" />
         }
     },
     setup: {
         screen: Setup,
         navigationOptions: {
-            tabBar: ({ state }) => ({ visible: false })
+            tabBarVisble: false
         }
     },
     font: {
         screen: Font,
         navigationOptions: {
-            tabBar: ({ state }) => ({ visible: false })
+            tabBarVisble: false
         }
     },
     update: {
         screen: Update,
         navigationOptions: {
-            tabBar: ({ state }) => ({ visible: false })
+            tabBarVisble: false
         }
     }
 }, { initialRouteName: 'mine', headerMode: "none" })

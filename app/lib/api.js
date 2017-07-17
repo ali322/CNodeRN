@@ -1,4 +1,4 @@
-const apiHost = "http://cnodejs.org/api/v1"
+const apiHost = "https://cnodejs.org/api/v1"
 
 export default {
     topics:`${apiHost}/topics`,

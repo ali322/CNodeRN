@@ -17,28 +17,22 @@ const homeNavigator = TabNavigator({
     collect: {
         screen: Collect,
         navigationOptions: {
-            tabBar: ({ state }) => ({
-                label: "收藏",
-                icon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="bookmark" />
-            })
+            tabBarLabel: '收藏',
+            tabBarIcon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="bookmark" />
         }
     },
     publish: {
         screen: Publish,
         navigationOptions: {
-            tabBar: ({ state }) => ({
-                label: () => null,
-                icon: ({ focused, tintColor }) => <Icon size={32} color='#3478f6' name="plus-square" />
-            })
+            tabBarLabel: null,
+            tabBarIcon: ({ focused, tintColor }) => <Icon size={32} color='#3478f6' name="plus-square" />
         }
     },
     message: {
         screen: Message,
         navigationOptions: {
-            tabBar: ({ state }) => ({
-                label: "消息",
-                icon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="envelope" />
-            })
+            tabBarLabel: '消息',
+            tabBarIcon: ({ focused, tintColor }) => <Icon size={20} color={tintColor} name="envelope" />
         }
     },
     mine: { screen: Mine }

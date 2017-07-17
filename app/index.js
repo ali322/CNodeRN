@@ -17,7 +17,7 @@ global.storage = new Storage()
 injectRequest()
 
 const navReducer = (state, action) => {
-    const nextState = AppNavigator.router.getStateForAction(action, state)
+    const nextState = Navigator.router.getStateForAction(action, state)
     return nextState || state
 }
 
