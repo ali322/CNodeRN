@@ -42,7 +42,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>need access camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
