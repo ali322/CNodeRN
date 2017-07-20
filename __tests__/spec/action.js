@@ -30,7 +30,7 @@ describe('actions', () => {
         ]
         const store = mockStore()
 
-        nock("http://cnodejs.org").get(uri => uri.indexOf("/api/v1/topics") >= 0).reply(200, response)
+        nock("https://cnodejs.org").get(uri => uri.indexOf("/api/v1/topics") >= 0).reply(200, response)
         return store.dispatch(actions.fetchTopics()).then(() => {
             expect(cleanActions(store.getActions())).toEqual(expectedActions)
         })
