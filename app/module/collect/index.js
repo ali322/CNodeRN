@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { View, Text, ListView, TouchableOpacity, Animated, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { connected } from 'redux-container'

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Dimensions, Image, View, StyleSheet, Text } from 'react-native'
 import RNHtmlView from 'react-native-htmlview'
 

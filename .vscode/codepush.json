@@ -1,0 +1,25 @@
+{
+	"userId": "d91c4c4b-981f-4358-8138-eb37fbc5c0f1",
+	"userName": "ali322",
+	"displayName": "Ali Chen",
+	"email": "ali322@gmail.com",
+	"defaultApp": {
+		"ownerName": "ali322",
+		"appName": "CNodeRN",
+		"identifier": "ali322/CNodeRN",
+		"os": "ios",
+		"targetBinaryVersion": "",
+		"isMandatory": false,
+		"currentAppDeployments": {
+			"codePushDeployments": [
+				{
+					"name": "Staging"
+				},
+				{
+					"name": "Production"
+				}
+			],
+			"currentDeploymentName": "Staging"
+		}
+	}
+}

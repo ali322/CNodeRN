@@ -1,11 +1,12 @@
-import React, { PropTypes, Children } from 'react'
+import React, { Children } from 'react'
+import PropTypes from 'prop-types'
 import { View, Platform, TouchableNativeFeedback, TouchableOpacity } from 'react-native'
 
 const ANDROID_VERSION_LOLLIPOP = 21;
 
 class TouchableItem extends React.PureComponent {
     static propTypes = {
-        onPress: PropTypes.func,
+        // onPress: PropTypes.func,
         activeOpacity: PropTypes.number,
         children: PropTypes.node.isRequired,
         style: View.propTypes.style,

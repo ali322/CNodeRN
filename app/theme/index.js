@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from 'prop-types'
 import * as defaults from "./default"
 import * as dark from "./dark/"
 import { mergeWith, mapValues, isEqual } from 'lodash'

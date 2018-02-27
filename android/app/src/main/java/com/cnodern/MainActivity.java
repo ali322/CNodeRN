@@ -2,6 +2,7 @@ package com.cnodern;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import com.react.rnspinkit.RNSpinkitPackage;
 import com.cboy.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { View, Text } from 'react-native'
 import Anonymous from '../../common/screen/anonymous'
 import { connected } from 'redux-container'

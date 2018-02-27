@@ -8,7 +8,7 @@
  */
 
 #import "AppDelegate.h"
-#import <CodePush/CodePush.h>
+#import <CodePush.h>
 #import "SplashScreen.h"
 
 #import <React/RCTBundleURLProvider.h>

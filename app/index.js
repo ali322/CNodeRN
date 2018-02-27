@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Platform, View } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { StackNavigator, addNavigationHelpers, NavigationActions } from 'react-navigation'

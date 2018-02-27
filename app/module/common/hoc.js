@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { NavigationActions } from 'react-navigation'
 import { NetInfo } from 'react-native'
 import OffLine from './screen/offline'

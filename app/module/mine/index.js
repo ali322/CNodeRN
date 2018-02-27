@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { View, Text, ListView, TouchableOpacity, Image, Animated } from 'react-native'
 import preferredThemer from '../../theme/'
 import { connected } from 'redux-container'

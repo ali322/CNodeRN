@@ -1,4 +1,5 @@
-import React, { PropTypes, Children } from 'react'
+import React, { Children } from 'react'
+import PropTypes from 'prop-types'
 import { wrapper,configureStore } from 'redux-container'
 import reducers from '../../app/reducer'
 import {combineReducers} from 'redux'
