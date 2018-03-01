@@ -7,11 +7,11 @@ import setup from './setup'
 import topic from './topic'
 
 export default {
-    ...common,
-    ...listview,
-    ...anonymous,
-    ...offline,
-    ...publish,
-    ...setup,
-    ...topic
+  ...common,
+  ...listview,
+  ...anonymous,
+  ...offline,
+  ...publish,
+  ...setup,
+  ...topic
 }

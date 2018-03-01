@@ -23,9 +23,12 @@ const homeNavigator = TabNavigator({
     },
     publish: {
         screen: Publish,
+        tabBarOptions: {
+            showLabel: false
+        },
         navigationOptions: {
-            tabBarLabel: null,
-            tabBarIcon: ({ focused, tintColor }) => <Icon size={32} color='#3478f6' name="plus-square" />
+            tabBarLabel: () => null,
+            tabBarIcon: ({ focused, tintColor }) => <Icon size={35} color='#3478f6' name="plus-square" />
         }
     },
     message: {

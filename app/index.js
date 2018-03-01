@@ -42,10 +42,11 @@ const store = configureStore(
 )
 
 if (module.hot) {
-  module.hot.accept('./reducer.js', () => {
+  let acceptCallback = () => {
     const nextReducer = require('./reducer').default
     store.replaceReducer(nextReducer)
-  })
+  }
+  module.hot.accept('./reducer.js', acceptCallback)
 }
 
 @wrapper(store)

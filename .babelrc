@@ -1,6 +1,4 @@
 {
-    "presets": ["react-native-stage-0/decorator-support"],
-    "plugins": [
-        "transform-export-extensions"
-    ]
+  "presets": ["react-native"],
+  "plugins": ["transform-decorators-legacy", "transform-export-extensions"]
 }
