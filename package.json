@@ -5,15 +5,16 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "./script/post.sh"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "prop-types": "^15.6.0",
-    "react": "^16.0.0-alpha.12",
-    "react-native": "^0.46.4",
+    "react": "^16.2.0",
+    "react-native": "0.53.3",
     "react-native-camera": "^1.0.1",
     "react-native-code-push": "^4.0.0-beta",
     "react-native-htmlview": "^0.12.1",
@@ -21,11 +22,12 @@
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-spinkit": "^1.1.1",
     "react-native-splash-screen": "^2.0.0",
-    "react-native-vector-icons": "^4.0.0",
-    "react-navigation": "^1.0.0-beta.7",
+    "react-native-vector-icons": "^4.5.0",
+    "react-navigation": "^1.2.1",
+    "react-navigation-redux-helpers": "^1.0.1",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
-    "redux-container": "^1.0.26",
+    "redux-container": "^1.0.28",
     "redux-devtools-extension": "^2.13.0",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.1.1"

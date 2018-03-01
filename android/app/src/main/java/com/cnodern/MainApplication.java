@@ -6,6 +6,24 @@ import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.microsoft.codepush.react.CodePush;
+import org.reactnative.camera.RNCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import org.reactnative.camera.RNCameraPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
@@ -37,9 +55,32 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
             new RNSpinkitPackage(),
+            new RNCameraPackage(),
+            new VectorIconsPackage(),
+            new SplashScreenReactPackage(),
+            new RNSpinkitPackage(),
+            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+            new RNCameraPackage(),
+            new VectorIconsPackage(),
+            new SplashScreenReactPackage(),
+            new RNSpinkitPackage(),
+            new RNCameraPackage(),
+            new VectorIconsPackage(),
+            new SplashScreenReactPackage(),
+            new RNSpinkitPackage(),
+            new RNCameraPackage(),
+            new RNCameraPackage(),
+            new VectorIconsPackage(),
+            new SplashScreenReactPackage(),
+            new RNSpinkitPackage(),
             new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new RCTCameraPackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 
