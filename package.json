@@ -6,12 +6,13 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
     "test": "jest",
-    "postinstall": "./script/post.sh"
+    "postinstall": "opencollective postinstall"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "opencollective": "^1.0.3",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-native": "0.53.3",
@@ -53,5 +54,9 @@
     "testMatch": [
       "**/__tests__/spec/**/*.js"
     ]
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/CNodeRN"
   }
 }
