@@ -6,10 +6,10 @@ import * as collectReducers from './module/collect/reducer'
 import * as mineReducers from './module/mine/reducer'
 
 export default {
-    ...topicReducers,
-    ...messageReducers,
-    ...authReducers,
-    ...commonReducers,
-    ...collectReducers,
-    ...mineReducers
+  ...topicReducers,
+  ...messageReducers,
+  ...authReducers,
+  ...commonReducers,
+  ...collectReducers,
+  ...mineReducers
 }

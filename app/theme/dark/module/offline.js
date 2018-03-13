@@ -1,8 +1,8 @@
 export default {
-    offlineWrapper: {
-        backgroundColor: "#333"
-    },
-    offLineInfoText: {
-        color: "#999"
-    }
+  offlineWrapper: {
+    backgroundColor: '#333'
+  },
+  offLineInfoText: {
+    color: '#999'
+  }
 }
