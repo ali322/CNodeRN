@@ -26,26 +26,26 @@ function responseTopics(payload) {
 
 export function fetchTopics(params = {}) {
   let { code = '', pageIndex = 1, pageSize = 10, clear = false } = params
-  if (clear) {
-    dispatch(clearTopics())
-  }
-
   return dispatch => {
-    dispatch(requestTopics())
-    return request
-      .get(api.topics, {
-        params: {
-          tab: code,
-          page: pageIndex,
-          limit: pageSize
-        }
-      })
-      .then(ret => {
-        dispatch(responseTopics({ ret: ret.data, code, pageIndex }))
-      })
-      .catch(err => {
-        dispatch(failRequest(err))
-      })
+    if (clear) {
+      dispatch(clearTopics())
+    } else {
+      dispatch(requestTopics())
+      return request
+        .get(api.topics, {
+          params: {
+            tab: code,
+            page: pageIndex,
+            limit: pageSize
+          }
+        })
+        .then(ret => {
+          dispatch(responseTopics({ ret: ret.data, code, pageIndex }))
+        })
+        .catch(err => {
+          dispatch(failRequest(err))
+        })
+    }
   }
 }
 
