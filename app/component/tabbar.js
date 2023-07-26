@@ -24,6 +24,12 @@ const defaultStyles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'flex-end'
   },
+  tabBarItem: {
+    marginVertical: 3,
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'flex-start'
+  },
   tabBarIcon: {
     position: 'absolute',
     top: 0,
