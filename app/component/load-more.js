@@ -20,6 +20,9 @@ const defaultStyles = StyleSheet.create({
   loadMoreText: {
     fontSize: 13,
     color: '#AAA'
+  },
+  loadMoreIdentifier: {
+    paddingLeft: 5
   }
 })
 
@@ -48,7 +51,7 @@ class LoadMore extends Component {
         )}
         <View style={styles.loadMoreTextWrapper}>
           <Text style={styles.loadMoreText}>
-            {this.props.active ? '加载中' : '上拉加载更多'}
+            {this.props.active ? '加载中...' : '上拉加载更多'}
           </Text>
         </View>
       </View>
