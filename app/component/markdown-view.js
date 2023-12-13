@@ -25,7 +25,15 @@ const defaultHtmlStyles = {
   pwrapper: {
     marginTop: 5,
     marginBottom: 5
-  }
+  },
+  a: {
+    color: 'royalblue',
+    fontSize: fontSize,
+    paddingLeft: 4,
+    paddingRight: 4,
+    marginRight: 10,
+    marginLeft: 10
+  },
 }
 
 class HtmlView extends React.Component {
