@@ -52,6 +52,15 @@ const defaultHtmlStyles = {
     marginBottom: rowMargin,
     marginTop: rowMargin
   },
+  h3: {
+    fontWeight: 'bold',
+    fontSize: fontSize * 1.4,
+    color: 'rgba(0,0,0,0.8)'
+  },
+  h3wrapper: {
+    marginBottom: rowMargin - 2,
+    marginTop: rowMargin - 2
+  },
 }
 
 class HtmlView extends React.Component {
